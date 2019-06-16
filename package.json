@@ -1,6 +1,6 @@
 {
   "name": "together",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "private": true,
   "devDependencies": {
     "npm-run-all": "^4.1.3",
