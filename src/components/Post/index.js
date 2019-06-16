@@ -143,6 +143,9 @@ const TogetherCard = ({
               component="video"
               src={video}
               controls={true}
+              className={classes.video}
+              width={160 * 3}
+              height={90 * 3}
               poster={
                 item.photo && item.photo.length === 1 ? item.photo[0] : null
               }

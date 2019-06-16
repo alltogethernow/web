@@ -5,4 +5,9 @@ export default theme => ({
     marginBottom: theme.spacing.unit * 3,
     overflow: 'hidden',
   },
+  video: {
+    width: '100%',
+    objectFit: 'contain',
+    background: '#111',
+  },
 })
