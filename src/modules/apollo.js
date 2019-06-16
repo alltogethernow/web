@@ -11,7 +11,7 @@ import { GET_CHANNELS } from '../queries'
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: process.env.SERVER || 'http://localhost:4000',
+  uri: process.env.REACT_APP_SERVER || 'http://localhost:4000',
   includeExtensions: true,
   headers: {
     authorization: localStorage.getItem('token'),
@@ -22,7 +22,8 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: process.env.SUBSCRIPTION_SERVER || 'ws://localhost:4000/graphql',
+  uri:
+    process.env.REACT_APP_SUBSCRIPTION_SERVER || 'ws://localhost:4000/graphql',
   options: {
     reconnect: true,
     timeout: 30000,

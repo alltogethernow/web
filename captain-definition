@@ -8,9 +8,9 @@
     "RUN npm install serve -g",
     "RUN npm install",
     "ENV NODE_ENV production",
-    "ENV SERVER https://together-server.tpxl.io",
-    "ENV SUBSCRIPTION_SERVER wss://together-server.tpxl.io/graphql",
+    "ENV REACT_APP_SERVER https://together-server.tpxl.io",
+    "ENV REACT_APP_SUBSCRIPTION_SERVER wss://together-server.tpxl.io/graphql",
     "RUN npm run build",
-    "CMD ['serve', '-p', '80', '-s', './build']"
+    "CMD [\"serve\", \"-p\", \"80\", \"-s\", \"build\"]"
   ]
 }
