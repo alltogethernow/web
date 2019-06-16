@@ -5,17 +5,14 @@ import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 import client from './modules/apollo'
 import App from './containers/App'
 import Theme from './components/Theme'
-import Context from './containers/context'
 import serviceWorker from './service-worker'
 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ApolloHooksProvider client={client}>
-      <Context>
-        <Theme>
-          <App />
-        </Theme>
-      </Context>
+      <Theme>
+        <App />
+      </Theme>
     </ApolloHooksProvider>
   </ApolloProvider>,
   document.getElementById('root')
