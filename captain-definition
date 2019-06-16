@@ -1,14 +1,15 @@
 {
   "schemaVersion": 2,
   "dockerfileLines": [
-    "FROM socialengine/nginx-spa:latest",
-    "RUN apk add --no-cache git npm",
+    "FROM node/12",
+    "RUN npm install serve -g",
     "ENV NODE_ENV production",
     "ENV SERVER https://together-server.tpxl.io",
     "ENV SUBSCRIPTION_SERVER wss://together-server.tpxl.io/graphql",
     "RUN npm install",
     "RUN npm run build",
     "COPY ./build /app",
-    "RUN chmod -R 777 /app"
+    "WORKDIR /app",
+    "CMD ['serve', '-p', '80', '-s', '.']"
   ]
 }
