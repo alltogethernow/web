@@ -20,10 +20,6 @@ export default theme => {
       background: theme.palette.primary.main,
       color: theme.palette.getContrastText(theme.palette.primary.main),
       boxShadow: theme.shadows[3],
-
-      '& a': {
-        color: 'inherit',
-      },
     },
     title: {
       lineHeight: 1.2,

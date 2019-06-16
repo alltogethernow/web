@@ -24,7 +24,9 @@ const LandingPage = ({ classes }) => {
           </Typography>
           <Typography variant="h5" component="p" className={classes.tagline}>
             An #indieweb social reader by{' '}
-            <Link href="https://grant.codes">grant.codes</Link>
+            <Link style={{ color: 'inherit' }} href="https://grant.codes">
+              grant.codes
+            </Link>
           </Typography>
         </div>
       </div>
