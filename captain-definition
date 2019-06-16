@@ -1,16 +1,14 @@
 {
   "schemaVersion": 2,
   "dockerfileLines": [
-    "FROM node:11.14-alpine",
-    "RUN apk add --no-cache git",
-    "RUN mkdir -p /usr/src/app",
-    "COPY ./ /usr/src/app",
-    "WORKDIR /usr/src/app",
-    "RUN npm install",
+    "FROM socialengine/nginx-spa:latest",
+    "RUN apk add --no-cache git npm",
     "ENV NODE_ENV production",
-    "ENV PORT 80",
+    "ENV SERVER https://together-server.tpxl.io"
+    "ENV SUBSCRIPTION_SERVER wss://together-server.tpxl.io/graphql"
+    "RUN npm install",
     "RUN npm run build",
-    "EXPOSE 80",
-    "CMD [ \"npm\", \"run\", \"backend\" ]"
+    "COPY ./build /app",
+    "RUN chmod -R 777 /app"
   ]
 }
