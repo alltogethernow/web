@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "dockerfileLines": [
-    "FROM node/12",
+    "FROM node:12-alpine",
     "RUN npm install serve -g",
     "ENV NODE_ENV production",
     "ENV SERVER https://together-server.tpxl.io",
