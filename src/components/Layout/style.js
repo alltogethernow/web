@@ -2,6 +2,7 @@ export default theme => ({
   shortcuts: {
     boxSizing: 'border-box',
     position: 'relative',
+    outline: 'none',
     '&:focus, &.is-focused': {
       boxShadow: `0 0 4px inset ${
         theme.palette.type === 'dark'
@@ -26,7 +27,7 @@ export default theme => ({
     // },
   },
   noPosts: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   loading: {
     position: 'fixed',

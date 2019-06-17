@@ -53,7 +53,7 @@ const TruncatedContentLoader = ({ post }) => {
 
   useEffect(() => {
     setIsTruncated(hasTruncatedContent(post))
-  }, [post.url])
+  }, [post])
 
   const handleLoad = async e => {
     e.preventDefault()

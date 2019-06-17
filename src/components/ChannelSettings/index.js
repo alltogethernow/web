@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import useReactRouter from 'use-react-router'
 import { useSnackbar } from 'notistack'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useMutation } from 'react-apollo-hooks'
 import { GET_CHANNELS, UPDATE_CHANNEL, REMOVE_CHANNEL } from '../../queries'
 import { withStyles } from '@material-ui/core/styles'
 import {
@@ -18,6 +18,7 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core'
+import useCurrentChannel from '../../hooks/use-current-channel'
 import SettingsModal from '../SettingsModal'
 import Following from './Following'
 import Blocked from './Blocked'
@@ -27,25 +28,8 @@ import styles from './style'
 
 const ChannelSettings = ({ classes }) => {
   const { enqueueSnackbar } = useSnackbar()
-  const {
-    history,
-    match: {
-      params: { channelSlug },
-    },
-  } = useReactRouter()
-  const {
-    data: { channels },
-    loading,
-    error,
-  } = useQuery(GET_CHANNELS)
-  const channelUid = decodeURIComponent(channelSlug)
-  const [channel, setChannel] = useState(
-    channels ? channels.find(c => c.uid === channelUid) : {}
-  )
-
-  useEffect(() => {
-    setChannel(channels ? channels.find(c => c.uid === channelUid) : {})
-  }, [channels])
+  const { history } = useReactRouter()
+  const channel = useCurrentChannel()
 
   const updateChannel = useMutation(UPDATE_CHANNEL)
   const removeChannel = useMutation(REMOVE_CHANNEL, {
@@ -55,9 +39,7 @@ const ChannelSettings = ({ classes }) => {
         query: GET_CHANNELS,
       })
       // Update our channel in the channels array
-      data.channels = data.channels.filter(
-        channel => channel.uid !== channelUid
-      )
+      data.channels = data.channels.filter(c => c.uid !== channel.uid)
       // Write our data back to the cache.
       proxy.writeQuery({ query: GET_CHANNELS, data })
     },
@@ -65,7 +47,7 @@ const ChannelSettings = ({ classes }) => {
 
   const handleClose = () => {
     if (history) {
-      history.push('/channel/' + channelSlug)
+      history.push('/channel/' + channel._t_slug)
     }
   }
 
@@ -84,7 +66,6 @@ const ChannelSettings = ({ classes }) => {
 
   const handleUpdate = (key, value) => {
     const optimisticChannel = Object.assign({}, channel, { [key]: value })
-    setChannel(optimisticChannel)
     updateChannel({
       variables: Object.assign({}, channel, {
         [key]: value,
@@ -102,8 +83,8 @@ const ChannelSettings = ({ classes }) => {
           query: GET_CHANNELS,
         })
         // Update our channel in the channels array
-        data.channels = data.channels.map(channel =>
-          channel.uid === channelUid ? optimisticChannel : channel
+        data.channels = data.channels.map(c =>
+          c.uid === channel.uid ? optimisticChannel : c
         )
         // Write our data back to the cache.
         proxy.writeQuery({ query: GET_CHANNELS, data })
@@ -114,12 +95,12 @@ const ChannelSettings = ({ classes }) => {
   return (
     <SettingsModal
       singleColumn
-      title={loading ? 'Loading...' : `${channel.name} Settings`}
+      title={`${channel.name} Settings`}
       onClose={handleClose}
     >
       <List className={classes.list}>
         <ListSubheader>Channel Options</ListSubheader>
-        {loading ? (
+        {!channel.uid ? (
           <ListItem>
             <LinearProgress style={{ width: '100%' }} />
           </ListItem>
@@ -143,7 +124,12 @@ const ChannelSettings = ({ classes }) => {
                 margin="none"
               >
                 {layouts.map(layout => (
-                  <MenuItem value={layout.id}>{layout.name}</MenuItem>
+                  <MenuItem
+                    key={`setting-layout-${layout.id}`}
+                    value={layout.id}
+                  >
+                    {layout.name}
+                  </MenuItem>
                 ))}
               </Select>
             </ListItem>
@@ -200,9 +186,9 @@ const ChannelSettings = ({ classes }) => {
             </ListItem>
           </>
         )}
-        <Following channel={channelUid} />
-        <Blocked channel={channelUid} />
-        <Muted channel={channelUid} />
+        <Following channel={channel.uid} />
+        <Blocked channel={channel.uid} />
+        <Muted channel={channel.uid} />
       </List>
     </SettingsModal>
   )

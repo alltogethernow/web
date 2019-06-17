@@ -16,7 +16,6 @@ const ChannelFollowing = ({ classes, channel }) => {
   const {
     data: { following },
     loading,
-    error,
     refetch,
   } = useQuery(GET_FOLLOWING, {
     variables: { channel },

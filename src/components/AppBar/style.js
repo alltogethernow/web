@@ -28,6 +28,7 @@ export default theme => ({
     display: 'block',
     outline: 'none',
     textDecoration: 'none',
+    color: theme.palette.text.primary,
   },
   layoutSwitcher: {
     flexDirection: 'row',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useQuery } from 'react-apollo-hooks'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Avatar,
@@ -54,25 +54,23 @@ const Results = ({ handleCancel, classes, query }) => {
     <>
       <List>
         {results.map((result, i) => (
-          <>
-            <ListItem
-              button
-              onClick={() => setPreview(result.url)}
-              key={`search-result-${i}`}
-            >
-              <Avatar alt="" src={result.photo}>
-                {result.photo
-                  ? null
-                  : result.url
-                      .replace('https://', '')
-                      .replace('http://', '')
-                      .replace('www.', '')[0]}
-              </Avatar>
-              <ListItemText
-                primary={result.name || result.url}
-                secondary={result.url}
-              />
-            </ListItem>
+          <ListItem
+            button
+            onClick={() => setPreview(result.url)}
+            key={`search-result-${i}`}
+          >
+            <Avatar alt="" src={result.photo}>
+              {result.photo
+                ? null
+                : result.url
+                    .replace('https://', '')
+                    .replace('http://', '')
+                    .replace('www.', '')[0]}
+            </Avatar>
+            <ListItemText
+              primary={result.name || result.url}
+              secondary={result.url}
+            />
             {preview === result.url && (
               <Preview
                 url={result.url}
@@ -82,7 +80,7 @@ const Results = ({ handleCancel, classes, query }) => {
                 }}
               />
             )}
-          </>
+          </ListItem>
         ))}
       </List>
       <CardActions className={classes.actions}>{actions}</CardActions>

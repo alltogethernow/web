@@ -1,14 +1,14 @@
 export default theme => ({
   item: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing.unit,
-      paddingRight: theme.spacing.unit,
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
     },
     [theme.breakpoints.up('md')]: {
-      paddingLeft: theme.spacing.unit * 2,
-      paddingRight: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
   },
   read: {

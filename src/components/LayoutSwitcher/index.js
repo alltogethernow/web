@@ -1,13 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton, Tooltip } from '@material-ui/core'
-import { useMutation, useQuery } from 'react-apollo-hooks'
-import useReactRouter from 'use-react-router'
+import { useMutation } from 'react-apollo-hooks'
 import gql from 'graphql-tag'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import layouts from '../../modules/layouts'
 import styles from './style'
-import { GET_CHANNELS } from '../../queries'
 
 export const UPDATE_LAYOUT = gql`
   mutation updateLayout($uid: String!, $_t_layout: String!) {

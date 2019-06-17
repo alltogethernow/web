@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useSubscription } from 'react-apollo-hooks'
 import useCurrentChannel from './use-current-channel'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
@@ -12,9 +12,6 @@ export default function(queryOptions = {}) {
     variables: { channel: channel.uid },
     ...queryOptions,
   })
-  // const { data, loading, fetchMore, refetch } = useQuery(GET_TIMELINE, {
-  //   variables: { channel: selectedChannel },
-  // })
 
   // Save the before value in state using the initial timeline
   const [before, setBefore] = useState(
@@ -33,7 +30,7 @@ export default function(queryOptions = {}) {
     if (query.refetch && channel.uid && !query.loading) {
       setTimeout(query.refetch, 200)
     }
-  }, [channel])
+  }, [channel.uid])
 
   // Also subscribe to the timeline to get updates via websocket
   useSubscription(TIMELINE_SUBSCRIPTION, {
@@ -48,28 +45,27 @@ export default function(queryOptions = {}) {
       },
     }) => {
       // When websocket data received we need to update the cache
-      // Update the before state with the new one
       if (timeline.before && timeline.before !== before) {
+        // Update the before state with the new one
         setBefore(timeline.before)
+        if (timeline.items.length) {
+          // Get the currently cached timeline
+          const cache = client.readQuery({
+            query: GET_TIMELINE,
+            variables: { channel: timeline.channel },
+          })
+          // Update cached before
+          cache.timeline.before = timeline.before
+          // Add any new items to the start of the cache
+          cache.timeline.items = [...timeline.items, ...cache.timeline.items]
+          // Store the cache again
+          client.writeQuery({
+            query: GET_TIMELINE,
+            variables: { channel: timeline.channel },
+            data: cache,
+          })
+        }
       }
-
-      // Get the currently cached timeline
-      const cache = client.readQuery({
-        query: GET_TIMELINE,
-        variables: { channel: timeline.channel },
-      })
-      // Update cached before
-      cache.timeline.before = timeline.before
-      // Add any new items to the start of the cache
-      if (timeline.items.length) {
-        cache.timeline.items = [...timeline.items, ...cache.timeline.items]
-      }
-      // Store the cache again
-      client.writeQuery({
-        query: GET_TIMELINE,
-        variables: { channel: timeline.channel },
-        data: cache,
-      })
     },
   })
 

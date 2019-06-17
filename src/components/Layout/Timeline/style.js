@@ -4,7 +4,7 @@ export default theme => ({
     boxSizing: 'border-box',
     width: '100%',
     height: '100%',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     paddingTop: 0,
     overflow: 'auto',
     overscrollBehaviorY: 'contain',

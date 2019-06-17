@@ -1,9 +1,9 @@
-import React, { Fragment, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import useMarkRead from '../../../hooks/use-mark-read'
 import { withStyles } from '@material-ui/core/styles'
 import 'intersection-observer'
-import Observer from '@researchgate/react-intersection-observer'
+import { InView } from 'react-intersection-observer'
 import Button from '@material-ui/core/Button'
 import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
@@ -14,7 +14,7 @@ const Timeline = ({ classes, posts, channel, loadMore }) => {
   const ref = useRef()
   const markRead = useMarkRead()
 
-  const handleIntersection = async entry => {
+  const handleIntersection = async (inView, entry) => {
     if (!entry || !entry.intersectionRatio) {
       return null
     }
@@ -59,15 +59,16 @@ const Timeline = ({ classes, posts, channel, loadMore }) => {
       <ReactList
         ref={ref}
         itemRenderer={(index, key) => (
-          <Observer
-            key={key}
-            root={null}
-            margin="1px"
-            threshold={0}
+          <InView
+            key={`timeline-item-${key}`}
+            rootMargin="1px"
+            triggerOnce={true}
             onChange={handleIntersection}
+            data-id={posts[index]._id}
+            data-isread={posts[index]._is_read}
           >
             <Post post={posts[index]} />
-          </Observer>
+          </InView>
         )}
         length={posts.length}
         type="simple"

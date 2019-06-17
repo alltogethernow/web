@@ -1,6 +1,4 @@
 const buttonSize = 56
-const appBarHeight = 56
-const appBarHeightLarge = 64
 
 export default theme => ({
   container: {
@@ -10,7 +8,7 @@ export default theme => ({
     alignItems: 'flex-end',
     right: 0,
     bottom: 0,
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     maxWidth: 'calc(100vw - 90px)',
     maxHeight: '100vh',
     zIndex: theme.zIndex.appBar,
@@ -18,9 +16,9 @@ export default theme => ({
   card: {
     width: 360,
     maxWidth: '100%',
-    maxHeight: `calc(100vh - ${theme.spacing.unit * 6 + buttonSize}px)`,
+    maxHeight: `calc(100vh - ${theme.spacing(6) + buttonSize}px)`,
     overflow: 'auto',
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   fabButton: {
     width: 56,
@@ -36,10 +34,10 @@ export default theme => ({
     // borderTop: '1px solid ' + theme.palette.text.disabled,
     borderTop: '1px solid ' + theme.palette.divider,
     position: 'sticky',
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     bottom: 0,
     left: 0,
     width: '100%',

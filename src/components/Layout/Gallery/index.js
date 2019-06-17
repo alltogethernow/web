@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useMarkRead from '../../../hooks/use-mark-read'
 import { withStyles } from '@material-ui/core/styles'
 import 'intersection-observer'
-import Observer from '@researchgate/react-intersection-observer'
+import { InView } from 'react-intersection-observer'
 import {
   GridList,
   GridListTile,
@@ -81,7 +81,7 @@ const Gallery = ({ classes, posts, channel, loadMore }) => {
   }
   const medias = getMediasFromPosts(posts)
 
-  const handleIntersection = entry => {
+  const handleIntersection = (inView, entry) => {
     if (!entry || !entry.intersectionRatio) {
       return null
     }
@@ -135,73 +135,60 @@ const Gallery = ({ classes, posts, channel, loadMore }) => {
             const avatarData = authorToAvatarData(post.author)
 
             return (
-              <Observer
+              <GridListTile
                 key={'gallery-item-' + post._id + index}
-                root={null}
-                margin="0px"
-                threshold={0}
-                onChange={handleIntersection}
-              >
-                <GridListTile
-                  cols={1}
-                  onClick={e => {
-                    setSelectedMediaIndex(index)
+                cols={1}
+                onClick={e => {
+                  console.log('clicked media')
+                  setSelectedMediaIndex(index)
+                  if (!post._is_read) {
                     markRead(channel.uid, post._id)
-                  }}
-                  style={{ height: cellHeight, width: 100 / columnCount + '%' }}
-                  data-id={post._id}
-                  data-isread={post._is_read}
-                >
-                  {media.photo && (
-                    <img
-                      src={resizeImage(media.photo, {
-                        w: 300,
-                        h: 300,
-                        t: 'square',
-                      })}
-                      alt=""
-                    />
-                  )}
-                  {media.video && (
-                    <video
-                      className={classes.video}
-                      src={media.video}
-                      poster={media.poster}
-                      controls
-                      loop
-                    />
-                  )}
-                  <GridListTileBar
-                    title={
-                      post.name || (post.content && post.content.text) || ''
-                    }
-                    subtitle={avatarData.alt}
-                    actionIcon={
+                  }
+                }}
+                style={{ height: cellHeight, width: 100 / columnCount + '%' }}
+              >
+                {media.photo && (
+                  <img
+                    src={resizeImage(media.photo, {
+                      w: 300,
+                      h: 300,
+                      t: 'square',
+                    })}
+                    alt=""
+                  />
+                )}
+                {media.video && (
+                  <video
+                    className={classes.video}
+                    src={media.video}
+                    poster={media.poster}
+                    controls
+                    loop
+                  />
+                )}
+                <GridListTileBar
+                  title={post.name || (post.content && post.content.text) || ''}
+                  subtitle={avatarData.alt}
+                  actionIcon={
+                    <InView
+                      rootMargin="0px"
+                      threshold={0}
+                      triggerOnce={true}
+                      onChange={handleIntersection}
+                      data-id={post._id}
+                      data-isread={post._is_read}
+                    >
                       <div style={{ marginRight: 14 }}>
                         <AuthorAvatar author={post.author} />
                       </div>
-                    }
-                  />
-                </GridListTile>
-              </Observer>
+                    </InView>
+                  }
+                />
+              </GridListTile>
             )
           })}
       </GridList>
     )
-  }
-
-  const renderLoadMore = () => {
-    if (infiniteScrollEnabled) {
-      return null
-    }
-    if (loadMore) {
-      return (
-        <Button className={classes.loadMore} onClick={loadMore}>
-          Load More
-        </Button>
-      )
-    }
-    return null
   }
 
   return (
@@ -228,23 +215,25 @@ const Gallery = ({ classes, posts, channel, loadMore }) => {
         minSize={3}
       />
 
-      {renderLoadMore()}
-
-      {selectedMediaIndex !== false && (
-        <GallerySlider
-          posts={posts}
-          medias={medias}
-          startIndex={selectedMediaIndex}
-          onChange={handleGallerySliderChange}
-          onClose={() => setSelectedMediaIndex(false)}
-          onLastPhoto={() => {
-            if (infiniteScrollEnabled) {
-              loadMore()
-            }
-          }}
-          open={true}
-        />
+      {!infiniteScrollEnabled && loadMore && (
+        <Button className={classes.loadMore} onClick={loadMore}>
+          Load More
+        </Button>
       )}
+
+      <GallerySlider
+        open={selectedMediaIndex !== false}
+        posts={posts}
+        medias={medias}
+        startIndex={selectedMediaIndex === false ? 0 : selectedMediaIndex}
+        onChange={handleGallerySliderChange}
+        onClose={() => setSelectedMediaIndex(false)}
+        onLastPhoto={() => {
+          if (infiniteScrollEnabled) {
+            loadMore()
+          }
+        }}
+      />
     </Shortcuts>
   )
 }

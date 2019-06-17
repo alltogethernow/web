@@ -16,7 +16,6 @@ const ChannelBlocked = ({ classes, channel }) => {
   const {
     data: { blocked },
     loading,
-    error,
     refetch,
   } = useQuery(GET_BLOCKED, {
     variables: { channel },

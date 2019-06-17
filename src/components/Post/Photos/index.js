@@ -9,7 +9,7 @@ import style from './style'
 const TogetherCardPhotos = ({ classes, photos }) => {
   const [selectedPhoto, setSelectedPhoto] = useState(null)
 
-  const Photos = ({}) => {
+  const Photos = () => {
     if (photos.length === 1) {
       return (
         <img

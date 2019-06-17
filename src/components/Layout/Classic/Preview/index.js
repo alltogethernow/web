@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core'
 import AuthorAvatar from '../../../AuthorAvatar'
 import moment from 'moment'
 import styles from './style'
@@ -57,7 +56,9 @@ const ClassicPreview = ({ classes, post, onClick, highlighted }) => {
       data-id={post._id}
       data-isread={post._is_read}
     >
-      <AuthorAvatar author={post.author} />
+      <ListItemAvatar>
+        <AuthorAvatar author={post.author} />
+      </ListItemAvatar>
       <ListItemText
         primary={getPreviewText()}
         secondary={date}

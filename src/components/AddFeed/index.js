@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import useReactRouter from 'use-react-router'
-import { Card, Button } from '@material-ui/core'
+import { Card, Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import Search from './Search'
 import Results from './Results'
@@ -50,15 +50,14 @@ const AddFeed = ({ classes }) => {
         </Card>
       )}
 
-      <Button
-        variant="fab"
+      <Fab
         color="secondary"
         aria-label="Add New Subscription"
         className={classes.fabButton}
         onClick={() => setSearchOpen(true)}
       >
         <AddIcon />
-      </Button>
+      </Fab>
     </div>
   )
 }

@@ -12,6 +12,7 @@ export default theme => {
       flexDirection: 'column',
       overflow: 'auto',
       background,
+      outline: 'none',
       borderRight: '1px solid ' + theme.palette.divider,
       '&:focus, &.is-focused': {
         boxShadow: `0 0 4px inset ${highlight}`,
@@ -51,7 +52,7 @@ export default theme => {
     },
     addForm: {
       borderTop: '1px solid ' + theme.palette.divider,
-      padding: theme.spacing.unit,
+      padding: theme.spacing(1),
       paddingBottom: 0,
     },
     unread: {

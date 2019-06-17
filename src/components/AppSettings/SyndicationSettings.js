@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import useMicropubQuery from '../../hooks/use-micropub-query'
 import { withStyles } from '@material-ui/core/styles'
 import {
@@ -89,7 +89,7 @@ const SyndicationSettings = ({ classes }) => {
         <ListItem>
           <Button
             variant="outlined"
-            color="secondary"
+            color="primary"
             size="small"
             onClick={() => refetch()}
           >

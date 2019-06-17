@@ -44,31 +44,29 @@ const SettingsMenu = ({ classes }) => {
         open={!!anchorEl}
         onClose={e => setAnchorEl(null)}
       >
-        <Fragment>
-          {!!channel._t_slug && (
-            <Link
-              to={`/channel/${channel._t_slug}/edit`}
-              className={classes.menuItem}
-            >
-              <MenuItem>Channel Settings</MenuItem>
-            </Link>
-          )}
-          <Link to="/settings" className={classes.menuItem}>
-            <MenuItem>App Settings</MenuItem>
-          </Link>
-          <MenuItem
-            onClick={() =>
-              setLocalState({
-                theme: localState.theme === 'light' ? 'dark' : 'light',
-              })
-            }
+        {!!channel._t_slug && (
+          <Link
+            to={`/channel/${channel._t_slug}/edit`}
+            className={classes.menuItem}
           >
-            {localState.theme === 'light' ? 'Dark' : 'Light'} Mode
-          </MenuItem>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-          <MenuItem>Version {version}</MenuItem>
-          <LayoutSwitcher className={classes.layoutSwitcher} />
-        </Fragment>
+            <MenuItem>Channel Settings</MenuItem>
+          </Link>
+        )}
+        <Link to="/settings" className={classes.menuItem}>
+          <MenuItem>App Settings</MenuItem>
+        </Link>
+        <MenuItem
+          onClick={() =>
+            setLocalState({
+              theme: localState.theme === 'light' ? 'dark' : 'light',
+            })
+          }
+        >
+          {localState.theme === 'light' ? 'Dark' : 'Light'} Mode
+        </MenuItem>
+        <MenuItem onClick={logout}>Logout</MenuItem>
+        <MenuItem>Version {version}</MenuItem>
+        <LayoutSwitcher className={classes.layoutSwitcher} />
       </Menu>
     </Fragment>
   )

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import useMarkRead from '../../../hooks/use-mark-read'
 import useLocalState from '../../../hooks/use-local-state'
 import 'intersection-observer'
-import Observer from '@researchgate/react-intersection-observer'
+import { InView } from 'react-intersection-observer'
 import { List, Button, Toolbar, AppBar } from '@material-ui/core'
 import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
@@ -25,26 +25,6 @@ const ClassicView = ({ classes, posts, channel, loadMore }) => {
     : -1
   const hasNextPost = posts[postIndex + 1] ? true : false
   const hasPreviousPost = postIndex > 0 && posts[postIndex - 1] ? true : false
-
-  const handleIntersection = entry => {
-    if (!entry || !entry.intersectionRatio) {
-      return null
-    }
-
-    const target = entry.target
-    const itemId = target.dataset.id
-
-    const isSecondLastItem = itemId === posts[posts.length - 2]._id
-    if (
-      posts &&
-      posts.length &&
-      infiniteScrollEnabled &&
-      isSecondLastItem &&
-      loadMore
-    ) {
-      loadMore()
-    }
-  }
 
   const handlePostSelect = post => {
     const index = posts.findIndex(p => p._id === post._id)
@@ -98,21 +78,33 @@ const ClassicView = ({ classes, posts, channel, loadMore }) => {
             <ReactList
               itemRenderer={(index, key) => {
                 const post = posts[index]
-                return (
-                  <Observer
-                    key={key}
-                    root={'#classic-view-previews'}
-                    margin="0px"
-                    threshold={0}
-                    onChange={handleIntersection}
-                  >
-                    <Preview
-                      post={post}
-                      onClick={() => handlePostSelect(post)}
-                      highlighted={selectedPostId === post._id}
-                    />
-                  </Observer>
+                const preview = (
+                  <Preview
+                    post={post}
+                    key={`classic-preview-${key}`}
+                    onClick={() => handlePostSelect(post)}
+                    highlighted={selectedPostId === post._id}
+                  />
                 )
+                if (
+                  index >= posts.length - 2 &&
+                  infiniteScrollEnabled &&
+                  loadMore
+                ) {
+                  // Attach intersection observer to only the second last item to trigger load more
+                  return (
+                    <InView
+                      key={`classic-preview-observer-${key}`}
+                      rootMargin="1px"
+                      triggerOnce={true}
+                      onChange={() => loadMore()}
+                    >
+                      {preview}
+                    </InView>
+                  )
+                }
+                // Otherwise just return plain preview
+                return preview
               }}
               length={posts.length}
               type="simple"

@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
-  Grid,
   Typography,
-  Button,
-  Link,
   AppBar,
   Toolbar,
   Drawer,
@@ -14,7 +11,6 @@ import {
   IconButton,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
-import Post from '../../Post'
 import Timeline from '../../Layout/Timeline'
 import Gallery from '../../Layout/Gallery'
 import Classic from '../../Layout/Classic'
@@ -28,19 +24,6 @@ const ExampleApp = ({ classes }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedPreview, setSelectedPreview] = useState(
     Object.keys(exampleData)[0]
-  )
-
-  const Example = ({ children, className = '', title }) => (
-    <div className={classes.exampleContainer}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h5" color="inherit">
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.exampleInner + ' ' + className}>{children}</div>
-    </div>
   )
 
   return (

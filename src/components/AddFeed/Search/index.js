@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  TextField,
-} from '@material-ui/core'
+import { CardContent, CardActions, Button, TextField } from '@material-ui/core'
 import styles from '../style'
 
 const Search = ({ handleCancel, handleSearch, classes }) => {

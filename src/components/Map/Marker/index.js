@@ -15,7 +15,7 @@ const MapMarker = ({ classes, post, postOpen = false, author, left, top }) => {
     if (postOpen !== open) {
       setOpen(postOpen)
     }
-  }, [postOpen])
+  }, [postOpen, open])
 
   return (
     <Fragment>

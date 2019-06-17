@@ -15,9 +15,9 @@ import CloseIcon from '@material-ui/icons/Close'
 import useReactRouter from 'use-react-router'
 import styles from './style'
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />
-}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
 
 const SettingsModal = ({
   classes,

@@ -7,7 +7,6 @@ import {
   Button,
   ListItem,
   ListItemText,
-  Avatar,
   CircularProgress,
 } from '@material-ui/core'
 import Post from '../../Post'
@@ -26,7 +25,6 @@ const Preview = ({ classes, url, setActions, handleClose }) => {
   const {
     data: { preview: items },
     loading,
-    error,
   } = useQuery(PREVIEW, { variables: { url } })
 
   const channel = channelSlug ? decodeURIComponent(channelSlug) : null
@@ -39,7 +37,7 @@ const Preview = ({ classes, url, setActions, handleClose }) => {
 
   const handleFollow = async () => {
     try {
-      const res = await follow()
+      await follow()
       handleClose()
       setActions(null)
     } catch (err) {

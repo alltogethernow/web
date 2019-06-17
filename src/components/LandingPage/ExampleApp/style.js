@@ -11,8 +11,8 @@ export default theme => ({
     border: `2px solid ${theme.palette.primary.main}`,
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
     maxWidth: 1200,
   },
   menuButton: {

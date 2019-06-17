@@ -79,13 +79,13 @@ const CheckinMap = ({ posts, channel, classes }) => {
         const boundedViewport = viewport.fitBounds(bounds)
         setViewport(new WebMercatorViewport(boundedViewport))
       } else if (markers.length === 1) {
-        const viewport = Object.assign({}, viewport, {
+        const newViewport = Object.assign({}, viewport, {
           latitude: markers[0][0],
           longitude: markers[0][1],
           // zoom: viewport.zoom > 8 ? viewport.zoom : 11,
           zoom: 12,
         })
-        setViewport(new WebMercatorViewport(viewport))
+        setViewport(new WebMercatorViewport(newViewport))
       }
     }
   }

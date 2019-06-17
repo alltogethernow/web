@@ -6,10 +6,10 @@ export default theme => ({
     },
     '& blockquote': {
       borderLeft: '4px solid ' + theme.palette.primary.main,
-      paddingLeft: theme.spacing.unit * 2,
-      marginLeft: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing(2),
+      marginLeft: theme.spacing(2),
       '& blockquote': {
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
       },
     },
     // Emoji images'
@@ -18,6 +18,6 @@ export default theme => ({
     },
   },
   divider: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
 })

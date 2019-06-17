@@ -32,7 +32,7 @@ const ChannelMenu = ({ classes }) => {
       setFocusedChannel(selectedChannel._t_slug)
       setLocalState({ focusedComponent: 'timeline' })
     }
-  }, [selectedChannel])
+  }, [selectedChannel._t_slug])
 
   // Focus channels menu for shortcuts
   useEffect(() => {

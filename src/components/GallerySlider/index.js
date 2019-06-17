@@ -12,7 +12,9 @@ import styles from './style'
 
 const alwaysOpenWidth = 800
 
-const Transition = props => <Slide direction="up" {...props} />
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
 
 const Gallery = ({
   classes,
@@ -28,6 +30,7 @@ const Gallery = ({
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [width, setWidth] = useState(document.documentElement.clientWidth)
 
+  // Add resize handler
   useEffect(() => {
     const handleResize = () => {
       setWidth(document.documentElement.clientWidth)
@@ -36,7 +39,12 @@ const Gallery = ({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  useEffect(() => setOpen(propOpen), [propOpen])
+  // Open and close via prop
+  useEffect(() => {
+    if (open !== propOpen) {
+      setOpen(propOpen)
+    }
+  }, [propOpen])
 
   const handleClose = e => {
     setOpen(false)
@@ -172,7 +180,6 @@ const Gallery = ({
             key={`slide-${i}`}
             style={{ paddingLeft: isPermanentDrawer ? 300 : 0 }}
           >
-            {/* <div className={classes.popupInner}> */}
             {photo && <img className={classes.popupMedia} src={photo} alt="" />}
             {video && (
               <video
@@ -183,7 +190,6 @@ const Gallery = ({
                 loop
               />
             )}
-            {/* </div> */}
           </div>
         ))}
       </Carousel>
@@ -193,7 +199,7 @@ const Gallery = ({
 
 Gallery.defaultProps = {
   medias: [],
-  startIndex: null,
+  startIndex: 0,
 }
 
 Gallery.propTypes = {
@@ -201,6 +207,7 @@ Gallery.propTypes = {
   onClose: PropTypes.func,
   onChange: PropTypes.func,
   onLastPhoto: PropTypes.func,
+  startIndex: PropTypes.number,
 }
 
 export default withStyles(styles)(Gallery)

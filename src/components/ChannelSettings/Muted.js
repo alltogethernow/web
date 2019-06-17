@@ -16,7 +16,6 @@ const ChannelMuted = ({ classes, channel }) => {
   const {
     data: { muted },
     loading,
-    error,
     refetch,
   } = useQuery(GET_MUTED, {
     variables: { channel },

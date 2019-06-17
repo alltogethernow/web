@@ -1,6 +1,6 @@
 import ApolloClient from 'apollo-client'
 import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
-import { createHttpLink, HttpLink } from 'apollo-link-http'
+import { HttpLink } from 'apollo-link-http'
 import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
