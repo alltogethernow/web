@@ -28,6 +28,7 @@ const Gallery = ({
 }) => {
   const [open, setOpen] = useState(propOpen)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [slideIndex, setSlideIndex] = useState(startIndex)
   const [width, setWidth] = useState(document.documentElement.clientWidth)
 
   // Add resize handler
@@ -38,6 +39,11 @@ const Gallery = ({
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // Watch for startIndex change
+  useEffect(() => {
+    setSlideIndex(startIndex)
+  }, [startIndex])
 
   // Open and close via prop
   useEffect(() => {
@@ -66,8 +72,9 @@ const Gallery = ({
     >
       <Carousel
         className={classes.carousel}
-        slideIndex={startIndex}
+        slideIndex={slideIndex}
         afterSlide={index => {
+          setSlideIndex(index)
           if (index >= medias.length - 1 && onLastPhoto) {
             onLastPhoto()
           }
