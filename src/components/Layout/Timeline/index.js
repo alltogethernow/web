@@ -10,7 +10,7 @@ import Shortcuts from '../Shortcuts'
 import Post from '../../Post'
 import styles from './style'
 
-const Timeline = ({ classes, posts, channel, loadMore }) => {
+const Timeline = ({ classes, posts, channel, loadMore, loading }) => {
   const ref = useRef()
   const markRead = useMarkRead()
 
@@ -76,8 +76,12 @@ const Timeline = ({ classes, posts, channel, loadMore }) => {
       />
 
       {channel && loadMore && (
-        <Button className={classes.loadMore} onClick={loadMore}>
-          Load More
+        <Button
+          className={classes.loadMore}
+          onClick={loadMore}
+          disabled={loading}
+        >
+          {loading ? 'Loading...' : 'Load More'}
         </Button>
       )}
     </Shortcuts>

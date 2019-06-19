@@ -62,6 +62,7 @@ const Layout = ({ classes }) => {
           posts={data.timeline.items.filter(viewFilter)}
           channel={channel}
           loadMore={fetchMore}
+          loading={networkStatus < 7}
         />
       )}
 

@@ -22,7 +22,7 @@ const contentWidth = document.getElementById('root').clientWidth - 49
 const columnCount = Math.floor(contentWidth / 300)
 const cellHeight = Math.floor(contentWidth / columnCount)
 
-const Gallery = ({ classes, posts, channel, loadMore }) => {
+const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(false)
   const markRead = useMarkRead()
 
@@ -139,7 +139,6 @@ const Gallery = ({ classes, posts, channel, loadMore }) => {
                 key={'gallery-item-' + post._id + index}
                 cols={1}
                 onClick={e => {
-                  console.log('clicked media')
                   setSelectedMediaIndex(index)
                   if (!post._is_read) {
                     markRead(channel.uid, post._id)
@@ -216,8 +215,12 @@ const Gallery = ({ classes, posts, channel, loadMore }) => {
       />
 
       {!infiniteScrollEnabled && loadMore && (
-        <Button className={classes.loadMore} onClick={loadMore}>
-          Load More
+        <Button
+          className={classes.loadMore}
+          onClick={loadMore}
+          disabled={loading}
+        >
+          {loading ? 'Loading...' : 'Load More'}
         </Button>
       )}
 

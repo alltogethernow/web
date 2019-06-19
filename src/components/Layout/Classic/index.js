@@ -12,7 +12,7 @@ import Preview from './Preview'
 import Post from '../../Post'
 import styles from './style'
 
-const ClassicView = ({ classes, posts, channel, loadMore }) => {
+const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
   const [selectedPostId, setSelectedPostId] = useState(null)
   const articleRef = useRef()
   const listRef = useRef()
@@ -112,8 +112,12 @@ const ClassicView = ({ classes, posts, channel, loadMore }) => {
               ref={listRef}
             />
             {!infiniteScrollEnabled && loadMore && (
-              <Button className={classes.loadMore} onClick={loadMore}>
-                Load More
+              <Button
+                className={classes.loadMore}
+                onClick={loadMore}
+                disabled={loading}
+              >
+                {loading ? 'Loading...' : 'Load More'}
               </Button>
             )}
           </List>
