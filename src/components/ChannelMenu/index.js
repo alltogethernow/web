@@ -37,7 +37,9 @@ const ChannelMenu = ({ classes }) => {
   const { history } = useReactRouter()
   const selectedChannel = useCurrentChannel()
   const [focusedChannel, setFocusedChannel] = useState(selectedChannel._t_slug)
-  const { data, loading, error } = useQuery(GET_CHANNELS)
+  const { data, loading, error } = useQuery(GET_CHANNELS, {
+    pollInterval: 60 * 1000,
+  })
   const channels = data.channels ? data.channels : []
   const reorderChannels = useMutation(REORDER_CHANNELS)
   const [localState, setLocalState] = useLocalState()
