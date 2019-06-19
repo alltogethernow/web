@@ -47,7 +47,7 @@ const Auth = props => {
         setStatus(true)
       }
     } catch (err) {
-      console.log('[Error logging in]', err)
+      console.error('[Error logging in]', err)
       enqueueSnackbar('Error logging in', { variant: 'error' })
       setStatus(false)
     }

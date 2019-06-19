@@ -53,6 +53,7 @@ export default theme => ({
     position: 'static',
     [theme.breakpoints.up('md')]: {
       transform: 'none !important',
+      visibility: 'visible !important',
     },
   },
   timeline: {

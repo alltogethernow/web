@@ -3,6 +3,7 @@ import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
+import { onError } from 'apollo-link-error'
 import { getMainDefinition } from 'apollo-utilities'
 import gql from 'graphql-tag'
 import { getTheme } from './windows-functions'
@@ -47,6 +48,23 @@ const link = split(
   wsLink,
   httpLink
 )
+
+const logoutLink = onError(({ networkError, graphQLErrors }) => {
+  const handleAuthError = () => {
+    if (window.localStorage.getItem('token')) {
+      window.localStorage.removeItem('token')
+      window.location.href = '/login'
+    }
+  }
+  for (const err of graphQLErrors) {
+    if (err.extensions.code === 'UNAUTHENTICATED') {
+      return handleAuthError()
+    }
+  }
+  if (networkError && networkError.statusCode === 401) {
+    return handleAuthError()
+  }
+})
 
 const cache = new InMemoryCache({
   cacheRedirects: {
@@ -96,7 +114,7 @@ const typeDefs = gql`
 const client = new ApolloClient({
   cache,
   typeDefs,
-  link,
+  link: logoutLink.concat(link),
   connectToDevTools: true,
   resolvers: {},
 })
