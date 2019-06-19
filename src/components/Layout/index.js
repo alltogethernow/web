@@ -13,9 +13,7 @@ import styles from './style'
 
 const Layout = ({ classes }) => {
   const channel = useCurrentChannel()
-  const { data, fetchMore, networkStatus } = useTimeline({
-    notifyOnNetworkStatusChange: true,
-  })
+  const { data, fetchMore, networkStatus } = useTimeline()
 
   // Use the correct component for the channel view
   const layout = channel && channel._t_layout ? channel._t_layout : 'timeline'

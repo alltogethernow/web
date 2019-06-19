@@ -3,14 +3,14 @@ import { useQuery, useSubscription } from 'react-apollo-hooks'
 import useCurrentChannel from './use-current-channel'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
 
-export default function(queryOptions = {}) {
+export default function() {
   // Get selected channel
   const channel = useCurrentChannel()
 
   // Get the initial timeline
   const query = useQuery(GET_TIMELINE, {
     variables: { channel: channel.uid },
-    ...queryOptions,
+    notifyOnNetworkStatusChange: true,
   })
 
   // Save the before value in state using the initial timeline
@@ -69,23 +69,30 @@ export default function(queryOptions = {}) {
     },
   })
 
-  const fetchMore = () =>
-    query.fetchMore({
-      query: GET_TIMELINE,
-      variables: { channel: channel.uid, after: query.data.timeline.after },
-      updateQuery: (previousResult, { fetchMoreResult }) => ({
-        timeline: {
-          channel: fetchMoreResult.timeline.channel,
-          after: fetchMoreResult.timeline.after,
-          before: previousResult.timeline.before,
-          items: [
-            ...previousResult.timeline.items,
-            ...fetchMoreResult.timeline.items,
-          ],
-          __typename: previousResult.timeline.__typename,
-        },
-      }),
-    })
+  const fetchMore = () => {
+    if (
+      query.networkStatus === 7 &&
+      query.data.timeline &&
+      query.data.timeline.after
+    ) {
+      query.fetchMore({
+        query: GET_TIMELINE,
+        variables: { channel: channel.uid, after: query.data.timeline.after },
+        updateQuery: (previousResult, { fetchMoreResult }) => ({
+          timeline: {
+            channel: fetchMoreResult.timeline.channel,
+            after: fetchMoreResult.timeline.after,
+            before: previousResult.timeline.before,
+            items: [
+              ...previousResult.timeline.items,
+              ...fetchMoreResult.timeline.items,
+            ],
+            __typename: previousResult.timeline.__typename,
+          },
+        }),
+      })
+    }
+  }
 
   return Object.assign({}, query, { fetchMore })
 }
