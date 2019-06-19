@@ -15,7 +15,7 @@ const MapMarker = ({ classes, post, postOpen = false, author, left, top }) => {
     if (postOpen !== open) {
       setOpen(postOpen)
     }
-  }, [postOpen, open])
+  }, [postOpen])
 
   return (
     <Fragment>
@@ -49,7 +49,12 @@ const MapMarker = ({ classes, post, postOpen = false, author, left, top }) => {
         >
           <Post
             post={post}
-            style={{ boxShadow: 'none', margin: 0 }}
+            style={{
+              boxShadow: 'none',
+              margin: 0,
+              width: 350,
+              maxWidth: '95vw',
+            }}
             hideProperties={['checkin', 'location']}
           />
         </Popover>
