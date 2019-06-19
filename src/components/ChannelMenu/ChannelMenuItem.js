@@ -8,14 +8,6 @@ import styles from './style'
 
 const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
   const [localState, setLocalState] = useLocalState()
-
-  let textClassName = classes.button
-  if (current) {
-    textClassName = classes.highlightedButton
-  }
-  if (isFocused) {
-    textClassName += ' ' + classes.focused
-  }
   let unreadCount = null
   if (channel.unread) {
     unreadCount = (
@@ -26,28 +18,29 @@ const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
   }
 
   return (
-    <Link
+    <ListItem
+      button
+      component={Link}
       to={`/channel/${channel._t_slug}`}
-      className={textClassName}
+      className={current ? classes.currentItem : null}
       onClick={e => {
         setLocalState({ channelsMenuOpen: false })
         return true
       }}
+      selected={!current && isFocused}
     >
-      <ListItem>
-        <ListItemText
-          classes={{
-            root: classes.channelTextRoot,
-            primary: classes.channelTextRoot,
-          }}
-          primary={
-            <>
-              {channel.name} {unreadCount}
-            </>
-          }
-        />
-      </ListItem>
-    </Link>
+      <ListItemText
+        classes={{
+          root: classes.channelTextRoot,
+          primary: classes.channelTextRoot,
+        }}
+        primary={
+          <>
+            {channel.name} {unreadCount}
+          </>
+        }
+      />
+    </ListItem>
   )
 }
 

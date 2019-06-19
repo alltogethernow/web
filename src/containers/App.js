@@ -72,14 +72,6 @@ const App = ({ classes }) => {
   const [localState] = useLocalState()
   const authed = localState && localState.token
 
-  const rootClass = localState.channelsMenuOpen
-    ? classes.root + ' ' + classes.channelMenuOpen
-    : classes.root
-
-  const channelMenuClass = localState.channelsMenuOpen
-    ? classes.channelMenu + ' ' + classes.channelMenuClasses
-    : classes.channelMenu
-
   return (
     <ErrorBoundary>
       <SnackbarProvider
@@ -95,11 +87,9 @@ const App = ({ classes }) => {
                     <Grid container spacing={0} className={classes.appWrapper}>
                       <Meta />
                       <AppBar />
-                      <Grid item container spacing={0} className={rootClass}>
-                        <Grid item className={channelMenuClass}>
-                          <ChannelMenu />
-                        </Grid>
-                        <Grid item className={classes.main}>
+                      <Grid item container spacing={0} className={classes.root}>
+                        <ChannelMenu />
+                        <main className={classes.main}>
                           <AuthedRoute exact path="/" component={MainPosts} />
                           <AuthedRoute
                             path="/channel/:channelSlug"
@@ -123,7 +113,7 @@ const App = ({ classes }) => {
                             component={AppSettings}
                           />
                           <ShortcutHelp />
-                        </Grid>
+                        </main>
                         <Route path="/login" component={Login} />
                         <Route path="/auth" component={Auth} />
                       </Grid>

@@ -7,46 +7,28 @@ export default theme => {
 
   return {
     drawer: {
-      width: '100%',
+      width: theme.together.drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: theme.together.drawerWidth,
+    },
+    shortcuts: {
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'auto',
-      background,
+      flexGrow: 1,
       outline: 'none',
-      borderRight: '1px solid ' + theme.palette.divider,
       '&:focus, &.is-focused': {
         boxShadow: `0 0 4px inset ${highlight}`,
       },
     },
-    channelTextRoot: {
-      padding: 0,
-      color: 'inherit',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
-    button: {
-      display: 'block',
-      textAlign: 'left',
-      color: theme.palette.text.secondary,
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      textDecoration: 'none',
-    },
-    focused: {
-      color: theme.palette.text.primary,
-    },
-    highlightedButton: {
-      display: 'block',
-      textAlign: 'left',
-      textDecoration: 'none',
+    toolbarSpacer: theme.mixins.toolbar,
+    currentItem: {
       color: theme.palette.primary.contrastText,
       backgroundColor: theme.palette.primary.main,
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
     },
     addButton: {
+      display: 'block',
       textAlign: 'center',
       color: theme.palette.primary.main,
     },

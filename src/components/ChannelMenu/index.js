@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Shortcuts } from 'react-shortcuts'
-import { List, ListItem, ListItemText } from '@material-ui/core'
+import {
+  List,
+  ListItem,
+  ListItemText,
+  SwipeableDrawer,
+  useMediaQuery,
+} from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles'
 import { SortableContainer } from 'react-sortable-hoc'
 import useReactRouter from 'use-react-router'
 import ChannelMenuItem from './ChannelMenuItem'
@@ -25,6 +32,8 @@ const ChannelMenu = ({ classes }) => {
   const reorderChannels = useMutation(REORDER_CHANNELS)
   const [localState, setLocalState] = useLocalState()
   const ref = React.createRef()
+  const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
 
   // Set focused channel on url change
   useEffect(() => {
@@ -108,46 +117,56 @@ const ChannelMenu = ({ classes }) => {
   }
 
   return (
-    <Shortcuts
-      name="CHANNEL_LIST"
-      handler={handleShortcuts}
+    <SwipeableDrawer
+      open={isSmall ? localState.channelsMenuOpen : true}
+      variant={isSmall ? null : 'permanent'}
       className={classes.drawer}
-      ref={ref}
+      classes={{ paper: classes.drawerPaper }}
+      onClose={e => setLocalState({ channelsMenuOpen: false })}
+      onOpen={e => setLocalState({ channelsMenuOpen: true })}
     >
-      {!!loading && (
-        <ListItem>
-          <ListItemText>Loading channels...</ListItemText>
-        </ListItem>
-      )}
+      <div className={classes.toolbarSpacer} />
+      <Shortcuts
+        name="CHANNEL_LIST"
+        handler={handleShortcuts}
+        className={classes.shortcuts}
+        ref={ref}
+      >
+        {!!loading && (
+          <ListItem>
+            <ListItemText>Loading channels...</ListItemText>
+          </ListItem>
+        )}
 
-      {!!error && (
-        <ListItem>
-          <ListItemText>Error loading channels 😢</ListItemText>
-        </ListItem>
-      )}
+        {!!error && (
+          <ListItem>
+            <ListItemText>Error loading channels 😢</ListItemText>
+          </ListItem>
+        )}
 
-      {!!channels && (
-        <SortableList
-          lockAxis="y"
-          // TODO: Mousepad touches don't seem to be fully registered
-          pressDelay={200}
-          onSortEnd={handleSort}
-        >
-          {channels.map((channel, index) => (
-            <ChannelMenuItem
-              key={`channel-menu-item-${index}`}
-              index={index}
-              channel={channel}
-              isFocused={focusedChannel === channel._t_slug}
-              current={selectedChannel._t_slug === channel._t_slug}
-            />
-          ))}
-        </SortableList>
-      )}
+        {!!channels && (
+          <SortableList
+            lockAxis="y"
+            // TODO: Mousepad touches don't seem to be fully registered
+            pressDelay={200}
+            onSortEnd={handleSort}
+          >
+            {channels.map((channel, index) => (
+              <ChannelMenuItem
+                key={`channel-menu-item-${index}`}
+                index={index}
+                channel={channel}
+                isFocused={focusedChannel === channel._t_slug}
+                current={selectedChannel._t_slug === channel._t_slug}
+              />
+            ))}
+          </SortableList>
+        )}
 
-      <div style={{ flexGrow: 1 }} />
-      <NewChannelForm classes={classes} />
-    </Shortcuts>
+        <div style={{ flexGrow: 1 }} />
+        <NewChannelForm classes={classes} />
+      </Shortcuts>
+    </SwipeableDrawer>
   )
 }
 

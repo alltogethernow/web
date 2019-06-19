@@ -1,10 +1,14 @@
 export default theme => ({
   root: {
     width: '100%',
+    zIndex: theme.zIndex.drawer + 1,
     background:
       theme.palette.type === 'dark'
         ? theme.palette.secondary.dark
         : theme.palette.primary.main,
+  },
+  rootAboveDrawer: {
+    zIndex: theme.zIndex.modal + 1,
   },
   title: {
     flex: 1,

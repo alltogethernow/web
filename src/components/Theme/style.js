@@ -33,5 +33,8 @@ export default type => {
         default: dark ? '#111' : '#fafafa',
       },
     },
+    together: {
+      drawerWidth: 240,
+    },
   })
 }

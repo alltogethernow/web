@@ -15,8 +15,14 @@ const TogetherAppBar = ({ classes }) => {
   const toggleChannelsMenu = e =>
     setLocalState({ channelsMenuOpen: !localState.channelsMenuOpen })
 
+  // TODO: Don't really love this solution, feels a bit hacky
+  const rootClasses = [classes.root]
+  if (localState.channelsMenuOpen) {
+    rootClasses.push(classes.rootAboveDrawer)
+  }
+
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar position="static" className={rootClasses.join(' ')}>
       <Toolbar>
         <Tooltip title="Channels" placement="bottom">
           <IconButton
