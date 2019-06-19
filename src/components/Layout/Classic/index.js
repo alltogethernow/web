@@ -10,6 +10,7 @@ import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
 import Preview from './Preview'
 import Post from '../../Post'
+import PostShortcuts from '../../Post/Shortcuts'
 import styles from './style'
 
 const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
@@ -128,19 +129,23 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
           ref={articleRef}
           className={classes.postColumn + ' layoutScrollTop'}
         >
-          <Post
-            focus
+          <PostShortcuts
             post={posts.find(post => post._id === selectedPostId)}
-            expandableContent={false}
-            style={{
-              margin: 0,
-              minHeight: 'calc(100% - 48px)',
-              maxWidth: 700,
-              boxShadow: 'none',
-            }}
-            shortcutOnNext={handleNextPost}
+            onNext={handleNextPost}
+            focus={true}
             scrollElement={articleRef.current}
-          />
+          >
+            <Post
+              post={posts.find(post => post._id === selectedPostId)}
+              expandableContent={false}
+              style={{
+                margin: 0,
+                minHeight: 'calc(100% - 48px)',
+                maxWidth: 700,
+                boxShadow: 'none',
+              }}
+            />
+          </PostShortcuts>
           <AppBar
             position="sticky"
             color="default"
