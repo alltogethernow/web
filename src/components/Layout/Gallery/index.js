@@ -139,6 +139,9 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
                 key={'gallery-item-' + post._id + index}
                 cols={1}
                 onClick={e => {
+                  if (e && e.preventDefault) {
+                    e.preventDefault()
+                  }
                   setSelectedMediaIndex(index)
                   if (!post._is_read) {
                     markRead(channel.uid, post._id)
