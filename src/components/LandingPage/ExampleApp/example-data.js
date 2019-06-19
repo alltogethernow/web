@@ -6,7 +6,7 @@ const examplePost = (data = {}) => {
     // name: faker.hacker.phrase(),
     content: { text: faker.hacker.phrase() },
     published: faker.date.past(),
-    url: 'https://alltogethernow.io',
+    url: process.env.PUBLIC_URL,
     author: {
       name: faker.name.findName(),
       photo: faker.image.avatar(),
