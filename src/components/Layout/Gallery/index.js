@@ -128,6 +128,7 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
         spacing={0}
         cols={columnCount}
         cellHeight={cellHeight}
+        className="layoutScrollTop"
       >
         {medias
           .slice(startIndex, startIndex + columnCount)

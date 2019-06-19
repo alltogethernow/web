@@ -19,6 +19,16 @@ import useLocalState from '../../hooks/use-local-state'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import { GET_CHANNELS, REORDER_CHANNELS } from '../../queries'
 
+const scrollLayoutEls = () => {
+  // Handle scrolling everything to the top.
+  const scrollEls = document.getElementsByClassName('layoutScrollTop')
+  if (scrollEls) {
+    for (const el of scrollEls) {
+      el.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+}
+
 const SortableList = SortableContainer(({ children }) => (
   <List>{children}</List>
 ))
@@ -40,6 +50,7 @@ const ChannelMenu = ({ classes }) => {
     if (selectedChannel._t_slug !== focusedChannel) {
       setFocusedChannel(selectedChannel._t_slug)
       setLocalState({ focusedComponent: 'timeline' })
+      scrollLayoutEls()
     }
   }, [selectedChannel._t_slug])
 

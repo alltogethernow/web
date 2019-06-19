@@ -64,7 +64,7 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
 
   return (
     <div className={classes.wrapper}>
-      <div className={classes.previewColumn} id="classic-view-previews">
+      <div className={classes.previewColumn + ' layoutScrollTop'}>
         <Shortcuts
           onNext={handleNextPost}
           onPrevious={handlePreviousPost}
@@ -124,7 +124,10 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
         </Shortcuts>
       </div>
       {!!selectedPostId && (
-        <div ref={articleRef} className={classes.postColumn}>
+        <div
+          ref={articleRef}
+          className={classes.postColumn + ' layoutScrollTop'}
+        >
           <Post
             focus
             post={posts.find(post => post._id === selectedPostId)}

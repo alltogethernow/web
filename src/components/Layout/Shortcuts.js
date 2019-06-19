@@ -56,7 +56,7 @@ const LayoutShortcuts = ({
   }
 
   // Add class names and is-focused
-  let shortcutsClassName = classes.shortcuts
+  let shortcutsClassName = classes.shortcuts + ' layoutScrollTop'
   if (className) {
     shortcutsClassName += ' ' + className
   }
