@@ -2,7 +2,7 @@ const scrollbarWidth = 6
 let modifyScrollbars = false
 
 if (navigator && navigator.platform) {
-  const searches = ['Win', 'Linux']
+  const searches = ['Win' /*, 'Linux'*/] // Linux catches for android devices sometimes which is annoying
   const res = searches.find(search => navigator.platform.includes(search))
   if (res) {
     modifyScrollbars = true
