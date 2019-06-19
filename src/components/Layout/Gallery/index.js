@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
+import useComponentSize from '@rehooks/component-size'
 import useMarkRead from '../../../hooks/use-mark-read'
 import { withStyles } from '@material-ui/core/styles'
 import 'intersection-observer'
@@ -18,13 +19,14 @@ import authorToAvatarData from '../../../modules/author-to-avatar-data'
 import resizeImage from '../../../modules/get-image-proxy-url'
 import styles from './style'
 
-const contentWidth = document.getElementById('root').clientWidth - 49
-const columnCount = Math.floor(contentWidth / 300)
-const cellHeight = Math.floor(contentWidth / columnCount)
-
 const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(false)
   const markRead = useMarkRead()
+  // Generate the width and height of the items
+  const ref = useRef(null)
+  const { width } = useComponentSize(ref)
+  const columnCount = width ? Math.floor(width / 300) : 3
+  const cellHeight = Math.floor(width / columnCount)
 
   const infiniteScrollEnabled = channel._t_infiniteScroll
   const autoReadEnabled = channel._t_autoRead
@@ -210,12 +212,14 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
       onMarkRead={() => {}}
       className={classes.galleryWrapper}
     >
-      <ReactList
-        itemRenderer={renderRow}
-        length={Math.ceil(medias.length / columnCount)}
-        type="simple"
-        minSize={3}
-      />
+      <div ref={ref}>
+        <ReactList
+          itemRenderer={renderRow}
+          length={Math.ceil(medias.length / columnCount)}
+          type="simple"
+          minSize={3}
+        />
+      </div>
 
       {!infiniteScrollEnabled && loadMore && (
         <Button
