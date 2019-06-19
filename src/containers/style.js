@@ -1,9 +1,9 @@
 const scrollbarWidth = 6
 let modifyScrollbars = false
 
-if (navigator && navigator.appVersion) {
-  const searches = ['Win', 'UNIX', 'Linux']
-  const res = searches.find(search => navigator.appVersion.includes(search))
+if (navigator && navigator.platform) {
+  const searches = ['Win', 'Linux']
+  const res = searches.find(search => navigator.platform.includes(search))
   if (res) {
     modifyScrollbars = true
   }
