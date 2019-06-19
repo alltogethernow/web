@@ -1,4 +1,27 @@
 const scrollbarWidth = 6
+let modifyScrollbars = false
+
+if (navigator && navigator.appVersion) {
+  const searches = ['Win', 'UNIX', 'Linux']
+  const res = searches.find(search => navigator.appVersion.includes(search))
+  if (res) {
+    modifyScrollbars = true
+  }
+}
+
+const scrollbarStyles = theme =>
+  modifyScrollbars
+    ? {
+        '*::-webkit-scrollbar': {
+          width: scrollbarWidth,
+        },
+
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.text.hint,
+          borderRadius: scrollbarWidth / 2,
+        },
+      }
+    : {}
 
 export default theme => ({
   appWrapper: {
@@ -15,15 +38,7 @@ export default theme => ({
           ? theme.palette.primary.light
           : theme.palette.primary.main,
     },
-
-    '*::-webkit-scrollbar': {
-      width: scrollbarWidth,
-    },
-
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.text.hint,
-      borderRadius: scrollbarWidth / 2,
-    },
+    ...scrollbarStyles(theme),
   },
   root: {
     background: theme.palette.background.default,
