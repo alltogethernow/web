@@ -3,17 +3,12 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { useQuery, useMutation } from 'react-apollo-hooks'
 import useReactRouter from 'use-react-router'
-import {
-  Button,
-  ListItem,
-  ListItemText,
-  CircularProgress,
-} from '@material-ui/core'
+import { Button, ListItem, ListItemText } from '@material-ui/core'
 import Post from '../../Post'
 import { PREVIEW, FOLLOW } from '../../../queries'
 import styles from '../style'
 
-const Preview = ({ classes, url, setActions, handleClose }) => {
+const Preview = ({ classes, url, setActions, setLoading, handleClose }) => {
   const [hasSetActions, setHasSetActions] = useState(false)
 
   const {
@@ -45,30 +40,18 @@ const Preview = ({ classes, url, setActions, handleClose }) => {
     }
   }
 
+  setLoading(loading ? 'Loading preview' : false)
   if (loading) {
-    return (
-      <ListItem>
-        <ListItemText primary="Loading preview..." />
-        <CircularProgress />
-      </ListItem>
-    )
+    return null
   }
 
   if (!hasSetActions && setActions) {
     setHasSetActions(true)
-    setActions([
-      <Button size="small" color="secondary" onClick={handleFollow}>
+    setActions(actions => [
+      <Button size="small" color="primary" onClick={handleFollow}>
         Follow
       </Button>,
-      <Button
-        size="small"
-        onClick={e => {
-          setActions(null)
-          handleClose()
-        }}
-      >
-        Close Preview
-      </Button>,
+      ...actions,
     ])
   }
 

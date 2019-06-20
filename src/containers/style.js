@@ -14,6 +14,7 @@ const scrollbarStyles = theme =>
     ? {
         '*::-webkit-scrollbar': {
           width: scrollbarWidth,
+          height: scrollbarWidth,
         },
 
         '*::-webkit-scrollbar-thumb': {

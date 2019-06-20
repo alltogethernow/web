@@ -1,15 +1,39 @@
 import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import useReactRouter from 'use-react-router'
-import { Card, Fab } from '@material-ui/core'
+import {
+  Card,
+  CardActions,
+  Fab,
+  Button,
+  LinearProgress,
+} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import Search from './Search'
 import Results from './Results'
 import styles from './style'
 
 const AddFeed = ({ classes }) => {
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [search, setSearch] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const defaultActions = [
+    <Button
+      size="small"
+      onClick={() => {
+        setSearch('')
+        handleCancel()
+      }}
+    >
+      Cancel
+    </Button>,
+  ]
+  const [actions, setActions] = useState(defaultActions)
+  if (!actions) {
+    setActions(defaultActions)
+  }
+
   const {
     match: {
       params: { channelSlug },
@@ -21,14 +45,14 @@ const AddFeed = ({ classes }) => {
     if (e && e.preventDefault) {
       e.preventDefault()
     }
-    setSearchOpen(false)
+    setOpen(false)
     setSearch(false)
+    setActions(null)
     return false
   }
 
   const handleSearch = async query => {
     setSearch(query)
-    setSearchOpen(false)
     return false
   }
 
@@ -37,24 +61,31 @@ const AddFeed = ({ classes }) => {
   }
 
   return (
-    <div className={classes.container}>
-      {!!searchOpen && (
-        <Card className={classes.card}>
-          <Search handleSearch={handleSearch} handleCancel={handleCancel} />
-        </Card>
-      )}
-
-      {!!search && (
-        <Card className={classes.card}>
-          <Results query={search} handleCancel={handleCancel} />
-        </Card>
+    <div className={classes.container + (open ? ' is-open' : '')}>
+      {!!open && (
+        <>
+          <div className={classes.toolbarSpacer} />
+          <Card className={classes.card}>
+            {!!loading && <LinearProgress />}
+            <Search handleSearch={handleSearch} />
+            {!!search && (
+              <Results
+                query={search}
+                setActions={setActions}
+                setLoading={setLoading}
+                handleCancel={handleCancel}
+              />
+            )}
+            <CardActions className={classes.actions}>{actions}</CardActions>
+          </Card>
+        </>
       )}
 
       <Fab
         color="secondary"
         aria-label="Add New Subscription"
         className={classes.fabButton}
-        onClick={() => setSearchOpen(true)}
+        onClick={() => setOpen(true)}
       >
         <AddIcon />
       </Fab>

@@ -1,51 +1,51 @@
 import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-import { CardContent, CardActions, Button, TextField } from '@material-ui/core'
+import { TextField, IconButton, InputAdornment } from '@material-ui/core'
+import SearchIcon from '@material-ui/icons/Search'
 import styles from '../style'
 
-const Search = ({ handleCancel, handleSearch, classes }) => {
+const Search = ({ handleSearch, classes }) => {
   const [search, setSearch] = useState('')
 
+  const doSearch = e => {
+    e.preventDefault()
+    if (search) {
+      handleSearch(search)
+    }
+  }
+
   return (
-    <form
-      onSubmit={e => {
-        e.preventDefault()
-        handleSearch(search)
-      }}
-    >
-      <CardContent>
-        <TextField
-          required
-          fullWidth
-          autoFocus={true}
-          type="search"
-          label="Who / What do you want to add?"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="secondary" type="submit">
-          Search
-        </Button>
-        <Button
-          size="small"
-          onClick={() => {
-            setSearch('')
-            handleCancel()
-          }}
-        >
-          Cancel
-        </Button>
-      </CardActions>
+    <form onSubmit={doSearch} className={classes.searchForm}>
+      <TextField
+        fullWidth
+        autoFocus={true}
+        type="search"
+        label="Who / What do you want to add?"
+        variant="outlined"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                size="small"
+                onClick={doSearch}
+                edge="end"
+                aria-label="Search"
+              >
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
     </form>
   )
 }
 
 Search.propTypes = {
   handleSearch: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(Search)

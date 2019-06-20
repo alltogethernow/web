@@ -3,18 +3,16 @@ import { useQuery } from 'react-apollo-hooks'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Avatar,
-  CardActions,
   List,
   ListItem,
   ListItemText,
-  Button,
-  CircularProgress,
+  ListItemAvatar,
 } from '@material-ui/core'
 import Preview from '../Preview'
 import { SEARCH } from '../../../queries'
 import styles from '../style'
 
-const Results = ({ handleCancel, classes, query }) => {
+const Results = ({ classes, query, setActions, setLoading, handleClose }) => {
   const [preview, setPreview] = useState(null)
   const {
     loading,
@@ -22,24 +20,9 @@ const Results = ({ handleCancel, classes, query }) => {
     error,
   } = useQuery(SEARCH, { variables: { query } })
 
-  const defaultActions = [
-    <Button size="small" onClick={handleCancel}>
-      Cancel
-    </Button>,
-  ]
-  const [actions, setActions] = useState(defaultActions)
-
-  if (actions === null) {
-    setActions(defaultActions)
-  }
-
+  setLoading(loading ? 'Finding feeds' : false)
   if (loading) {
-    return (
-      <ListItem>
-        <ListItemText primary="Searching..." />
-        <CircularProgress />
-      </ListItem>
-    )
+    return null
   }
 
   if (error || results.length === 0) {
@@ -51,40 +34,56 @@ const Results = ({ handleCancel, classes, query }) => {
   }
 
   return (
-    <>
-      <List>
-        {results.map((result, i) => (
+    <List className={classes.cardInner}>
+      {results.map((result, i) => (
+        <>
           <ListItem
             button
-            onClick={() => setPreview(result.url)}
+            dense
+            component="li"
+            onClick={() => {
+              setActions(null)
+              setPreview(preview === result.url ? null : result.url)
+            }}
+            className={
+              classes.result + (preview === result.url ? ' is-selected' : '')
+            }
             key={`search-result-${i}`}
           >
-            <Avatar alt="" src={result.photo}>
-              {result.photo
-                ? null
-                : result.url
-                    .replace('https://', '')
-                    .replace('http://', '')
-                    .replace('www.', '')[0]}
-            </Avatar>
+            <ListItemAvatar>
+              <Avatar alt="" src={result.photo}>
+                {result.photo
+                  ? null
+                  : result.url
+                      .replace('https://', '')
+                      .replace('http://', '')
+                      .replace('www.', '')[0]}
+              </Avatar>
+            </ListItemAvatar>
+
             <ListItemText
+              classes={{
+                primary: classes.resultText,
+                secondary: classes.resultText,
+              }}
               primary={result.name || result.url}
               secondary={result.url}
             />
-            {preview === result.url && (
-              <Preview
-                url={result.url}
-                setActions={setActions}
-                handleClose={e => {
-                  setPreview(null)
-                }}
-              />
-            )}
           </ListItem>
-        ))}
-      </List>
-      <CardActions className={classes.actions}>{actions}</CardActions>
-    </>
+          {preview === result.url && (
+            <Preview
+              url={result.url}
+              setActions={setActions}
+              setLoading={setLoading}
+              handleClose={e => {
+                setPreview(null)
+                handleClose()
+              }}
+            />
+          )}
+        </>
+      ))}
+    </List>
   )
 }
 
