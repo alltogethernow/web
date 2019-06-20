@@ -65,7 +65,7 @@ const LandingPage = ({ classes }) => {
             <SocialIcon className={classes.featureIcon} />
             <Typography className={classes.featureText} variant="h5" paragraph>
               Together is a social reader based on{' '}
-              <Link href="https://indieweb.org">IndieWeb</Link> technologies.
+              <Link href="https://indieweb.org">IndieWeb</Link> technologies
             </Typography>
           </Grid>
 
