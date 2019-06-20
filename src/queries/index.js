@@ -230,28 +230,6 @@ export const GET_MUTED = gql`
   ${FRAGMENT_SEARCH_RESULT}
 `
 
-export const GET_NOTIFICATIONS = gql`
-  query Notifications {
-    notifications {
-      channel {
-        ...ChannelFragment
-      }
-      timeline {
-        after
-        before
-        items {
-          ...PostFragment
-          refs {
-            ...PostFragment
-          }
-        }
-      }
-    }
-  }
-
-  ${FRAGMENT_CHANNEL}
-  ${FRAGMENT_POST}
-`
 export const ADD_CHANNEL = gql`
   mutation addChannel($name: String!) {
     addChannel(name: $name) {

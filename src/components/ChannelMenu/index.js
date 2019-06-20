@@ -14,8 +14,9 @@ import useReactRouter from 'use-react-router'
 import ChannelMenuItem from './ChannelMenuItem'
 import NewChannelForm from './NewChannelForm'
 import styles from './style'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useMutation } from 'react-apollo-hooks'
 import useLocalState from '../../hooks/use-local-state'
+import useChannels from '../../hooks/use-channels'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import { GET_CHANNELS, REORDER_CHANNELS } from '../../queries'
 
@@ -37,10 +38,7 @@ const ChannelMenu = ({ classes }) => {
   const { history } = useReactRouter()
   const selectedChannel = useCurrentChannel()
   const [focusedChannel, setFocusedChannel] = useState(selectedChannel._t_slug)
-  const { data, loading, error } = useQuery(GET_CHANNELS, {
-    pollInterval: 60 * 1000,
-  })
-  const channels = data.channels ? data.channels : []
+  const { channels, loading, error } = useChannels()
   const reorderChannels = useMutation(REORDER_CHANNELS)
   const [localState, setLocalState] = useLocalState()
   const ref = React.createRef()
@@ -164,15 +162,17 @@ const ChannelMenu = ({ classes }) => {
             pressDelay={200}
             onSortEnd={handleSort}
           >
-            {channels.map((channel, index) => (
-              <ChannelMenuItem
-                key={`channel-menu-item-${index}`}
-                index={index}
-                channel={channel}
-                isFocused={focusedChannel === channel._t_slug}
-                current={selectedChannel._t_slug === channel._t_slug}
-              />
-            ))}
+            {channels
+              .filter(c => c.uid !== 'notifications')
+              .map((channel, index) => (
+                <ChannelMenuItem
+                  key={`channel-menu-item-${index}`}
+                  index={index}
+                  channel={channel}
+                  isFocused={focusedChannel === channel._t_slug}
+                  current={selectedChannel._t_slug === channel._t_slug}
+                />
+              ))}
           </SortableList>
         )}
 

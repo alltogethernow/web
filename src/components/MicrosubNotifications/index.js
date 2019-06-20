@@ -1,23 +1,25 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useQuery } from 'react-apollo-hooks'
 import { withStyles } from '@material-ui/core/styles'
 import { Popover, Divider, Button, CircularProgress } from '@material-ui/core'
 import OpenButton from './OpenButton'
 import TitleBar from './TitleBar'
 import Post from '../Post'
 import styles from './style'
-import { GET_NOTIFICATIONS } from '../../queries'
-
-// TODO: Check fetch more works
+import useTimeline from '../../hooks/use-timeline'
+import useChannels from '../../hooks/use-channels'
 
 const NotificationsList = ({ classes, buttonClass }) => {
   const [open, setOpen] = useState(false)
   const [anchor, setAnchor] = useState(null)
+  const { channels } = useChannels()
+  const channel = channels.find(c => c.uid === 'notifications')
+  const { data, fetchMore, networkStatus, error } = useTimeline('notifications')
+  const loading = networkStatus < 7
 
-  const { data, loading, error, fetchMore } = useQuery(GET_NOTIFICATIONS, {
-    pollInterval: 60 * 1000,
-  })
+  if (!channel) {
+    return null
+  }
 
   if (error) {
     console.warn('Error loading notifications', error)
@@ -29,10 +31,7 @@ const NotificationsList = ({ classes, buttonClass }) => {
   }
 
   const {
-    notifications: {
-      channel: { name, unread },
-      timeline: { after, items: notifications },
-    },
+    timeline: { after, items: notifications },
   } = data
 
   return (
@@ -40,13 +39,13 @@ const NotificationsList = ({ classes, buttonClass }) => {
       <OpenButton
         open={open}
         loading={loading}
-        unread={unread}
+        unread={channel.unread}
         handleOpen={e => {
           setAnchor(e.target)
           setOpen(true)
         }}
         buttonClass={buttonClass}
-        name={name}
+        name={channel.name}
       />
       <Popover
         open={open}
@@ -88,7 +87,7 @@ const NotificationsList = ({ classes, buttonClass }) => {
             </Button>
           )}
         </div>
-        <TitleBar title={name} unread={unread} />
+        <TitleBar title={channel.name} unread={channel.unread} />
       </Popover>
     </Fragment>
   )
