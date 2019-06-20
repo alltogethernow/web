@@ -30,12 +30,8 @@ const Timeline = ({ classes, posts, channel, loadMore, loading }) => {
     const isSecondLastItem =
       posts.length > 2 && itemId === posts[posts.length - 2]._id
 
-    if (channel && channel._t_infiniteScroll && isSecondLastItem) {
-      if (loadMore) {
-        loadMore()
-        return null
-      }
-      return true
+    if (channel && channel._t_infiniteScroll && isSecondLastItem && loadMore) {
+      loadMore()
     }
 
     return null
@@ -62,7 +58,6 @@ const Timeline = ({ classes, posts, channel, loadMore, loading }) => {
           <InView
             key={`timeline-item-${key}`}
             rootMargin="1px"
-            triggerOnce={true}
             onChange={handleIntersection}
             data-id={posts[index]._id}
             data-isread={posts[index]._is_read}

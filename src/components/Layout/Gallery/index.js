@@ -178,7 +178,6 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
                     <InView
                       rootMargin="0px"
                       threshold={0}
-                      triggerOnce={true}
                       onChange={handleIntersection}
                       data-id={post._id}
                       data-isread={post._is_read}
