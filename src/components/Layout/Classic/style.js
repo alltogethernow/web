@@ -40,6 +40,9 @@ export default theme => ({
       position: 'relative',
     },
   },
+  postShortcuts: {
+    height: '100%',
+  },
   loadMore: {
     width: '100%',
   },

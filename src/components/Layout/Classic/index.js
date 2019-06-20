@@ -134,6 +134,7 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
             onNext={handleNextPost}
             focus={true}
             scrollElement={articleRef.current}
+            className={classes.postShortcuts}
           >
             <Post
               post={posts.find(post => post._id === selectedPostId)}
@@ -145,22 +146,25 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
                 boxShadow: 'none',
               }}
             />
+            <AppBar
+              position="sticky"
+              color="default"
+              style={{ bottom: 0, maxWidth: 700, boxShadow: 'none' }}
+            >
+              <Toolbar variant="dense">
+                <Button
+                  onClick={handlePreviousPost}
+                  disabled={!hasPreviousPost}
+                >
+                  Previous
+                </Button>
+                <Button onClick={handleNextPost} disabled={!hasNextPost}>
+                  Next
+                </Button>
+                <Button onClick={() => setSelectedPostId(null)}>Close</Button>
+              </Toolbar>
+            </AppBar>
           </PostShortcuts>
-          <AppBar
-            position="sticky"
-            color="default"
-            style={{ bottom: 0, maxWidth: 700, boxShadow: 'none' }}
-          >
-            <Toolbar variant="dense">
-              <Button onClick={handlePreviousPost} disabled={!hasPreviousPost}>
-                Previous
-              </Button>
-              <Button onClick={handleNextPost} disabled={!hasNextPost}>
-                Next
-              </Button>
-              <Button onClick={() => setSelectedPostId(null)}>Close</Button>
-            </Toolbar>
-          </AppBar>
         </div>
       )}
     </div>

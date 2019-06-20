@@ -30,6 +30,7 @@ const PostShortcuts = ({
   onNext,
   scrollElement,
   post,
+  className,
   ...props
 }) => {
   const ref = useRef()
@@ -88,6 +89,9 @@ const PostShortcuts = ({
   }
 
   const classNames = [classes.main]
+  if (className) {
+    classNames.push(className)
+  }
   if (localState.focusedComponent === 'post' && focus) {
     classNames.push('is-focused')
   }
