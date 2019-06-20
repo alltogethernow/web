@@ -1,142 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
+import client from '../modules/apollo'
+import Routes from './Routes'
+import Theme from '../components/Theme'
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles'
-import Meta from '../components/Meta'
-import Grid from '@material-ui/core/Grid'
-import { SnackbarProvider } from 'notistack'
-import useLocalState from '../hooks/use-local-state'
-import AppBar from '../components/AppBar'
-import LandingPage from '../components/LandingPage'
-import MainPosts from '../components/Layout'
-import ChannelMenu from '../components/ChannelMenu'
-import AppSettings from '../components/AppSettings'
-import ChannelSettings from '../components/ChannelSettings'
-import Login from '../components/Login'
-import Auth from '../components/Auth'
-import MicropubEditor from '../components/MicropubEditorFull'
-import ErrorBoundary from '../components/ErrorBoundary'
-import GlobalShortcuts from '../components/GlobalShotcuts'
-import ShortcutHelp from '../components/ShortcutHelp'
-import TestMe from '../components/TestMe'
-import style from './style'
-import PropTypes from 'prop-types'
+const App = () => (
+  <ApolloProvider client={client}>
+    <ApolloHooksProvider client={client}>
+      <Theme>
+        <Routes />
+      </Theme>
+    </ApolloHooksProvider>
+  </ApolloProvider>
+)
 
-import { ShortcutManager } from 'react-shortcuts'
-import keymap from '../modules/keymap'
-
-const shortcutManager = new ShortcutManager(keymap)
-
-class ShortcutProvider extends Component {
-  static childContextTypes = {
-    shortcuts: PropTypes.object.isRequired,
-  }
-
-  getChildContext() {
-    return { shortcuts: shortcutManager }
-  }
-
-  render() {
-    return this.props.children
-  }
-}
-
-const AuthedRoute = ({ component: Component, ...routeProps }) => {
-  const [localState] = useLocalState()
-
-  return (
-    <Route
-      {...routeProps}
-      render={props =>
-        localState && localState.token ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
-    />
-  )
-}
-
-const App = ({ classes }) => {
-  const [localState] = useLocalState()
-  const authed = localState && localState.token
-
-  return (
-    <ErrorBoundary>
-      <SnackbarProvider
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Router>
-          <ShortcutProvider>
-            {authed ? (
-              <Switch>
-                <Route path="/about" component={LandingPage} />
-                <Route path="/">
-                  <GlobalShortcuts className={classes.appWrapper}>
-                    <Grid container spacing={0} className={classes.appWrapper}>
-                      <Meta />
-                      <AppBar />
-                      <Grid item container spacing={0} className={classes.root}>
-                        <ChannelMenu />
-                        <main className={classes.main}>
-                          <AuthedRoute exact path="/" component={MainPosts} />
-                          <AuthedRoute
-                            path="/channel/:channelSlug"
-                            component={MainPosts}
-                          />
-                          <AuthedRoute
-                            path="/me/:postType"
-                            component={TestMe}
-                          />
-                          <AuthedRoute path="/me" component={TestMe} />
-                          <AuthedRoute
-                            path="/channel/:channelSlug/edit"
-                            component={ChannelSettings}
-                          />
-                          <AuthedRoute
-                            path="/editor"
-                            component={MicropubEditor}
-                          />
-                          <AuthedRoute
-                            path="/settings"
-                            component={AppSettings}
-                          />
-                          <ShortcutHelp />
-                        </main>
-                        <Route path="/login" component={Login} />
-                        <Route path="/auth" component={Auth} />
-                      </Grid>
-                    </Grid>
-                  </GlobalShortcuts>
-                </Route>
-              </Switch>
-            ) : (
-              <>
-                <Route path="/" exact component={LandingPage} />
-                <Route path="/login" component={Login} />
-                <Route path="/auth" component={Auth} />
-                {/* TODO: Figure out redirect everthing else to home */}
-                {/* <Route>
-                  <Redirect to="/" />
-                </Route> */}
-              </>
-            )}
-          </ShortcutProvider>
-        </Router>
-      </SnackbarProvider>
-    </ErrorBoundary>
-  )
-}
-
-export default withStyles(style)(App)
+export default App
