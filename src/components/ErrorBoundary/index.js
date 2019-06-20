@@ -37,7 +37,7 @@ class ErrorBoundary extends Component {
           </CardContent>
           <CardActions>
             <a
-              href="https://github.com/cleverdevil/together/issues"
+              href="https://github.com/alltogethernow/web/issues"
               target="_blank"
               rel="noopener noreferrer"
             >
