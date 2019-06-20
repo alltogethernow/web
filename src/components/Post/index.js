@@ -40,6 +40,7 @@ const TogetherCard = ({
     shownActions = ['consoleLog', 'markRead', 'remove']
     if (item.url) {
       shownActions.push('view')
+      shownActions.push('refetch')
     }
     if (item.url && !item['likeOf'] && !item['repostOf']) {
       shownActions.push('like', 'repost', 'reply')

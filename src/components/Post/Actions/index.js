@@ -13,6 +13,7 @@ import ActionMarkRead from './MarkRead'
 import ActionRemove from './Remove'
 import ActionMute from './Mute'
 import ActionBlock from './Block'
+import ActionRefetch from './Refetch'
 import style from './style'
 
 const TogetherCardActions = ({
@@ -65,6 +66,14 @@ const TogetherCardActions = ({
         >
           {shownActions.includes('consoleLog') && (
             <ActionConsoleLog post={post} menuItem />
+          )}
+          {shownActions.includes('refetch') && (
+            <ActionRefetch
+              _id={post._id}
+              url={post.url}
+              handleClose={() => setAnchorEl(null)}
+              menuItem
+            />
           )}
           {post._id && shownActions.includes('remove') && (
             <ActionRemove _id={post._id} channel={channelUid} menuItem />
