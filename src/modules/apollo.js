@@ -56,9 +56,11 @@ const logoutLink = onError(({ networkError, graphQLErrors }) => {
       window.location.href = '/login'
     }
   }
-  for (const err of graphQLErrors) {
-    if (err.extensions.code === 'UNAUTHENTICATED') {
-      return handleAuthError()
+  if (graphQLErrors) {
+    for (const err of graphQLErrors) {
+      if (err.extensions.code === 'UNAUTHENTICATED') {
+        return handleAuthError()
+      }
     }
   }
   if (networkError && networkError.statusCode === 401) {
