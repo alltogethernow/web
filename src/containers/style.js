@@ -33,6 +33,14 @@ export default theme => ({
     overflow: 'hidden',
   },
   '@global': {
+    'html, body, #root': {
+      margin: 0,
+      padding: 0,
+      fontFamily: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
+      height: '100%',
+      overflowX: 'hidden',
+      overscrollBehavior: 'none',
+    },
     'a[href^=http]': {
       color:
         theme.palette.type === 'dark'

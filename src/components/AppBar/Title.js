@@ -21,6 +21,19 @@ const AppBarTitle = ({ className }) => {
     <Fragment>
       <Meta title={metaTitle} />
 
+      {title === 'Together' && (
+        <img
+          style={{
+            display: 'block',
+            height: 40,
+            width: 'auto',
+            marginRight: 12,
+          }}
+          src={process.env.PUBLIC_URL + '/icon/icon.svg'}
+          alt="Together icon"
+        />
+      )}
+
       <Typography
         component="h1"
         variant="h6"
