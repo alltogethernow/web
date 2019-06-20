@@ -24,6 +24,7 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import GlobalShortcuts from '../components/GlobalShotcuts'
 import ShortcutHelp from '../components/ShortcutHelp'
 import TestMe from '../components/TestMe'
+import ServiceWorker from '../components/ServiceWorker'
 import style from './style'
 import PropTypes from 'prop-types'
 
@@ -134,6 +135,7 @@ const App = ({ classes }) => {
             )}
           </ShortcutProvider>
         </Router>
+        <ServiceWorker />
       </SnackbarProvider>
     </ErrorBoundary>
   )

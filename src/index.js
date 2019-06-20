@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './containers/App'
-import * as serviceWorker from './service-worker'
 
 const rootEl = document.getElementById('root')
 
@@ -14,5 +13,3 @@ if (module.hot) {
     ReactDOM.render(<NextApp />, rootEl)
   })
 }
-
-serviceWorker.register()
