@@ -51,7 +51,11 @@ const link = split(
 
 const logoutLink = onError(({ networkError, graphQLErrors }) => {
   const handleAuthError = () => {
-    if (window.localStorage.getItem('token')) {
+    if (
+      window.localStorage.getItem('token') &&
+      window.location.pathname !== '/auth'
+    ) {
+      console.warn('[Auth error]', 'Deleting token and sending to login')
       window.localStorage.removeItem('token')
       window.location.href = '/login'
     }

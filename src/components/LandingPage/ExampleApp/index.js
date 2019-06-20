@@ -68,7 +68,7 @@ const ExampleApp = ({ classes }) => {
         </Drawer>
         <div className={classes.timeline}>
           {selectedPreview === 'timeline' && (
-            <Timeline posts={exampleData[selectedPreview].items} />
+            <Timeline posts={exampleData[selectedPreview].items} channel={{}} />
           )}
           {selectedPreview === 'classic' && (
             <Classic posts={exampleData[selectedPreview].items} channel={{}} />
@@ -78,7 +78,7 @@ const ExampleApp = ({ classes }) => {
           )}
           {selectedPreview === 'map' && (
             <div className={classes.exampleMap}>
-              <Map posts={exampleData[selectedPreview].items} />
+              <Map posts={exampleData[selectedPreview].items} channel={{}} />
             </div>
           )}
         </div>

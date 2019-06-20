@@ -30,8 +30,8 @@ const Auth = props => {
     setLoading(true)
     try {
       const urlParams = new URLSearchParams(window.location.search)
-      const code = decodeURIComponent(urlParams.get('code'))
-      const state = decodeURIComponent(urlParams.get('state'))
+      const code = urlParams.get('code')
+      const state = urlParams.get('state')
       const { data, errors } = await login({ variables: { code, state } })
       if (errors) {
         console.error('[Error logging in]', errors)
@@ -40,11 +40,11 @@ const Auth = props => {
       }
       if (data && data.login && data.login.token) {
         const jwt = data.login.token
-        localStorage.setItem('token', jwt)
         enqueueSnackbar(`Welcome to Together`)
         client.resetStore()
+        localStorage.setItem('token', jwt)
         window.location.href = '/'
-        setStatus(true)
+        // setStatus(true)
       }
     } catch (err) {
       console.error('[Error logging in]', err)

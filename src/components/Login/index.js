@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import {
-  Button,
   TextField,
   Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle,
   LinearProgress,
+  InputAdornment,
+  IconButton,
 } from '@material-ui/core'
+import LoginIcon from '@material-ui/icons/Send'
 import gql from 'graphql-tag'
 import { useMutation } from 'react-apollo-hooks'
 import useLocalState from '../../hooks/use-local-state'
@@ -72,18 +74,19 @@ const Login = ({ onClose }) => {
             style={{ margin: '1em 0' }}
             value={me}
             onChange={e => setMe(e.target.value)}
+            variant="outlined"
             disabled={loading}
             fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton type="submit" edge="end" aria-label="Login">
+                    <LoginIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            style={{ width: '100%', paddingTop: 15, paddingBottom: 15 }}
-            disabled={loading}
-          >
-            Login
-          </Button>
         </form>
       </DialogContent>
     </Dialog>
