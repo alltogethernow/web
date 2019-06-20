@@ -19,6 +19,13 @@ const LandingPage = ({ classes }) => {
       <Meta title="Together - A social reader" />
       <div className={classes.header}>
         <div className={classes.container}>
+          <img
+            className={classes.logo}
+            src={process.env.PUBLIC_URL + '/icon/icon.svg'}
+            alt="Together icon"
+            width={100}
+            height={100}
+          />
           <Typography variant="h2" className={classes.title}>
             Together
           </Typography>

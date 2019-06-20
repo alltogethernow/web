@@ -21,6 +21,14 @@ export default theme => {
       color: theme.palette.getContrastText(theme.palette.primary.main),
       boxShadow: theme.shadows[3],
     },
+    logo: {
+      display: 'block',
+      width: 100,
+      height: 100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginBottom: theme.spacing(2),
+    },
     title: {
       lineHeight: 1.2,
       marginBottom: theme.spacing(2),
