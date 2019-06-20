@@ -8,7 +8,7 @@
     "RUN npm install serve -g",
     "RUN npm install",
     "ENV NODE_ENV production",
-    "ENV PUBLIC_URL https://together-web.tpxl.io",
+    "ENV PUBLIC_URL https://alltogethernow.io",
     "ENV REACT_APP_SERVER https://together-server.tpxl.io",
     "ENV REACT_APP_SUBSCRIPTION_SERVER wss://together-server.tpxl.io/graphql",
     "RUN npm run build",
