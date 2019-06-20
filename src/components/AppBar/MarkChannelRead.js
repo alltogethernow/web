@@ -8,7 +8,7 @@ const MarkChannelRead = ({ classes }) => {
   const channel = useCurrentChannel()
   const markChannelRead = useMarkChannelRead()
 
-  if (!channel.unread) {
+  if (channel.unread === 0) {
     return null
   }
 
