@@ -43,6 +43,7 @@ export default theme => {
       right: 8,
       marginTop: '-1em',
       minWidth: '2em',
+      minHeight: '2em',
       background: dark
         ? theme.palette.primary.dark
         : theme.palette.primary.light,

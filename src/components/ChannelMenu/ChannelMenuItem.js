@@ -8,14 +8,6 @@ import styles from './style'
 
 const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
   const [localState, setLocalState] = useLocalState()
-  let unreadCount = null
-  if (channel.unread) {
-    unreadCount = (
-      <span className={classes.unread}>
-        {typeof channel.unread === 'number' ? channel.unread : ''}
-      </span>
-    )
-  }
 
   return (
     <ListItem
@@ -36,7 +28,10 @@ const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
         }}
         primary={
           <>
-            {channel.name} {unreadCount}
+            {channel.name}
+            {(channel.unread || channel.unread === null) && (
+              <span className={classes.unread}>{channel.unread}</span>
+            )}
           </>
         }
       />
