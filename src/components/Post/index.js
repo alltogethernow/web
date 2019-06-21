@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
+import { Card, CardHeader, CardMedia, Chip } from '@material-ui/core'
 import Shortcuts from './Shortcuts'
 import AuthorAvatar from '../AuthorAvatar'
 import TogetherCardContent from './Content'
@@ -11,6 +9,7 @@ import TogetherCardPhotos from './Photos'
 import TogetherCardLocation from './Location'
 import TogetherCardReplyContext from './ReplyContext'
 import TogetherCardActions from './Actions'
+import PostMeta from './Meta'
 import moment from 'moment'
 import authorToAvatarData from '../../modules/author-to-avatar-data'
 import styles from './style'
@@ -166,6 +165,8 @@ const TogetherCard = ({
       {!item['repostOf'] && (
         <TogetherCardContent expandable={expandableContent} post={item} />
       )}
+
+      <PostMeta item={item} />
 
       {property('checkin', ({ value: location }) => (
         <TogetherCardLocation location={location} author={item.author} />

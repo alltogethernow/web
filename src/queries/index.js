@@ -77,6 +77,9 @@ export const FRAGMENT_POST_PROPERTIES = gql`
     published
     postType
     name
+    category
+    postStatus
+    visibility
     likeOf
     repostOf
     quotationOf
@@ -363,5 +366,17 @@ export const UNFOLLOW = gql`
 export const MICROPUB_CREATE = gql`
   mutation MicropubCreate($json: String!) {
     micropubCreate(json: $json)
+  }
+`
+
+export const MICROPUB_DELETE = gql`
+  mutation MicropubDelete($url: String!) {
+    micropubDelete(url: $url)
+  }
+`
+
+export const MICROPUB_UNDELETE = gql`
+  mutation MicropubUndelete($url: String!) {
+    micropubUndelete(url: $url)
   }
 `

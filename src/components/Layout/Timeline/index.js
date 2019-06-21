@@ -10,7 +10,14 @@ import Shortcuts from '../Shortcuts'
 import Post from '../../Post'
 import styles from './style'
 
-const Timeline = ({ classes, posts, channel, loadMore, loading }) => {
+const Timeline = ({
+  classes,
+  posts,
+  channel,
+  loadMore,
+  loading,
+  shownActions = null,
+}) => {
   const ref = useRef()
   const markRead = useMarkRead()
 
@@ -62,7 +69,7 @@ const Timeline = ({ classes, posts, channel, loadMore, loading }) => {
             data-id={posts[index]._id}
             data-isread={posts[index]._is_read}
           >
-            <Post post={posts[index]} />
+            <Post post={posts[index]} shownActions={shownActions} />
           </InView>
         )}
         length={posts.length}
