@@ -63,6 +63,12 @@ const MicropubForm = ({
             multiline={true}
             rowsMax={!expanded ? 6 : null}
             autoFocus={!expanded && props.id === 'mf2_content'}
+            onKeyDown={e => {
+              const ctrlEnter = e.keyCode === 13 && (e.ctrlKey || e.metaKey)
+              if (ctrlEnter) {
+                onSubmit(micropub)
+              }
+            }}
           />
         )}
         labelComponent={props => (

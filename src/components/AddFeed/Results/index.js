@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { useQuery } from 'react-apollo-hooks'
 import { withStyles } from '@material-ui/core/styles'
 import {
@@ -36,7 +36,7 @@ const Results = ({ classes, query, setActions, setLoading, handleClose }) => {
   return (
     <List className={classes.cardInner}>
       {results.map((result, i) => (
-        <>
+        <Fragment key={`search-result-${i}`}>
           <ListItem
             button
             dense
@@ -48,7 +48,6 @@ const Results = ({ classes, query, setActions, setLoading, handleClose }) => {
             className={
               classes.result + (preview === result.url ? ' is-selected' : '')
             }
-            key={`search-result-${i}`}
           >
             <ListItemAvatar>
               <Avatar alt="" src={result.photo}>
@@ -81,7 +80,7 @@ const Results = ({ classes, query, setActions, setLoading, handleClose }) => {
               }}
             />
           )}
-        </>
+        </Fragment>
       ))}
     </List>
   )

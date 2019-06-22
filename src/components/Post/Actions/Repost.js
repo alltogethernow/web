@@ -4,11 +4,12 @@ import { useSnackbar } from 'notistack'
 import RepostIcon from '@material-ui/icons/Repeat'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
-import SnackbarLinkAction from '../../SnackbarLinkAction'
-import { MICROPUB_CREATE } from '../../../queries'
+import SnackbarLinkAction from '../../SnackbarActions/Link'
+import SnackbarUndo from '../../SnackbarActions/Undo'
+import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../../queries'
 
 const ActionRepost = ({ url, menuItem }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { user } = useUser()
   let mf2 = {
     type: ['h-entry'],
@@ -24,6 +25,7 @@ const ActionRepost = ({ url, menuItem }) => {
       json: JSON.stringify(mf2),
     },
   })
+  const micropubDelete = useMutation(MICROPUB_DELETE)
 
   const onClick = async e => {
     try {
@@ -32,11 +34,20 @@ const ActionRepost = ({ url, menuItem }) => {
       } = await createRepost()
       enqueueSnackbar('Successfully reposted', {
         variant: 'success',
-        action: [<SnackbarLinkAction url={postUrl} />],
+        action: key => [
+          <SnackbarLinkAction url={postUrl} />,
+          <SnackbarUndo
+            onClick={async e => {
+              closeSnackbar(key)
+              await micropubDelete({ variables: { url: postUrl } })
+              enqueueSnackbar('Deleted repost', { variant: 'success' })
+            }}
+          />,
+        ],
       })
     } catch (err) {
       console.error('Error reposting', err)
-      enqueueSnackbar('Error reposting', { variant: 'errpr' })
+      enqueueSnackbar('Error reposting', { variant: 'error' })
     }
   }
   return (

@@ -4,16 +4,15 @@ import LinkIcon from '@material-ui/icons/Link'
 
 const SnackbarLinkAction = ({ url }) => {
   return (
-    <a
+    <IconButton
+      component="a"
       href={url}
       target="_blank"
       rel="noopener noreferrer"
       style={{ color: 'inherit' }}
     >
-      <IconButton style={{ color: 'inherit' }}>
-        <LinkIcon />
-      </IconButton>
-    </a>
+      <LinkIcon />
+    </IconButton>
   )
 }
 

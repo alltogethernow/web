@@ -4,11 +4,12 @@ import { useSnackbar } from 'notistack'
 import LikeIcon from '@material-ui/icons/ThumbUp'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
-import SnackbarLinkAction from '../../SnackbarLinkAction'
-import { MICROPUB_CREATE } from '../../../queries'
+import SnackbarLinkAction from '../../SnackbarActions/Link'
+import SnackbarUndoAction from '../../SnackbarActions/Undo'
+import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../../queries'
 
 const ActionLike = ({ url, menuItem }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { user } = useUser()
   let mf2 = {
     type: ['h-entry'],
@@ -24,6 +25,7 @@ const ActionLike = ({ url, menuItem }) => {
       json: JSON.stringify(mf2),
     },
   })
+  const micropubDelete = useMutation(MICROPUB_DELETE)
 
   const onClick = async e => {
     try {
@@ -32,7 +34,16 @@ const ActionLike = ({ url, menuItem }) => {
       } = await createLike()
       enqueueSnackbar('Posted Like', {
         variant: 'success',
-        action: [<SnackbarLinkAction url={postUrl} />],
+        action: key => [
+          <SnackbarLinkAction url={postUrl} />,
+          <SnackbarUndoAction
+            onClick={async e => {
+              closeSnackbar(key)
+              await micropubDelete({ variables: { url: postUrl } })
+              enqueueSnackbar('Like deleted', { variant: 'success' })
+            }}
+          />,
+        ],
       })
     } catch (err) {
       console.error('Error posting like', err)

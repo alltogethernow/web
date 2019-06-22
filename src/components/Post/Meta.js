@@ -9,7 +9,8 @@ const metaProperties = ['postStatus', 'visibility', 'category']
 
 const styles = theme => ({
   chip: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
 })
 

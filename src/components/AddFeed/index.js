@@ -20,6 +20,7 @@ const AddFeed = ({ classes }) => {
 
   const defaultActions = [
     <Button
+      key="feed-action-cancel"
       size="small"
       onClick={() => {
         setSearch('')
@@ -73,7 +74,7 @@ const AddFeed = ({ classes }) => {
                 query={search}
                 setActions={setActions}
                 setLoading={setLoading}
-                handleCancel={handleCancel}
+                handleClose={handleCancel}
               />
             )}
             <CardActions className={classes.actions}>{actions}</CardActions>

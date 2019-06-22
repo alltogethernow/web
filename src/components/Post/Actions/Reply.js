@@ -2,21 +2,30 @@ import React, { Fragment, useState } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { useSnackbar } from 'notistack'
 import ReplyIcon from '@material-ui/icons/Reply'
-import Popover from '@material-ui/core/Popover'
+import { Popover, LinearProgress } from '@material-ui/core'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
-import SnackbarLinkAction from '../../SnackbarLinkAction'
+import SnackbarLink from '../../SnackbarActions/Link'
+import SnackbarUndo from '../../SnackbarActions/Undo'
 import MicropubForm from '../../MicropubForm'
-import { MICROPUB_CREATE } from '../../../queries'
+import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../../queries'
 
-const ActionReply = ({ url, syndication, menuItem }) => {
-  const { enqueueSnackbar } = useSnackbar()
+const ActionReply = ({ url, menuItem }) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { user } = useUser()
+  const [loading, setLoading] = useState(false)
   const [popoverAnchor, setPopoverAnchor] = useState(null)
+  const [defaultProperties, setDefaultProperties] = useState({
+    'in-reply-to': url,
+  })
 
   const createRepost = useMutation(MICROPUB_CREATE)
+  const micropubDelete = useMutation(MICROPUB_DELETE)
 
   const handleSubmit = async mf2 => {
+    setLoading(true)
+    const properties = mf2.properties
+    const oldPopoverAnchor = popoverAnchor
     try {
       const {
         data: { micropubCreate: postUrl },
@@ -25,20 +34,39 @@ const ActionReply = ({ url, syndication, menuItem }) => {
           json: JSON.stringify(mf2),
         },
       })
+      setLoading(false)
       enqueueSnackbar('Posted reply', {
         variant: 'success',
-        action: [<SnackbarLinkAction url={postUrl} />],
+        action: key => [
+          <SnackbarLink url={postUrl} />,
+          <SnackbarUndo
+            onClick={async e => {
+              closeSnackbar(key)
+              await micropubDelete({ variables: { url: postUrl } })
+              enqueueSnackbar('Deleted reply', { variant: 'success' })
+              setDefaultProperties(properties)
+              setPopoverAnchor(oldPopoverAnchor)
+            }}
+          />,
+        ],
       })
     } catch (err) {
+      setLoading(false)
       console.error('Error posting like', err)
       enqueueSnackbar('Error posting like', { variant: 'error' })
     }
     setPopoverAnchor(null)
   }
 
-  let defaultProperties = { 'in-reply-to': url }
-  if (user && user.settings.noteSyndication.length) {
-    defaultProperties['mp-syndicate-to'] = user.settings.noteSyndication
+  if (
+    user &&
+    user.settings.noteSyndication.length &&
+    !defaultProperties['mp-syndicate-to']
+  ) {
+    setDefaultProperties({
+      ...defaultProperties,
+      'mp-syndicate-to': user.settings.noteSyndication,
+    })
   }
 
   return (
@@ -69,6 +97,7 @@ const ActionReply = ({ url, syndication, menuItem }) => {
             properties={defaultProperties}
           />
         </div>
+        {loading && <LinearProgress />}
       </Popover>
     </Fragment>
   )

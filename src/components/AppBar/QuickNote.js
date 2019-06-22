@@ -2,19 +2,24 @@ import React, { useState, Fragment } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { useSnackbar } from 'notistack'
 import { withStyles } from '@material-ui/core/styles'
-import { Popover, IconButton, Tooltip } from '@material-ui/core'
+import { Popover, IconButton, Tooltip, LinearProgress } from '@material-ui/core'
 import NoteIcon from '@material-ui/icons/Edit'
 import useUser from '../../hooks/use-user'
 import MicropubForm from '../MicropubForm'
 import styles from './style'
-import SnackbarLinkAction from '../SnackbarLinkAction'
-import { MICROPUB_CREATE } from '../../queries'
+import SnackbarLinkAction from '../SnackbarActions/Link'
+import SnackbarUndoAction from '../SnackbarActions/Undo'
+import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../queries'
+import { defaultMakeCacheKey } from 'optimism'
 
 const QuickNote = ({ classes }) => {
   const { user } = useUser()
   const [popoverAnchor, setPopoverAnchor] = useState(null)
-  const { enqueueSnackbar } = useSnackbar()
+  const [loading, setLoading] = useState(false)
+  const [defaultProperties, setDefaultProperties] = useState({})
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const createNote = useMutation(MICROPUB_CREATE)
+  const deleteMicropub = useMutation(MICROPUB_DELETE)
 
   const supportsMicropub = user && user.hasMicropub
   if (!supportsMicropub) {
@@ -22,6 +27,9 @@ const QuickNote = ({ classes }) => {
   }
 
   const handleSubmit = async mf2 => {
+    const originalAnchor = popoverAnchor
+    const properties = mf2.properties
+    setLoading(true)
     try {
       const {
         data: { micropubCreate: postUrl },
@@ -30,20 +38,39 @@ const QuickNote = ({ classes }) => {
           json: JSON.stringify(mf2),
         },
       })
+      setLoading(false)
       enqueueSnackbar('Posted note', {
         variant: 'success',
-        action: [<SnackbarLinkAction url={postUrl} />],
+        action: key => [
+          <SnackbarLinkAction url={postUrl} />,
+          <SnackbarUndoAction
+            onClick={async e => {
+              closeSnackbar(key)
+              await deleteMicropub({ variables: { url: postUrl } })
+              enqueueSnackbar('Deleted post', { variant: 'success' })
+              setDefaultProperties(properties)
+              setPopoverAnchor(originalAnchor)
+            }}
+          />,
+        ],
       })
     } catch (err) {
+      setLoading(false)
       console.error('Error posting note', err)
       enqueueSnackbar('Error posting note', { variant: 'error' })
     }
     setPopoverAnchor(null)
   }
 
-  let defaultProperties = {}
-  if (user && user.settings.noteSyndication.length) {
-    defaultProperties['mp-syndicate-to'] = user.settings.noteSyndication
+  if (
+    user &&
+    user.settings.noteSyndication.length &&
+    !defaultProperties['mp-syndicate-to']
+  ) {
+    setDefaultProperties({
+      ...defaultProperties,
+      'mp-syndicate-to': user.settings.noteSyndication,
+    })
   }
 
   return (
@@ -78,6 +105,7 @@ const QuickNote = ({ classes }) => {
             onClose={() => setPopoverAnchor(null)}
           />
         </div>
+        {loading && <LinearProgress />}
       </Popover>
     </Fragment>
   )
