@@ -1,6 +1,6 @@
 {
   "name": "together",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "private": true,
   "devDependencies": {
     "react-scripts": "^3.0.1"
@@ -21,6 +21,7 @@
     "graphql-tag": "^2.10.1",
     "install": "^0.12.2",
     "intersection-observer": "^0.7.0",
+    "lodash": "^4.17.11",
     "micropub-client-editor": "^1.0.7",
     "moment": "^2.24.0",
     "notistack": "^0.8.6",

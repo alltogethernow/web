@@ -369,6 +369,12 @@ export const MICROPUB_CREATE = gql`
   }
 `
 
+export const MICROPUB_UPDATE = gql`
+  mutation MicropubUpdate($json: String!, $url: String!) {
+    micropubUpdate(json: $json, url: $url)
+  }
+`
+
 export const MICROPUB_DELETE = gql`
   mutation MicropubDelete($url: String!) {
     micropubDelete(url: $url)

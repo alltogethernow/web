@@ -16,6 +16,7 @@ import ActionBlock from './Block'
 import ActionRefetch from './Refetch'
 import ActionMicropubDelete from './MicropubDelete'
 import ActionMicropubUndelete from './MicropubUndelete'
+import ActionMicropubUpdate from './MicropubUpdate'
 import style from './style'
 
 const TogetherCardActions = ({
@@ -36,12 +37,15 @@ const TogetherCardActions = ({
         {hasMicropub && post.url && shownActions.includes('like') && (
           <ActionLike url={post.url} />
         )}
+
         {hasMicropub && post.url && shownActions.includes('repost') && (
           <ActionRepost url={post.url} />
         )}
+
         {hasMicropub && post.url && shownActions.includes('reply') && (
           <ActionReply url={post.url} />
         )}
+
         {shownActions.includes('markRead') && (
           <ActionMarkRead
             _id={post._id}
@@ -49,8 +53,13 @@ const TogetherCardActions = ({
             isRead={post._is_read}
           />
         )}
+
         {post.url && shownActions.includes('view') && (
           <ActionView url={post.url} />
+        )}
+
+        {post.url && shownActions.includes('micropubUpdate') && (
+          <ActionMicropubUpdate post={post} />
         )}
 
         <IconButton
@@ -61,6 +70,7 @@ const TogetherCardActions = ({
         >
           <MoreVertIcon />
         </IconButton>
+
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}

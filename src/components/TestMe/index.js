@@ -91,6 +91,7 @@ const MicropubPosts = props => {
               'view',
               'micropubDelete',
               'micropubUndelete',
+              'micropubUpdate',
             ]}
             loadMore={loadMore}
           />

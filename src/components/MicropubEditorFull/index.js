@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { useMutation } from 'react-apollo-hooks'
 import useMicropubCreate from '../../hooks/use-micropub-create'
+import useMicropubUpdate from '../../hooks/use-micropub-update'
 import MicropubForm from '../MicropubForm'
 import SnackbarLinkAction from '../SnackbarActions/Link'
 import SnackbarUndo from '../SnackbarActions/Undo'
@@ -16,34 +17,77 @@ const FullMicropubEditor = ({ classes, location: { state } }) => {
     state && state.properties ? state.properties : {}
   )
   const create = useMicropubCreate()
+  const micropubUpdate = useMicropubUpdate()
   const micropubDelete = useMutation(MICROPUB_DELETE)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const update = !!state.update
 
   const handleSubmit = async mf2 => {
     try {
       setLoading(true)
-      const postUrl = await create(mf2)
-      enqueueSnackbar('Successfully posted', {
-        variant: 'success',
-        action: key => [
-          <SnackbarLinkAction url={postUrl} />,
-          <SnackbarUndo
-            onClick={async e => {
-              const tmpProperties = properties
-              closeSnackbar(key)
-              await micropubDelete({ variables: { url: postUrl } })
-              enqueueSnackbar('Post deleted', { variant: 'success' })
-              setProperties(tmpProperties)
-            }}
-          />,
-        ],
-      })
-      setLoading(false)
-      setProperties({})
+
+      if (!update) {
+        const postUrl = await create(mf2)
+        enqueueSnackbar('Successfully posted', {
+          variant: 'success',
+          action: key => [
+            <SnackbarLinkAction url={postUrl} />,
+            <SnackbarUndo
+              onClick={async e => {
+                const tmpProperties = properties
+                closeSnackbar(key)
+                await micropubDelete({ variables: { url: postUrl } })
+                enqueueSnackbar('Post deleted', { variant: 'success' })
+                setProperties(tmpProperties)
+              }}
+            />,
+          ],
+        })
+        setLoading(false)
+        setProperties({})
+      } else {
+        let update = {}
+        for (const key in mf2.properties) {
+          if (mf2.properties.hasOwnProperty(key)) {
+            const value = mf2.properties[key]
+            if (!state.properties.hasOwnProperty(key)) {
+              update[key] = value
+            } else if (
+              typeof value[0] === 'string' &&
+              value[0] !== state.properties[key][0]
+            ) {
+              update[key] = value
+            } else if (key === 'content') {
+              if (
+                state.properties.content[0].html &&
+                state.properties.content[0].html.trim() !== value[0].html.trim()
+              ) {
+                update.content = value
+              }
+            }
+          }
+        }
+        if (Object.keys(update).length === 0) {
+          enqueueSnackbar(`It looks like you haven't changed anything`, {
+            variant: 'error',
+          })
+        } else {
+          const updateUrl = await micropubUpdate(state.properties.url[0], {
+            replace: update,
+          })
+          enqueueSnackbar('Post updated', {
+            variant: 'success',
+            action: key => [<SnackbarLinkAction url={updateUrl} />],
+          })
+        }
+        setLoading(false)
+      }
     } catch (err) {
       setLoading(false)
-      console.error('Error creating post', err)
-      enqueueSnackbar('Error creating post', { type: 'error' })
+      console.error(update ? 'Error updating post' : 'Error creating post', err)
+      enqueueSnackbar(update ? 'Error updating post' : 'Error creating post', {
+        variant: 'error',
+      })
     }
   }
 

@@ -5,6 +5,7 @@ import { IconButton, Menu, MenuItem, Tooltip } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useLocalState from '../../hooks/use-local-state'
+import useUser from '../../hooks/use-user'
 import LayoutSwitcher from '../LayoutSwitcher'
 import { version } from '../../../package.json'
 
@@ -12,6 +13,7 @@ const SettingsMenu = ({ classes }) => {
   const client = useApolloClient()
   const [anchorEl, setAnchorEl] = useState(null)
   const [localState, setLocalState] = useLocalState()
+  const { user } = useUser()
   const channel = useCurrentChannel()
 
   const logout = e => {
@@ -44,17 +46,19 @@ const SettingsMenu = ({ classes }) => {
         open={!!anchorEl}
         onClose={e => setAnchorEl(null)}
       >
-        {!!channel._t_slug && (
-          <Link
-            to={`/channel/${channel._t_slug}/edit`}
-            className={classes.menuItem}
-          >
-            <MenuItem>Channel Settings</MenuItem>
-          </Link>
+        {user && user.hasMicropub && (
+          <MenuItem component={Link} to="/me">
+            My Posts
+          </MenuItem>
         )}
-        <Link to="/settings" className={classes.menuItem}>
-          <MenuItem>App Settings</MenuItem>
-        </Link>
+        {!!channel._t_slug && (
+          <MenuItem component={Link} to={`/channel/${channel._t_slug}/edit`}>
+            Channel Settings
+          </MenuItem>
+        )}
+        <MenuItem component={Link} to="/settings">
+          App Settings
+        </MenuItem>
         <MenuItem
           onClick={() =>
             setLocalState({
@@ -64,6 +68,7 @@ const SettingsMenu = ({ classes }) => {
         >
           {localState.theme === 'light' ? 'Dark' : 'Light'} Mode
         </MenuItem>
+
         <MenuItem onClick={logout}>Logout</MenuItem>
         <MenuItem>Version {version}</MenuItem>
         <LayoutSwitcher className={classes.layoutSwitcher} />
