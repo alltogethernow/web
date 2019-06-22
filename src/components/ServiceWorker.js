@@ -8,7 +8,7 @@ const ReloadButton = () => {
   return (
     <IconButton
       style={{ color: 'inherit' }}
-      onClick={() => window.location.reload()}
+      onClick={() => window.location.reload(true)}
     >
       <ReloadIcon />
     </IconButton>
@@ -20,10 +20,16 @@ const ServiceWorker = () => {
 
   useEffect(() => {
     serviceWorker.register({
-      onUpdate: () =>
+      onUpdate: reg => {
+        try {
+          reg.waiting.postMessage('skipWaiting')
+        } catch (err) {
+          console.error('Error skipping service worker waiting', err)
+        }
         enqueueSnackbar('New version available. Click to reload.', {
           action: [<ReloadButton />],
-        }),
+        })
+      },
     })
   }, [])
 
