@@ -44,6 +44,27 @@ const MicropubPosts = props => {
   } = useQuery(GET_POSTS, query)
   const loading = networkStatus < 7
 
+  const loadMore =
+    res && res.items && res.items.length
+      ? () => {
+          fetchMore({
+            query: GET_POSTS,
+            variables: { postType, after: res.after },
+            updateQuery: (previousResult, { fetchMoreResult }) => ({
+              micropubPosts: {
+                after: fetchMoreResult.micropubPosts.after,
+                before: previousResult.micropubPosts.before,
+                items: [
+                  ...previousResult.micropubPosts.items,
+                  ...fetchMoreResult.micropubPosts.items,
+                ],
+                __typename: previousResult.micropubPosts.__typename,
+              },
+            }),
+          })
+        }
+      : null
+
   return (
     <div
       style={{
@@ -65,24 +86,13 @@ const MicropubPosts = props => {
             posts={res.items}
             channel={true}
             loading={loading}
-            shownActions={['consoleLog', 'view', 'micropubDelete']}
-            loadMore={() => {
-              fetchMore({
-                query: GET_POSTS,
-                variables: { postType, after: res.after },
-                updateQuery: (previousResult, { fetchMoreResult }) => ({
-                  micropubPosts: {
-                    after: fetchMoreResult.micropubPosts.after,
-                    before: previousResult.micropubPosts.before,
-                    items: [
-                      ...previousResult.micropubPosts.items,
-                      ...fetchMoreResult.micropubPosts.items,
-                    ],
-                    __typename: previousResult.micropubPosts.__typename,
-                  },
-                }),
-              })
-            }}
+            shownActions={[
+              'consoleLog',
+              'view',
+              'micropubDelete',
+              'micropubUndelete',
+            ]}
+            loadMore={loadMore}
           />
         )}
         {loading && (

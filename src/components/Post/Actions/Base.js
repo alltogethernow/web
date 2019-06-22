@@ -1,11 +1,14 @@
 import React from 'react'
-import MenuItem from '@material-ui/core/MenuItem'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
+import { MenuItem, Tooltip, IconButton, ListItemIcon } from '@material-ui/core'
 
 const TogetherCardBaseAction = ({ title, icon, onClick, menuItem = false }) => {
   if (menuItem) {
-    return <MenuItem onClick={onClick}>{title}</MenuItem>
+    return (
+      <MenuItem dense onClick={onClick}>
+        <ListItemIcon style={{ minWidth: 42 }}>{icon}</ListItemIcon>
+        {title}
+      </MenuItem>
+    )
   } else {
     return (
       <Tooltip title={title} placement="top">

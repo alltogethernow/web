@@ -15,6 +15,7 @@ import ActionMute from './Mute'
 import ActionBlock from './Block'
 import ActionRefetch from './Refetch'
 import ActionMicropubDelete from './MicropubDelete'
+import ActionMicropubUndelete from './MicropubUndelete'
 import style from './style'
 
 const TogetherCardActions = ({
@@ -81,8 +82,15 @@ const TogetherCardActions = ({
           )}
           {hasMicropub &&
             post.url &&
+            post.postStatus !== 'deleted' &&
             shownActions.includes('micropubDelete') && (
               <ActionMicropubDelete url={post.url} menuItem />
+            )}
+          {hasMicropub &&
+            post.url &&
+            post.postStatus === 'deleted' &&
+            shownActions.includes('micropubUndelete') && (
+              <ActionMicropubUndelete url={post.url} menuItem />
             )}
           {post.author && post.author.url && (
             <ActionMute url={post.author.url} channel={channelUid} menuItem />

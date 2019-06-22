@@ -5,30 +5,11 @@ import { useSnackbar } from 'notistack'
 import { useMutation } from 'react-apollo-hooks'
 import { MICROPUB_DELETE } from '../../../queries'
 
-const ActionRemove = ({ url, menuItem }) => {
+const ActionDelete = ({ url, menuItem }) => {
   const { enqueueSnackbar } = useSnackbar()
 
   const removePost = useMutation(MICROPUB_DELETE, {
     variables: { url },
-    // optimisticResponse: {
-    //   __typename: 'Mutation',
-    //   removePost: {
-    //     _id,
-    //     __typename: 'Post',
-    //   },
-    // },
-    update: (proxy, _) => {
-      // TODO: Change post status to deleted
-      // Read the data from our cache for this query.
-      // const data = proxy.readQuery({
-      //   query: GET_TIMELINE,
-      //   variables: { channel },
-      // })
-      // Find and remove the post
-      // data.timeline.items = data.timeline.items.filter(post => post._id !== _id)
-      // Write our data back to the cache.
-      // proxy.writeQuery({ query: GET_TIMELINE, variables: { channel }, data })
-    },
   })
 
   const handleRemove = async e => {
@@ -51,4 +32,4 @@ const ActionRemove = ({ url, menuItem }) => {
   )
 }
 
-export default ActionRemove
+export default ActionDelete
