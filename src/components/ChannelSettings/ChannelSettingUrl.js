@@ -13,13 +13,12 @@ import styles from './style'
 
 const ChannelSettingsUrl = ({
   classes,
-  url: urlString,
+  url,
+  name,
   type,
   onRemove,
   onRemoveLabel,
 }) => {
-  const url = new URL(urlString)
-
   return (
     <ListItem>
       <ListItemText
@@ -27,12 +26,12 @@ const ChannelSettingsUrl = ({
         secondary={type ? `(${type})` : null}
       >
         <Link
-          href={url.href}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           color="secondary"
         >
-          {url.host + (url.pathname !== '/' ? url.pathname : '')}
+          {name}
         </Link>
       </ListItemText>
 
