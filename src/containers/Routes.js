@@ -24,6 +24,7 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import GlobalShortcuts from '../components/GlobalShotcuts'
 import ShortcutHelp from '../components/ShortcutHelp'
 import TestMe from '../components/TestMe'
+import Donate from '../components/Donate'
 import ServiceWorker from '../components/ServiceWorker'
 import style from './style'
 import PropTypes from 'prop-types'
@@ -114,6 +115,7 @@ const App = ({ classes }) => {
                             component={AppSettings}
                           />
                           <ShortcutHelp />
+                          <Route path="/donate" component={Donate} />
                         </main>
                         <Route path="/login" component={Login} />
                         <Route path="/auth" component={Auth} />

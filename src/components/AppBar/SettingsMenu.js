@@ -46,14 +46,14 @@ const SettingsMenu = ({ classes }) => {
         open={!!anchorEl}
         onClose={e => setAnchorEl(null)}
       >
-        {user && user.hasMicropub && (
-          <MenuItem component={Link} to="/me">
-            My Posts
-          </MenuItem>
-        )}
         {!!channel._t_slug && (
           <MenuItem component={Link} to={`/channel/${channel._t_slug}/edit`}>
             Channel Settings
+          </MenuItem>
+        )}
+        {user && user.hasMicropub && (
+          <MenuItem component={Link} to="/me">
+            My Posts
           </MenuItem>
         )}
         <MenuItem component={Link} to="/settings">
@@ -68,7 +68,9 @@ const SettingsMenu = ({ classes }) => {
         >
           {localState.theme === 'light' ? 'Dark' : 'Light'} Mode
         </MenuItem>
-
+        <MenuItem component={Link} to="/donate">
+          Donate
+        </MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
         <MenuItem>Version {version}</MenuItem>
         <LayoutSwitcher className={classes.layoutSwitcher} />
