@@ -3,11 +3,26 @@ import { Typography } from '@material-ui/core'
 import Meta from '../Meta'
 import Post from '../Post'
 
+const isUrl = string => {
+  try {
+    new URL(string)
+    return true
+  } catch (_) {
+    return false
+  }
+}
+
 const Share = () => {
   const parsedUrl = new URL(window.location)
   const title = parsedUrl.searchParams.get('title')
   const text = parsedUrl.searchParams.get('text')
-  const url = parsedUrl.searchParams.get('url')
+  let url = parsedUrl.searchParams.get('url')
+
+  if (!url && isUrl(title)) {
+    url = title
+  } else if (!url && isUrl(text)) {
+    url = text
+  }
 
   let cardTitle = 'Sharing'
   if (url) {
