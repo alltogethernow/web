@@ -20,7 +20,7 @@ const FullMicropubEditor = ({ classes, location: { state } }) => {
   const micropubUpdate = useMicropubUpdate()
   const micropubDelete = useMutation(MICROPUB_DELETE)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const update = !!state.update
+  const update = state && !!state.update
 
   const handleSubmit = async mf2 => {
     try {

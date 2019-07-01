@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +23,7 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import GlobalShortcuts from '../components/GlobalShotcuts'
 import ShortcutHelp from '../components/ShortcutHelp'
 import TestMe from '../components/TestMe'
+import Share from '../components/Share'
 import Donate from '../components/Donate'
 import ServiceWorker from '../components/ServiceWorker'
 import style from './style'
@@ -115,6 +115,7 @@ const App = ({ classes }) => {
                             component={AppSettings}
                           />
                           <ShortcutHelp />
+                          <Route path="/share" component={Share} />
                           <Route path="/donate" component={Donate} />
                         </main>
                         <Route path="/login" component={Login} />

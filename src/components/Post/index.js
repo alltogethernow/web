@@ -76,11 +76,13 @@ const TogetherCard = ({
         focus={focus}
       > */}
       {item.featured && <TogetherCardPhotos photos={item.featured} />}
-      <CardHeader
-        title={authorNameLink}
-        subheader={date}
-        avatar={<AuthorAvatar author={item.author || '?'} />}
-      />
+      {(date !== 'unknown' || item.author) && (
+        <CardHeader
+          title={authorNameLink}
+          subheader={date}
+          avatar={<AuthorAvatar author={item.author || '?'} />}
+        />
+      )}
 
       {property('inReplyTo', ({ value: url }) => (
         <TogetherCardReplyContext

@@ -18,5 +18,15 @@
   "display": "standalone",
   "theme_color": "#104ebf",
   "background_color": "#104ebf",
-  "orientation": "portrait-primary"
+  "orientation": "portrait-primary",
+  "share_target": {
+    "action": "/share/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
