@@ -8,6 +8,10 @@ export default function(uid = null) {
   const channel = useCurrentChannel()
   const channelUid = uid ? uid : channel.uid
 
+  if (!channelUid) {
+    return { data: null, fetchMore: () => {}, networkStatus: 7, error: null }
+  }
+
   // Get the initial timeline
   const query = useQuery(GET_TIMELINE, {
     variables: { channel: channelUid },
