@@ -49,7 +49,7 @@ const link = split(
   httpLink
 )
 
-const logoutLink = onError(({ networkError, graphQLErrors }) => {
+const logoutLink = onError(({ networkError, graphQLErrors, operation }) => {
   const handleAuthError = () => {
     if (
       window.localStorage.getItem('token') &&
@@ -64,6 +64,54 @@ const logoutLink = onError(({ networkError, graphQLErrors }) => {
     for (const err of graphQLErrors) {
       if (err.extensions.code === 'UNAUTHENTICATED') {
         return handleAuthError()
+      } else {
+        console.error('GraphQL Error')
+        console.error({ graphQLError: err, operation })
+        const newIssueUrl = new URL(
+          'https://github.com/alltogethernow/server/issues/new'
+        )
+        newIssueUrl.searchParams.set('template', 'bug_report.md')
+        newIssueUrl.searchParams.set('title', 'GraphQL Error: ' + err.message)
+        newIssueUrl.searchParams.set('labels', 'U0001F41B bug')
+
+        const errorJson =
+          '```javascript\n' + JSON.stringify(err, '\n', 2) + '\n```'
+        const operationInfo = {
+          operationName: operation.operationName,
+          variables: operation.variables,
+          query: {
+            kind: operation.query.kind,
+            loc: operation.query.loc,
+          },
+        }
+        const operationJson =
+          '```javascript\n' + JSON.stringify(operationInfo, '\n', 2) + '\n```'
+
+        newIssueUrl.searchParams.set(
+          'body',
+          `
+**Describe the bug**
+I encountered a GraphQL error: \`${err.message}\` on the url ${
+            window.location.url
+          }
+
+**Expected Behavior**
+{{A clear and concise description of what you expected to happen.}}
+
+**More Info**
+{{Add any other context about the problem here.}}
+
+**Error Message**
+${errorJson}
+
+**Operation Info**
+${operationJson}
+`
+        )
+        console.warn(
+          'If you think this is a bug, please open an issue here: ' +
+            newIssueUrl.href
+        )
       }
     }
   }
