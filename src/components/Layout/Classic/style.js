@@ -46,6 +46,21 @@ export default theme => ({
   loadMore: {
     width: '100%',
   },
+  post: {
+    margin: 0,
+    minHeight: 'calc(100% - 48px)',
+    maxWidth: 700,
+    boxShadow: 'none',
+    paddingBottom: 48, // This is kind of a hack because safari position fixed is broken
+  },
+  postNav: {
+    top: 'auto',
+    width: '100%',
+    left: 0,
+    bottom: 0,
+    maxWidth: 700,
+    boxShadow: 'none',
+  },
   closePost: {
     [theme.breakpoints.up('sm')]: {
       display: 'none',

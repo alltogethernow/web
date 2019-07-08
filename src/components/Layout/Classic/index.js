@@ -139,17 +139,12 @@ const ClassicView = ({ classes, posts, channel, loadMore, loading }) => {
             <Post
               post={posts.find(post => post._id === selectedPostId)}
               expandableContent={false}
-              style={{
-                margin: 0,
-                minHeight: 'calc(100% - 48px)',
-                maxWidth: 700,
-                boxShadow: 'none',
-              }}
+              className={classes.post}
             />
             <AppBar
               position="sticky"
               color="default"
-              style={{ bottom: 0, maxWidth: 700, boxShadow: 'none' }}
+              className={classes.postNav}
             >
               <Toolbar variant="dense">
                 <Button

@@ -21,6 +21,7 @@ const TogetherCard = ({
   hideProperties,
   style,
   classes,
+  className,
   scrollElement,
   shortcutOnNext,
   focus,
@@ -68,7 +69,7 @@ const TogetherCard = ({
   }
 
   return (
-    <Card className={classes.card} style={style}>
+    <Card className={classes.card + ' ' + className} style={style}>
       {/* <Shortcuts
         post={item}
         scrollElement={scrollElement}
