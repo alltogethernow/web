@@ -11,10 +11,22 @@ import Timeline from './Timeline'
 import layouts from '../../modules/layouts'
 import styles from './style'
 
-const Layout = ({ classes }) => {
-  const channel = useCurrentChannel()
-  const { data, fetchMore, networkStatus } = useTimeline()
+const NoContent = ({ classes }) => (
+  <div className={classes.noPosts}>
+    <Typography variant="h5" component="h2">
+      <span role="img" aria-label="">
+        🤷‍
+      </span>{' '}
+      Nothing to show
+    </Typography>
+    <Typography component="p">
+      Maybe you need to subscribe to a site or select a different channel
+    </Typography>
+  </div>
+)
 
+const Content = ({ classes, channel }) => {
+  const { data, fetchMore, networkStatus } = useTimeline(channel.uid)
   // Use the correct component for the channel view
   const layout = channel && channel._t_layout ? channel._t_layout : 'timeline'
   const viewFilter = layouts.find(l => l.id === layout).filter
@@ -42,21 +54,11 @@ const Layout = ({ classes }) => {
   )
 
   return (
-    <div style={{ height: '100%' }}>
+    <>
       {networkStatus < 7 && <LinearProgress className={classes.loading} />}
 
       {isEmpty ? (
-        <div className={classes.noPosts}>
-          <Typography variant="h5" component="h2">
-            <span role="img" aria-label="">
-              🤷‍
-            </span>{' '}
-            Nothing to show
-          </Typography>
-          <Typography component="p">
-            Maybe you need to subscribe to a site or select a different channel
-          </Typography>
-        </div>
+        <NoContent classes={classes} />
       ) : (
         <View
           posts={data.timeline.items.filter(viewFilter)}
@@ -66,6 +68,19 @@ const Layout = ({ classes }) => {
         />
       )}
 
+      <AddFeed />
+    </>
+  )
+}
+
+const Layout = ({ classes }) => {
+  const channel = useCurrentChannel()
+
+  return (
+    <div style={{ height: '100%' }}>
+      {channel && channel.uid && (
+        <Content classes={classes} channel={channel} />
+      )}
       <AddFeed />
     </div>
   )

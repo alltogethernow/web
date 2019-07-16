@@ -3,18 +3,10 @@ import { useQuery, useSubscription } from 'react-apollo-hooks'
 import useCurrentChannel from './use-current-channel'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
 
-export default function(uid = null) {
-  // Get selected channel
-  const channel = useCurrentChannel()
-  const channelUid = uid ? uid : channel.uid
-
-  if (!channelUid) {
-    return { data: null, fetchMore: () => {}, networkStatus: 7, error: null }
-  }
-
+export default function(channel) {
   // Get the initial timeline
   const query = useQuery(GET_TIMELINE, {
-    variables: { channel: channelUid },
+    variables: { channel },
     notifyOnNetworkStatusChange: true,
   })
 
@@ -32,16 +24,16 @@ export default function(uid = null) {
 
   // Refetch the timeline if going back to a cached channel timeline
   useEffect(() => {
-    if (query.refetch && channelUid && !query.loading) {
+    if (query.refetch && channel && !query.loading) {
       setTimeout(query.refetch, 200)
     }
-  }, [channelUid])
+  }, [channel])
 
   // Also subscribe to the timeline to get updates via websocket
   useSubscription(TIMELINE_SUBSCRIPTION, {
     variables: {
       before,
-      channel: channelUid,
+      channel,
     },
     onSubscriptionData: ({
       client,
@@ -82,7 +74,7 @@ export default function(uid = null) {
     ) {
       query.fetchMore({
         query: GET_TIMELINE,
-        variables: { channel: channelUid, after: query.data.timeline.after },
+        variables: { channel, after: query.data.timeline.after },
         updateQuery: (previousResult, { fetchMoreResult }) => ({
           timeline: {
             channel: fetchMoreResult.timeline.channel,
@@ -99,5 +91,7 @@ export default function(uid = null) {
     }
   }
 
-  return Object.assign({}, query, { fetchMore })
+  return Object.assign({ data: null, networkStatus: 7, error: null }, query, {
+    fetchMore,
+  })
 }
