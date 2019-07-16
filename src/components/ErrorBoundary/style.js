@@ -1,6 +1,7 @@
 export default {
   card: {
-    maxWidth: 345,
+    maxWidth: '96%',
+    width: 400,
     position: 'fixed',
     top: '50%',
     left: '50%',
