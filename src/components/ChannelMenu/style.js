@@ -37,23 +37,10 @@ export default theme => {
       padding: theme.spacing(1),
       paddingBottom: 0,
     },
-    unread: {
-      position: 'absolute',
-      top: '50%',
-      right: 8,
-      marginTop: '-1em',
-      minWidth: '2em',
-      minHeight: '2em',
-      background: dark
-        ? theme.palette.primary.dark
-        : theme.palette.primary.light,
-      color: theme.palette.primary.contrastText,
-      fontWeight: 'bold',
-      fontSize: '0.6em',
-      textAlign: 'center',
-      lineHeight: 1,
-      padding: '.5em',
-      borderRadius: '1em',
+    channelTextRoot: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
     },
   }
 }

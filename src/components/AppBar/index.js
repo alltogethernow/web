@@ -37,14 +37,12 @@ const TogetherAppBar = ({ classes }) => {
 
         <AppBarTitle className={classes.title} />
 
-        <div>
-          <MarkChannelRead classes={classes} />
-          <QuickNote />
+        <MarkChannelRead classes={classes} />
+        <QuickNote />
 
-          <MicrosubNotifications buttonClass={classes.menuAction} />
+        <MicrosubNotifications buttonClass={classes.menuAction} />
 
-          <SettingsMenu classes={classes} />
-        </div>
+        <SettingsMenu classes={classes} />
       </Toolbar>
     </AppBar>
   )

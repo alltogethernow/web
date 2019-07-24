@@ -28,6 +28,11 @@ export default theme => ({
   menuAction: {
     color: theme.palette.primary.contrastText,
   },
+  menuAvatar: {
+    color: theme.palette.primary.contrastText,
+    marginLeft: 7,
+    cursor: 'pointer',
+  },
   menuItem: {
     display: 'block',
     outline: 'none',

@@ -1,12 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApolloClient } from 'react-apollo-hooks'
-import { IconButton, Menu, MenuItem, Tooltip } from '@material-ui/core'
+import { IconButton, Menu, MenuItem, Tooltip, Avatar } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useLocalState from '../../hooks/use-local-state'
 import useUser from '../../hooks/use-user'
 import LayoutSwitcher from '../LayoutSwitcher'
+import getImageProxyUrl from '../../modules/get-image-proxy-url'
 import { version } from '../../../package.json'
 
 const SettingsMenu = ({ classes }) => {
@@ -25,12 +26,21 @@ const SettingsMenu = ({ classes }) => {
   return (
     <Fragment>
       <Tooltip title="Settings" placement="bottom">
-        <IconButton
-          onClick={e => setAnchorEl(e.currentTarget)}
-          className={classes.menuAction}
-        >
-          <SettingsIcon />
-        </IconButton>
+        {user && user.photo ? (
+          <Avatar
+            alt="Settings"
+            src={user && user.photo ? getImageProxyUrl(user.photo) : null}
+            onClick={e => setAnchorEl(e.currentTarget)}
+            className={classes.menuAvatar}
+          />
+        ) : (
+          <IconButton
+            onClick={e => setAnchorEl(e.currentTarget)}
+            className={classes.menuAction}
+          >
+            <SettingsIcon />
+          </IconButton>
+        )}
       </Tooltip>
 
       <Menu
