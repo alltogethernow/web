@@ -58,6 +58,13 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      // Skip waiting when requested
+      registration.addEventListener('message', function(event) {
+        if (event.data === 'skipWaiting') {
+          registration.skipWaiting()
+        }
+      })
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
         if (installingWorker == null) {

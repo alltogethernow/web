@@ -9,17 +9,18 @@ import styles from './style'
 import useTimeline from '../../hooks/use-timeline'
 import useChannels from '../../hooks/use-channels'
 
-const NotificationsList = ({ classes, buttonClass }) => {
-  const [open, setOpen] = useState(false)
-  const [anchor, setAnchor] = useState(null)
+const Channel = props => {
   const { channels } = useChannels()
   const channel = channels.find(c => c.uid === 'notifications')
+
+  return channel ? <NotificationsList channel={channel} {...props} /> : null
+}
+
+const NotificationsList = ({ classes, buttonClass, channel }) => {
+  const [open, setOpen] = useState(false)
+  const [anchor, setAnchor] = useState(null)
   const { data, fetchMore, networkStatus, error } = useTimeline('notifications')
   const loading = networkStatus < 7
-
-  if (!channel) {
-    return null
-  }
 
   if (error) {
     console.warn('Error loading notifications', error)
@@ -101,4 +102,4 @@ NotificationsList.propTypes = {
   buttonClass: PropTypes.string.isRequired,
 }
 
-export default withStyles(styles)(NotificationsList)
+export default withStyles(styles)(Channel)

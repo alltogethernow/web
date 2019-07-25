@@ -4,11 +4,22 @@ import { IconButton } from '@material-ui/core'
 import ReloadIcon from '@material-ui/icons/Refresh'
 import * as serviceWorker from '../service-worker'
 
-const ReloadButton = () => {
+const ReloadButton = ({ reg }) => {
+  const { enqueueSnackbar } = useSnackbar()
+
   return (
     <IconButton
       style={{ color: 'inherit' }}
-      onClick={() => window.location.reload(true)}
+      onClick={() => {
+        try {
+          const res = reg.waiting.postMessage('skipWaiting')
+          console.log({ res })
+          // window.location.reload(true)
+        } catch (err) {
+          console.error('[Error skipping service worker waiting]', err)
+          enqueueSnackbar('Error loading new version', { variant: 'error' })
+        }
+      }}
     >
       <ReloadIcon />
     </IconButton>
@@ -21,13 +32,8 @@ const ServiceWorker = () => {
   useEffect(() => {
     serviceWorker.register({
       onUpdate: reg => {
-        try {
-          reg.waiting.postMessage('skipWaiting')
-        } catch (err) {
-          console.error('Error skipping service worker waiting', err)
-        }
         enqueueSnackbar('New version available. Click to reload.', {
-          action: [<ReloadButton />],
+          action: [<ReloadButton reg={reg} />],
         })
       },
     })
