@@ -12,6 +12,7 @@ import { SnackbarProvider } from 'notistack'
 import useLocalState from '../hooks/use-local-state'
 import AppBar from '../components/AppBar'
 import LandingPage from '../components/LandingPage'
+import Home from '../components/Home'
 import MainPosts from '../components/Layout'
 import ChannelMenu from '../components/ChannelMenu'
 import AppSettings from '../components/AppSettings'
@@ -47,7 +48,6 @@ class ShortcutProvider extends Component {
     return this.props.children
   }
 }
-
 const AuthedRoute = ({ component: Component, ...routeProps }) => {
   const [localState] = useLocalState()
 
@@ -92,7 +92,7 @@ const App = ({ classes }) => {
                       <Grid item container spacing={0} className={classes.root}>
                         <ChannelMenu />
                         <main className={classes.main}>
-                          <AuthedRoute exact path="/" component={MainPosts} />
+                          <AuthedRoute exact path="/" component={Home} />
                           <AuthedRoute
                             path="/channel/:channelSlug"
                             component={MainPosts}
@@ -127,13 +127,12 @@ const App = ({ classes }) => {
               </Switch>
             ) : (
               <>
-                <Route path="/" exact component={LandingPage} />
-                <Route path="/login" component={Login} />
-                <Route path="/auth" component={Auth} />
-                {/* TODO: Figure out redirect everthing else to home */}
-                {/* <Route>
-                  <Redirect to="/" />
-                </Route> */}
+                <Route path="/" component={LandingPage} />
+                <Switch>
+                  <Route path="/login" component={Login} />
+                  <Route path="/auth" component={Auth} />
+                  <Route component={() => <Redirect to="/" />} />
+                </Switch>
               </>
             )}
           </ShortcutProvider>
