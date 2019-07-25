@@ -32,6 +32,10 @@ export default theme => ({
     color: theme.palette.primary.contrastText,
     marginLeft: 7,
     cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      width: 34,
+      height: 34,
+    },
   },
   menuItem: {
     display: 'block',
