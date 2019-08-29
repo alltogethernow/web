@@ -91,9 +91,7 @@ const logoutLink = onError(({ networkError, graphQLErrors, operation }) => {
           'body',
           `
 **Describe the bug**
-I encountered a GraphQL error: \`${err.message}\` on the url ${
-            window.location.url
-          }
+I encountered a GraphQL error: \`${err.message}\` on the url ${window.location.url}
 
 **Expected Behavior**
 {{A clear and concise description of what you expected to happen.}}
@@ -145,8 +143,9 @@ const cache = new InMemoryCache({
         return defaultDataIdFromObject(object)
       case 'PostAuthor':
         // Authors should have an url but not always
-        if (object.url) {
-          return object.url
+        // NOTE: Even if the url is the same there may be different authors on the same url
+        if (object.url && object.name) {
+          return object.url + '#' + object.name
         }
         // Not so unique
         return defaultDataIdFromObject(object)
