@@ -72,6 +72,7 @@ export const FRAGMENT_POST_PROPERTIES = gql`
   fragment PostProperties on Post {
     _id
     _is_read
+    _source
     type
     url
     published
@@ -132,12 +133,23 @@ export const GET_TIMELINE = gql`
     $channel: String!
     $after: String
     $before: String
+    $source: String
     $limit: Int
   ) {
-    timeline(channel: $channel, after: $after, before: $before, limit: $limit) {
+    timeline(
+      channel: $channel
+      after: $after
+      before: $before
+      limit: $limit
+      source: $source
+    ) {
       channel
       after
       before
+      source {
+        _id
+        name
+      }
       items {
         ...PostFragment
         refs {
@@ -166,6 +178,10 @@ export const TIMELINE_SUBSCRIPTION = gql`
       channel
       after
       before
+      source {
+        _id
+        name
+      }
       items {
         ...PostFragment
         refs {

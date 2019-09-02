@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useSubscription } from 'react-apollo-hooks'
-import useCurrentChannel from './use-current-channel'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
 
-export default function(channel) {
+export default function(channel, source = null) {
   // Get the initial timeline
   const query = useQuery(GET_TIMELINE, {
-    variables: { channel },
+    variables: { channel, source },
     notifyOnNetworkStatusChange: true,
   })
 
@@ -34,6 +33,7 @@ export default function(channel) {
     variables: {
       before,
       channel,
+      source,
     },
     onSubscriptionData: ({
       client,
@@ -49,16 +49,22 @@ export default function(channel) {
           // Get the currently cached timeline
           const cache = client.readQuery({
             query: GET_TIMELINE,
-            variables: { channel: timeline.channel },
+            variables: {
+              channel: timeline.channel,
+              source: timeline.source ? timeline.source._id : null,
+            },
           })
           // Update cached before
           cache.timeline.before = timeline.before
           // Add any new items to the start of the cache
-          cache.timeline.items = [...timeline.items, ...cache.timeline.items]
+          cache.timeline.items.unshift(...timeline.items)
           // Store the cache again
           client.writeQuery({
             query: GET_TIMELINE,
-            variables: { channel: timeline.channel },
+            variables: {
+              channel: timeline.channel,
+              source: timeline.source ? timeline.source._id : null,
+            },
             data: cache,
           })
         }
@@ -74,7 +80,7 @@ export default function(channel) {
     ) {
       query.fetchMore({
         query: GET_TIMELINE,
-        variables: { channel, after: query.data.timeline.after },
+        variables: { channel, source, after: query.data.timeline.after },
         updateQuery: (previousResult, { fetchMoreResult }) => ({
           timeline: {
             channel: fetchMoreResult.timeline.channel,

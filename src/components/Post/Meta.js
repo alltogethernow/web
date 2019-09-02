@@ -39,9 +39,8 @@ const PostMeta = ({ item = {}, classes }) => {
       {!!item.category &&
         item.category.map((cat, i) => {
           return (
-            <Tooltip title="Category">
+            <Tooltip title="Category" key={`post-${item._id}-category-${i}`}>
               <Chip
-                key={`post-${item._id}-category-${i}`}
                 className={classes.chip}
                 label={cat}
                 icon={<CategoryIcon />}

@@ -23,6 +23,7 @@ import MicropubEditor from '../components/MicropubEditorFull'
 import ErrorBoundary from '../components/ErrorBoundary'
 import GlobalShortcuts from '../components/GlobalShotcuts'
 import ShortcutHelp from '../components/ShortcutHelp'
+import Source from '../components/Source'
 import TestMe from '../components/TestMe'
 import Share from '../components/Share'
 import Donate from '../components/Donate'
@@ -105,6 +106,10 @@ const App = ({ classes }) => {
                           <AuthedRoute
                             path="/channel/:channelSlug/edit"
                             component={ChannelSettings}
+                          />
+                          <AuthedRoute
+                            path="/channel/:channelSlug/:source"
+                            component={Source}
                           />
                           <AuthedRoute
                             path="/editor"

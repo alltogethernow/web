@@ -25,6 +25,7 @@ const SettingsModal = ({
   singleColumn,
   onClose,
   title,
+  contentStyle,
   ...dialogProps
 }) => {
   const { history } = useReactRouter()
@@ -63,6 +64,7 @@ const SettingsModal = ({
       <div className={classes.wrapper}>
         <DialogContent
           className={singleColumn ? classes.singleColumn : classes.twoColumns}
+          style={contentStyle}
         >
           {children}
         </DialogContent>

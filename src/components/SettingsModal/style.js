@@ -11,6 +11,9 @@ export default theme => ({
   title: {
     flex: 1,
     fontWeight: 'normal',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   singleColumn: {
     display: 'block',

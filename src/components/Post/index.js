@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Card, CardHeader, CardMedia, Chip } from '@material-ui/core'
+import { Card, CardMedia } from '@material-ui/core'
 import Shortcuts from './Shortcuts'
-import AuthorAvatar from '../AuthorAvatar'
+import TogetherCardHeader from './Header'
 import TogetherCardContent from './Content'
 import TogetherCardPhotos from './Photos'
 import TogetherCardLocation from './Location'
@@ -11,7 +11,6 @@ import TogetherCardReplyContext from './ReplyContext'
 import TogetherCardActions from './Actions'
 import PostMeta from './Meta'
 import moment from 'moment'
-import authorToAvatarData from '../../modules/author-to-avatar-data'
 import styles from './style'
 
 const TogetherCard = ({
@@ -27,9 +26,6 @@ const TogetherCard = ({
   focus,
   channel,
 }) => {
-  // Parse author data
-  const avatarData = authorToAvatarData(item.author)
-
   // Parse published date
   let date = 'unknown'
   if (item.published) {
@@ -46,14 +42,6 @@ const TogetherCard = ({
       shownActions.push('like', 'repost', 'reply')
     }
   }
-
-  const authorNameLink = avatarData.href ? (
-    <a href={avatarData.href} target="_blank" rel="noopener noreferrer">
-      {avatarData.alt}
-    </a>
-  ) : (
-    avatarData.alt
-  )
 
   const property = (name, El) => {
     let value = item[name]
@@ -78,11 +66,7 @@ const TogetherCard = ({
       > */}
       {item.featured && <TogetherCardPhotos photos={item.featured} />}
       {(date !== 'unknown' || item.author) && (
-        <CardHeader
-          title={authorNameLink}
-          subheader={date}
-          avatar={<AuthorAvatar author={item.author || '?'} />}
-        />
+        <TogetherCardHeader item={item} />
       )}
 
       {property('inReplyTo', ({ value: url }) => (
