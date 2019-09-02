@@ -8,7 +8,10 @@ import Content from './Content'
 import styles from './style'
 
 const ContentFetcher = ({ channel }) => {
-  const { data, fetchMore, networkStatus } = useTimeline(channel.uid)
+  const { data, fetchMore, networkStatus } = useTimeline({
+    channel: channel.uid,
+    unreadOnly: channel._t_unreadOnly,
+  })
 
   return (
     <Content

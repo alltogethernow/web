@@ -17,10 +17,10 @@ const Source = ({
   const muiTheme = theme(localState.theme)
   const { history } = useReactRouter()
   const channel = useCurrentChannel()
-  const { data, fetchMore, networkStatus, loading } = useTimeline(
-    channel.uid,
-    source
-  )
+  const { data, fetchMore, networkStatus, loading } = useTimeline({
+    source,
+    channel: channel.uid,
+  })
 
   const handleClose = () => {
     if (history) {

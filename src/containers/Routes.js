@@ -103,14 +103,16 @@ const App = ({ classes }) => {
                             component={TestMe}
                           />
                           <AuthedRoute path="/me" component={TestMe} />
-                          <AuthedRoute
-                            path="/channel/:channelSlug/edit"
-                            component={ChannelSettings}
-                          />
-                          <AuthedRoute
-                            path="/channel/:channelSlug/:source"
-                            component={Source}
-                          />
+                          <Switch>
+                            <AuthedRoute
+                              path="/channel/:channelSlug/edit"
+                              component={ChannelSettings}
+                            />
+                            <AuthedRoute
+                              path="/channel/:channelSlug/:source"
+                              component={Source}
+                            />
+                          </Switch>
                           <AuthedRoute
                             path="/editor"
                             component={MicropubEditor}

@@ -19,7 +19,9 @@ const Channel = props => {
 const NotificationsList = ({ classes, buttonClass, channel }) => {
   const [open, setOpen] = useState(false)
   const [anchor, setAnchor] = useState(null)
-  const { data, fetchMore, networkStatus, error } = useTimeline('notifications')
+  const { data, fetchMore, networkStatus, error } = useTimeline({
+    channel: 'notifications',
+  })
   const loading = networkStatus < 7
 
   if (error) {

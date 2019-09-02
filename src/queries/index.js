@@ -17,6 +17,7 @@ export const FRAGMENT_CHANNEL = gql`
     _t_layout
     _t_autoRead
     _t_infiniteScroll
+    _t_unreadOnly
   }
 `
 
@@ -135,6 +136,7 @@ export const GET_TIMELINE = gql`
     $before: String
     $source: String
     $limit: Int
+    $unreadOnly: Boolean
   ) {
     timeline(
       channel: $channel
@@ -142,6 +144,7 @@ export const GET_TIMELINE = gql`
       before: $before
       limit: $limit
       source: $source
+      unreadOnly: $unreadOnly
     ) {
       channel
       after
@@ -168,12 +171,16 @@ export const TIMELINE_SUBSCRIPTION = gql`
     $limit: Int
     $before: String
     $after: String
+    $source: String
+    $unreadOnly: Boolean
   ) {
     timelineSubscription(
       channel: $channel
       limit: $limit
       before: $before
       after: $after
+      source: $source
+      unreadOnly: $unreadOnly
     ) {
       channel
       after
@@ -279,6 +286,7 @@ export const UPDATE_CHANNEL = gql`
     $_t_layout: String
     $_t_autoRead: Boolean
     $_t_infiniteScroll: Boolean
+    $_t_unreadOnly: Boolean
   ) {
     updateChannel(
       uid: $uid
@@ -288,6 +296,7 @@ export const UPDATE_CHANNEL = gql`
       _t_layout: $_t_layout
       _t_autoRead: $_t_autoRead
       _t_infiniteScroll: $_t_infiniteScroll
+      _t_unreadOnly: $_t_unreadOnly
     ) {
       ...ChannelFragment
     }

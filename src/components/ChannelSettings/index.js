@@ -171,6 +171,24 @@ const ChannelSettings = ({ classes }) => {
               </ListItemSecondaryAction>
             </ListItem>
 
+            <ListItem
+              button
+              onClick={e =>
+                handleUpdate('_t_unreadOnly', !!!channel._t_unreadOnly)
+              }
+            >
+              <ListItemText>Only Show Unread Items</ListItemText>
+              <ListItemSecondaryAction>
+                <Switch
+                  checked={!!channel._t_unreadOnly}
+                  value="unreadOnlyChecked"
+                  onChange={e =>
+                    handleUpdate('_t_unreadOnly', !!!channel._t_unreadOnly)
+                  }
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+
             <ListItem>
               <ListItemText>
                 <Button
