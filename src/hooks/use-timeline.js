@@ -3,10 +3,17 @@ import { useQuery, useSubscription } from 'react-apollo-hooks'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
 
 export default function({ channel, source = null, unreadOnly = false }) {
-  console.log('use timeline unread only', unreadOnly)
+  const variables = { channel }
+  if (source !== null) {
+    variables.source = source
+  }
+  if (unreadOnly === true) {
+    variables.unreadOnly = true
+  }
+
   // Get the initial timeline
   const query = useQuery(GET_TIMELINE, {
-    variables: { channel, source, unreadOnly },
+    variables,
     notifyOnNetworkStatusChange: true,
   })
 
@@ -31,12 +38,7 @@ export default function({ channel, source = null, unreadOnly = false }) {
 
   // Also subscribe to the timeline to get updates via websocket
   useSubscription(TIMELINE_SUBSCRIPTION, {
-    variables: {
-      before,
-      channel,
-      source,
-      unreadOnly,
-    },
+    variables: { ...variables, before },
     onSubscriptionData: ({
       client,
       subscriptionData: {
@@ -83,9 +85,7 @@ export default function({ channel, source = null, unreadOnly = false }) {
       query.fetchMore({
         query: GET_TIMELINE,
         variables: {
-          channel,
-          source,
-          unreadOnly,
+          ...variables,
           after: query.data.timeline.after,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => ({

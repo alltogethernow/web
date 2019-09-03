@@ -51,7 +51,7 @@ const Source = ({
           data={data}
           fetchMore={data.after ? fetchMore : null}
           networkStatus={networkStatus}
-          channel={channel}
+          channel={{ ...channel, _t_layout: 'timeline' }}
         />
       )}
     </SettingsModal>

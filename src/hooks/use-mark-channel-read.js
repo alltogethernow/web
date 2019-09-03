@@ -48,7 +48,7 @@ export default function() {
         })
 
         const channelData = proxy.readQuery({ query: GET_CHANNELS })
-        channelData.channel.unread = 0
+        channelData.channels.find(c => c.uid === channel).unread = 0
         proxy.writeQuery({ query: GET_CHANNELS, data: channelData })
       },
     })
