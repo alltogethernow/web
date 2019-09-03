@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { useSnackbar } from 'notistack'
-import { CircularProgress } from '@material-ui/core'
 import RefetchIcon from '@material-ui/icons/Refresh'
 import BaseAction from './Base'
 import { REFETCH_POST } from '../../../queries'
@@ -34,6 +33,7 @@ const ActionRefetch = ({ url, _id, menuItem, handleClose }) => {
       onClick={onClick}
       icon={<RefetchIcon />}
       menuItem={menuItem}
+      loading={loading}
     />
   )
 }

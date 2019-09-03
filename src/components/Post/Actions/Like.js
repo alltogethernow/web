@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { useSnackbar } from 'notistack'
 import LikeIcon from '@material-ui/icons/ThumbUp'
@@ -9,6 +9,7 @@ import SnackbarUndoAction from '../../SnackbarActions/Undo'
 import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../../queries'
 
 const ActionLike = ({ url, menuItem }) => {
+  const [loading, setLoading] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { user } = useUser()
   let mf2 = {
@@ -29,6 +30,7 @@ const ActionLike = ({ url, menuItem }) => {
 
   const onClick = async e => {
     try {
+      setLoading(true)
       const {
         data: { micropubCreate: postUrl },
       } = await createLike()
@@ -49,6 +51,7 @@ const ActionLike = ({ url, menuItem }) => {
       console.error('Error posting like', err)
       enqueueSnackbar('Error posting like', { variant: 'error' })
     }
+    setLoading(false)
   }
 
   return (
@@ -57,6 +60,7 @@ const ActionLike = ({ url, menuItem }) => {
       icon={<LikeIcon />}
       onClick={onClick}
       menuItem={menuItem}
+      loading={loading}
     />
   )
 }

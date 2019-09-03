@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation } from 'react-apollo-hooks'
 import { useSnackbar } from 'notistack'
 import RepostIcon from '@material-ui/icons/Repeat'
@@ -9,6 +9,7 @@ import SnackbarUndo from '../../SnackbarActions/Undo'
 import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../../queries'
 
 const ActionRepost = ({ url, menuItem }) => {
+  const [loading, setLoading] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { user } = useUser()
   let mf2 = {
@@ -29,6 +30,7 @@ const ActionRepost = ({ url, menuItem }) => {
 
   const onClick = async e => {
     try {
+      setLoading(true)
       const {
         data: { micropubCreate: postUrl },
       } = await createRepost()
@@ -49,6 +51,7 @@ const ActionRepost = ({ url, menuItem }) => {
       console.error('Error reposting', err)
       enqueueSnackbar('Error reposting', { variant: 'error' })
     }
+    setLoading(false)
   }
   return (
     <BaseAction
@@ -56,6 +59,7 @@ const ActionRepost = ({ url, menuItem }) => {
       onClick={onClick}
       icon={<RepostIcon />}
       menuItem={menuItem}
+      loading={loading}
     />
   )
 }

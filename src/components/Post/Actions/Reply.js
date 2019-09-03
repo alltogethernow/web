@@ -76,6 +76,7 @@ const ActionReply = ({ url, menuItem }) => {
         icon={<ReplyIcon />}
         onClick={e => setPopoverAnchor(e.target)}
         menuItem={menuItem}
+        loading={loading}
       />
       <Popover
         open={!!popoverAnchor}
