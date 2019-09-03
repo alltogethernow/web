@@ -86,6 +86,7 @@ export const FRAGMENT_POST_PROPERTIES = gql`
     repostOf
     quotationOf
     bookmarkOf
+    inReplyTo
     photo
     video
     audio
