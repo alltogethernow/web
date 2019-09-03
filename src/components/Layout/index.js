@@ -1,6 +1,5 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Typography, LinearProgress } from '@material-ui/core'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useTimeline from '../../hooks/use-timeline'
 import AddFeed from '../AddFeed'

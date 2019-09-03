@@ -190,4 +190,6 @@ TogetherCard.propTypes = {
   channel: PropTypes.string,
 }
 
-export default withStyles(styles)(TogetherCard)
+const TogetherCardMemo = React.memo(props => <TogetherCard {...props} />)
+
+export default withStyles(styles)(TogetherCardMemo)

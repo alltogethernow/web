@@ -104,7 +104,5 @@ export default function({ channel, source = null, unreadOnly = false }) {
     }
   }
 
-  return Object.assign({ data: null, networkStatus: 7, error: null }, query, {
-    fetchMore,
-  })
+  return { data: null, networkStatus: 7, error: null, ...query, fetchMore }
 }

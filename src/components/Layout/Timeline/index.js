@@ -74,7 +74,7 @@ const Timeline = ({
         )}
         length={posts.length}
         type="simple"
-        minSize={3}
+        minSize={5}
       />
 
       {channel && loadMore && (
