@@ -15,7 +15,7 @@ const ContentFetcher = ({ channel }) => {
   return (
     <Content
       data={data}
-      fetchMore={data.after ? fetchMore : null}
+      fetchMore={data.timeline && data.timeline.after ? fetchMore : null}
       networkStatus={networkStatus}
       channel={channel}
     />
