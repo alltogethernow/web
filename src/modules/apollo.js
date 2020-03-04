@@ -5,6 +5,8 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import { getMainDefinition } from 'apollo-utilities'
+
+import { persistCache } from 'apollo-cache-persist'
 import gql from 'graphql-tag'
 import { getTheme } from './windows-functions'
 import { version } from '../../package.json'
@@ -163,6 +165,13 @@ const typeDefs = gql`
     currentChannel: Channel!
   }
 `
+
+// Persist the cache.
+// TODO: Should be awaited
+persistCache({
+  cache,
+  storage: window.localStorage,
+})
 
 const client = new ApolloClient({
   cache,
