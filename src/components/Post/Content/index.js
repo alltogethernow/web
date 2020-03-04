@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import ExpandIcon from '@material-ui/icons/ExpandMore'
 import CollapseIcon from '@material-ui/icons/ExpandLess'
+import parse from 'html-react-parser'
 import TruncatedContentLoader from './TruncatedContentLoader'
 import style from './style'
 
@@ -53,6 +54,18 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
 
   const content = getContent()
 
+  if (content && content.component === 'div' && content.content) {
+    content.content = parse(content.content, {
+      replace: domNode => {
+        // Open links in new tabs always
+        if (domNode.name === 'a') {
+          domNode.attribs.target = '_blank'
+          domNode.attribs.rel = 'noopener noreferrer'
+        }
+      },
+    })
+  }
+
   return (
     <CardContent>
       {!!post.name && (
@@ -68,11 +81,9 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
           in={!isExpandable() || expanded}
           collapsedHeight={isExpandable() ? '5em' : null}
         >
-          <Typography
-            className={classes.content}
-            component={content.component}
-            dangerouslySetInnerHTML={{ __html: content.content }}
-          />
+          <Typography className={classes.content} component={content.component}>
+            {content.content}
+          </Typography>
           <TruncatedContentLoader post={post} />
         </Collapse>
       )}

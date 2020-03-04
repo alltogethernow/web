@@ -19,6 +19,7 @@
     "faker": "^4.1.0",
     "graphql": "^14.5.4",
     "graphql-tag": "^2.10.1",
+    "html-react-parser": "^0.10.1",
     "install": "^0.13.0",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
