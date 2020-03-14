@@ -168,10 +168,10 @@ const typeDefs = gql`
 
 // Persist the cache.
 // TODO: Should be awaited
-persistCache({
-  cache,
-  storage: window.localStorage,
-})
+// persistCache({
+//   cache,
+//   storage: window.localStorage,
+// })
 
 const client = new ApolloClient({
   cache,

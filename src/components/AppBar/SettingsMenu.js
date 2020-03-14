@@ -18,7 +18,7 @@ const SettingsMenu = ({ classes }) => {
   const channel = useCurrentChannel()
 
   const logout = e => {
-    window.localStorage.removeItem('token')
+    window.localStorage.clear()
     client.resetStore()
     window.location.href = '/'
   }
