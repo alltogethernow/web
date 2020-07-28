@@ -56,7 +56,7 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
 
   if (content && content.component === 'div' && content.content) {
     content.content = parse(content.content, {
-      replace: domNode => {
+      replace: (domNode) => {
         // Open links in new tabs always
         if (domNode.name === 'a') {
           domNode.attribs.target = '_blank'
@@ -73,6 +73,7 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
           variant="h5"
           component="h2"
           dangerouslySetInnerHTML={{ __html: post.name }}
+          gutterBottom
         />
       )}
 

@@ -11,7 +11,7 @@ import {
 import { useTheme } from '@material-ui/core/styles'
 import { SortableContainer } from 'react-sortable-hoc'
 import useReactRouter from 'use-react-router'
-import ChannelMenuItem from './ChannelMenuItem'
+import { Sortable as ChannelMenuItem } from './ChannelMenuItem'
 import NewChannelForm from './NewChannelForm'
 import styles from './style'
 import { useMutation } from 'react-apollo-hooks'
@@ -68,9 +68,9 @@ const ChannelMenu = ({ classes }) => {
   }, [localState.focusedComponent])
 
   // Shortcut handler
-  const handleShortcuts = action => {
+  const handleShortcuts = (action) => {
     const channelIndex = channels.findIndex(
-      channel => channel._t_slug === focusedChannel
+      (channel) => channel._t_slug === focusedChannel
     )
 
     switch (action) {
@@ -106,7 +106,7 @@ const ChannelMenu = ({ classes }) => {
 
   // Handle sorting channels
   const handleSort = ({ oldIndex, newIndex }) => {
-    let uids = channels.map(channel => channel.uid)
+    let uids = channels.map((channel) => channel.uid)
     uids = moveArray(uids, oldIndex, newIndex)
     reorderChannels({
       variables: { channels: uids },
@@ -133,8 +133,8 @@ const ChannelMenu = ({ classes }) => {
       variant={isSmall ? null : 'permanent'}
       className={classes.drawer}
       classes={{ paper: classes.drawerPaper }}
-      onClose={e => setLocalState({ channelsMenuOpen: false })}
-      onOpen={e => setLocalState({ channelsMenuOpen: true })}
+      onClose={(e) => setLocalState({ channelsMenuOpen: false })}
+      onOpen={(e) => setLocalState({ channelsMenuOpen: true })}
     >
       <div className={classes.toolbarSpacer} />
       <Shortcuts
@@ -163,7 +163,7 @@ const ChannelMenu = ({ classes }) => {
             onSortEnd={handleSort}
           >
             {channels
-              .filter(c => c.uid !== 'notifications')
+              .filter((c) => c.uid !== 'notifications')
               .map((channel, index) => (
                 <ChannelMenuItem
                   key={`channel-menu-item-${index}`}

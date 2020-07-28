@@ -6,7 +6,13 @@ import { SortableElement } from 'react-sortable-hoc'
 import useLocalState from '../../hooks/use-local-state'
 import styles from './style'
 
-const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
+const ChannelMenuItem = ({
+  classes,
+  channel,
+  isFocused,
+  current,
+  ...props
+}) => {
   const [localState, setLocalState] = useLocalState()
 
   return (
@@ -15,12 +21,13 @@ const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
       component={Link}
       to={`/channel/${channel._t_slug}`}
       className={current ? classes.currentItem : null}
-      onClick={e => {
+      onClick={(e) => {
         setLocalState({ channelsMenuOpen: false })
         return true
       }}
       style={{ justifyContent: 'space-between' }}
       selected={!current && isFocused}
+      {...props}
     >
       <ListItemText
         primary={channel.name}
@@ -28,7 +35,7 @@ const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
       />
       {(channel.unread || channel.unread === null) && (
         <Badge
-          max={999}
+          max={99}
           badgeContent={channel.unread}
           color="primary"
           variant={channel.unread === null ? 'dot' : null}
@@ -38,4 +45,6 @@ const ChannelMenuItem = ({ classes, channel, isFocused, current }) => {
   )
 }
 
-export default SortableElement(withStyles(styles)(ChannelMenuItem))
+const Sortable = SortableElement(withStyles(styles)(ChannelMenuItem))
+export { Sortable }
+export default withStyles(styles)(ChannelMenuItem)

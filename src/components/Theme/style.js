@@ -2,13 +2,13 @@ import { createMuiTheme } from '@material-ui/core/styles'
 // import secondary from '@material-ui/core/colors/indigo'
 // import primary from '@material-ui/core/colors/blue'
 
-export default type => {
+export default (type) => {
   const dark = type === 'dark' ? true : false
   return createMuiTheme({
     typography: {
       fontFamily:
         'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
-      fontWeightLight: 400,
+      fontWeightLight: 300,
       fontWeightRegular: 400,
       fontWeightMedium: 900,
     },
