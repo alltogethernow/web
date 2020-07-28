@@ -55,7 +55,7 @@ const AuthedRoute = ({ component: Component, ...routeProps }) => {
   return (
     <Route
       {...routeProps}
-      render={props =>
+      render={(props) =>
         localState && localState.token ? (
           <Component {...props} />
         ) : (
@@ -94,6 +94,11 @@ const App = ({ classes }) => {
                         <ChannelMenu />
                         <main className={classes.main}>
                           <AuthedRoute exact path="/" component={Home} />
+                          <AuthedRoute
+                            exact
+                            path="/index.html"
+                            component={Home}
+                          />
                           <AuthedRoute
                             path="/channel/:channelSlug"
                             component={MainPosts}
