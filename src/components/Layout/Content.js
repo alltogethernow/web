@@ -13,7 +13,7 @@ import styles from './style'
 const Content = ({ classes, channel, data, fetchMore, networkStatus }) => {
   // Use the correct component for the channel view
   const layout = channel && channel._t_layout ? channel._t_layout : 'timeline'
-  const viewFilter = layouts.find(l => l.id === layout).filter
+  const viewFilter = layouts.find((l) => l.id === layout).filter
   let View = () => null
   switch (layout) {
     case 'gallery':
@@ -41,9 +41,9 @@ const Content = ({ classes, channel, data, fetchMore, networkStatus }) => {
     <>
       {networkStatus < 7 && <LinearProgress className={classes.loading} />}
 
-      {isEmpty ? (
-        <NoContent />
-      ) : (
+      {isEmpty && networkStatus >= 7 && <NoContent />}
+
+      {!isEmpty && (
         <View
           posts={data.timeline.items.filter(viewFilter)}
           channel={channel}
