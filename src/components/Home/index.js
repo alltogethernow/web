@@ -9,6 +9,7 @@ import {
   CardHeader,
   ButtonGroup,
   Button,
+  useMediaQuery,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import {
@@ -24,6 +25,7 @@ import style from './style'
 const Home = ({ classes }) => {
   const { channels, loading } = useChannels()
   const { user } = useUser()
+  const isSmall = useMediaQuery('(max-width: 600px)')
   const mainChannels = channels.filter((c) => c.uid !== 'notifications') || []
 
   return (
@@ -48,7 +50,12 @@ const Home = ({ classes }) => {
       <Card style={{ marginTop: 20 }}>
         <CardHeader title="Quick Links"></CardHeader>
         <CardContent>
-          <ButtonGroup size="large" color="primary" variant="contained">
+          <ButtonGroup
+            size="large"
+            color="primary"
+            variant="contained"
+            orientation={isSmall ? 'vertical' : 'horizontal'}
+          >
             {user && user.hasMicropub && (
               <Button component={Link} to="/editor" startIcon={<NoteIcon />}>
                 New Post
