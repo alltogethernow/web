@@ -9,7 +9,7 @@ import {
   TextField,
   MenuItem,
   Button,
-} from '@material-ui/core'
+} from '@mui/material'
 import Meta from '../Meta'
 
 const Donate = () => {

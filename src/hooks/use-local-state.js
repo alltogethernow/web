@@ -1,34 +1,40 @@
-import { useCallback, useState, useEffect } from 'react'
-import { useQuery, useApolloClient } from 'react-apollo-hooks'
-import gql from 'graphql-tag'
+import { useCallback, useState, createContext, useContext } from 'react'
+import { getTheme } from '../modules/windows-functions'
 
-const GET_ALL = gql`
-  {
-    theme @client
-    token @client
-    channelsMenuOpen @client
-    focusedComponent @client
-    shortcutHelpOpen @client
+const getInitialAppState = () => ({
+  channelsMenuOpen: false,
+  focusedComponent: 'channels',
+  shortcutHelpOpen: false,
+  token: localStorage.getItem('token'),
+  theme: localStorage.getItem('together-theme') || getTheme() || 'light',
+})
+
+const Context = createContext({
+  state: getInitialAppState(),
+  setState: () => {},
+})
+
+const Provider = ({ children }) => {
+  const [appState, setAppState] = useState(getInitialAppState())
+
+  const setState = useCallback((newState) => {
+    // if (newState.theme) {
+    //   localStorage.setItem('together-theme', newState.theme)
+    // }
+    // setState({ ...appState, ...newState })
+  })
+  const providerValue = {
+    state: appState,
+    setState: setAppState,
   }
-`
 
-export default function() {
-  const client = useApolloClient()
-  const { data: localState } = useQuery(GET_ALL)
-
-  const [state, setState] = useState(localState || {})
-
-  const set = useCallback(data => {
-    client.writeData({ data })
-    if (data.theme) {
-      localStorage.setItem('together-theme', data.theme)
-    }
-    setState(Object.assign({}, state.current, data))
-  }, [])
-
-  useEffect(() => {
-    setState(localState)
-  }, [localState])
-
-  return [state, set]
+  return <Context.Provider value={providerValue}>{children}</Context.Provider>
 }
+
+export default function () {
+  const { state, setState } = useContext(Context)
+
+  return [state, setState]
+}
+
+export { Provider }

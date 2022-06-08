@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardMedia } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles';
+import { Card, CardMedia } from '@mui/material'
 import Shortcuts from './Shortcuts'
 import TogetherCardHeader from './Header'
 import TogetherCardContent from './Content'

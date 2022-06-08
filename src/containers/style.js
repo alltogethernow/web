@@ -43,7 +43,7 @@ export default theme => ({
     },
     'a[href^=http]': {
       color:
-        theme.palette.type === 'dark'
+        theme.palette.mode === 'dark'
           ? theme.palette.primary.light
           : theme.palette.primary.main,
     },

@@ -3,7 +3,7 @@ export default theme => ({
     width: '100%',
     zIndex: theme.zIndex.drawer + 1,
     background:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? theme.palette.secondary.dark
         : theme.palette.primary.main,
   },
@@ -19,7 +19,7 @@ export default theme => ({
   },
   menuButton: {
     display: 'none',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'block',
       marginLeft: -16,
       marginRight: 0,
@@ -32,7 +32,7 @@ export default theme => ({
     color: theme.palette.primary.contrastText,
     marginLeft: 7,
     cursor: 'pointer',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: 34,
       height: 34,
     },

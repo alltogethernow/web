@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import { Shortcuts } from 'react-shortcuts'
 import useLocalState from '../../hooks/use-local-state'
 import styles from './style'

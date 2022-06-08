@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'notistack'
-import RepostIcon from '@material-ui/icons/Repeat'
+import RepostIcon from '@mui/icons-material/Repeat'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
 import SnackbarLinkAction from '../../SnackbarActions/Link'
@@ -21,14 +21,14 @@ const ActionRepost = ({ url, menuItem }) => {
   if (user && user.settings.repostSyndication.length) {
     mf2.properties['mp-syndicate-to'] = user.settings.repostSyndication
   }
-  const createRepost = useMutation(MICROPUB_CREATE, {
+  const [createRepost] = useMutation(MICROPUB_CREATE, {
     variables: {
       json: JSON.stringify(mf2),
     },
   })
-  const micropubDelete = useMutation(MICROPUB_DELETE)
+  const [micropubDelete] = useMutation(MICROPUB_DELETE)
 
-  const onClick = async e => {
+  const onClick = async (e) => {
     try {
       setLoading(true)
       const {
@@ -36,10 +36,10 @@ const ActionRepost = ({ url, menuItem }) => {
       } = await createRepost()
       enqueueSnackbar('Successfully reposted', {
         variant: 'success',
-        action: key => [
+        action: (key) => [
           <SnackbarLinkAction url={postUrl} />,
           <SnackbarUndo
-            onClick={async e => {
+            onClick={async (e) => {
               closeSnackbar(key)
               await micropubDelete({ variables: { url: postUrl } })
               enqueueSnackbar('Deleted repost', { variant: 'success' })

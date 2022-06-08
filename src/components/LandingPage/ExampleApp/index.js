@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import {
   Typography,
   AppBar,
@@ -9,8 +9,8 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+} from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
 import Timeline from '../../Layout/Timeline'
 import Gallery from '../../Layout/Gallery'
 import Classic from '../../Layout/Classic'
@@ -35,7 +35,7 @@ const ExampleApp = ({ classes }) => {
             aria-label="Open drawer"
             onClick={e => setMenuOpen(!menuOpen)}
             className={classes.menuButton}
-          >
+            size="large">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" noWrap>
@@ -84,7 +84,7 @@ const ExampleApp = ({ classes }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default withStyles(style)(ExampleApp)

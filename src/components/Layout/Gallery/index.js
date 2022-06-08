@@ -2,15 +2,15 @@ import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import useComponentSize from '@rehooks/component-size'
 import useMarkRead from '../../../hooks/use-mark-read'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import 'intersection-observer'
 import { InView } from 'react-intersection-observer'
 import {
-  GridList,
-  GridListTile,
-  GridListTileBar,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
   Button,
-} from '@material-ui/core/'
+} from '@mui/material/'
 import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
 import AuthorAvatar from '../../AuthorAvatar'
@@ -123,7 +123,7 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
   const renderRow = (rowIndex, key) => {
     const startIndex = rowIndex * columnCount
     return (
-      <GridList
+      <ImageList
         key={key}
         spacing={0}
         cols={columnCount}
@@ -138,7 +138,7 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
             const avatarData = authorToAvatarData(post.author)
 
             return (
-              <GridListTile
+              <ImageListItem
                 key={'gallery-item-' + post._id + index}
                 cols={1}
                 onClick={e => {
@@ -171,7 +171,7 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
                     loop
                   />
                 )}
-                <GridListTileBar
+                <ImageListItemBar
                   title={post.name || (post.content && post.content.text) || ''}
                   subtitle={avatarData.alt}
                   actionIcon={
@@ -188,10 +188,10 @@ const Gallery = ({ classes, posts, channel, loadMore, loading }) => {
                     </InView>
                   }
                 />
-              </GridListTile>
+              </ImageListItem>
             )
           })}
-      </GridList>
+      </ImageList>
     )
   }
 

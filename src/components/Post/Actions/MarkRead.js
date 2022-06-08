@@ -2,8 +2,8 @@ import React from 'react'
 import { useSnackbar } from 'notistack'
 import useMarkRead from '../../../hooks/use-mark-read'
 import useMarkUnread from '../../../hooks/use-mark-unread'
-import ReadIcon from '@material-ui/icons/PanoramaFishEye'
-import UnreadIcon from '@material-ui/icons/Lens'
+import ReadIcon from '@mui/icons-material/PanoramaFishEye'
+import UnreadIcon from '@mui/icons-material/Lens'
 import BaseAction from './Base'
 
 const ActionMarkRead = ({ _id, isRead, channel, menuItem }) => {

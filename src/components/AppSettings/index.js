@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import SettingsModal from '../SettingsModal'
 import SyndicationSettings from './SyndicationSettings'
 import styles from './style'

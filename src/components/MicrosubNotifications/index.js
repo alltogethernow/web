@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Popover, Divider, Button, CircularProgress } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { Popover, Divider, Button, CircularProgress } from '@mui/material'
 import OpenButton from './OpenButton'
 import TitleBar from './TitleBar'
 import Post from '../Post'
@@ -9,9 +9,9 @@ import styles from './style'
 import useTimeline from '../../hooks/use-timeline'
 import useChannels from '../../hooks/use-channels'
 
-const Channel = props => {
+const Channel = (props) => {
   const { channels } = useChannels()
-  const channel = channels.find(c => c.uid === 'notifications')
+  const channel = channels.find((c) => c.uid === 'notifications')
 
   return channel ? <NotificationsList channel={channel} {...props} /> : null
 }
@@ -29,13 +29,13 @@ const NotificationsList = ({ classes, buttonClass, channel }) => {
     return null
   }
 
-  if (Object.keys(data).length === 0) {
+  const timeline = data?.timeline
+
+  if (!timeline) {
     return null
   }
 
-  const {
-    timeline: { after, items: notifications },
-  } = data
+  const { after, items: notifications } = timeline
 
   return (
     <Fragment>
@@ -43,7 +43,7 @@ const NotificationsList = ({ classes, buttonClass, channel }) => {
         open={open}
         loading={loading}
         unread={channel.unread}
-        handleOpen={e => {
+        handleOpen={(e) => {
           setAnchor(e.target)
           setOpen(true)
         }}
@@ -67,7 +67,7 @@ const NotificationsList = ({ classes, buttonClass, channel }) => {
       >
         {loading && <CircularProgress className={classes.spinner} size={50} />}
         <div className={classes.container}>
-          {notifications.map(post => (
+          {notifications.map((post) => (
             <Fragment key={'notification-' + post._id}>
               <div style={{ opacity: post._is_read ? 0.5 : 1 }}>
                 <Post

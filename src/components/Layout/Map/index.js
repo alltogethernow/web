@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Map from 'pigeon-maps'
+import withStyles from '@mui/styles/withStyles'
+import { Map } from 'pigeon-maps'
 import Overlay from 'pigeon-overlay'
 import WebMercatorViewport from 'viewport-mercator-project'
 import useLocalState from '../../../hooks/use-local-state'
@@ -33,7 +33,7 @@ const CheckinMap = ({ posts, channel, classes }) => {
 
   const [focusedPost, setFocusedPost] = useState(null)
 
-  const getAnchor = post => {
+  const getAnchor = (post) => {
     if (post.location && post.location.latitude && post.location.longitude) {
       return [
         parseFloat(post.location.latitude),
@@ -59,7 +59,7 @@ const CheckinMap = ({ posts, channel, classes }) => {
       let maxLng = markers[0][1]
       let minLat = markers[0][0]
       let minLng = markers[0][1]
-      markers.forEach(marker => {
+      markers.forEach((marker) => {
         const [lat, lng] = marker
         if (lat > maxLat) {
           maxLat = lat
@@ -75,7 +75,10 @@ const CheckinMap = ({ posts, channel, classes }) => {
         }
       })
       if (maxLat !== minLat && maxLng !== minLng) {
-        const bounds = [[maxLng, maxLat], [minLng, minLat]]
+        const bounds = [
+          [maxLng, maxLat],
+          [minLng, minLat],
+        ]
         const boundedViewport = viewport.fitBounds(bounds)
         setViewport(new WebMercatorViewport(boundedViewport))
       } else if (markers.length === 1) {
@@ -91,8 +94,8 @@ const CheckinMap = ({ posts, channel, classes }) => {
   }
   useEffect(zoomToPosts, [posts])
 
-  const focusPost = postId => {
-    const post = posts.find(p => p._id === postId)
+  const focusPost = (postId) => {
+    const post = posts.find((p) => p._id === postId)
     if (post) {
       setFocusedPost(post._id)
       zoomToPosts(post)
@@ -121,7 +124,7 @@ const CheckinMap = ({ posts, channel, classes }) => {
       className={classes.main}
       onNext={() => {
         if (focusedPost !== null) {
-          const index = posts.findIndex(marker => marker._id === focusedPost)
+          const index = posts.findIndex((marker) => marker._id === focusedPost)
           if (index > -1 && posts[index + 1]) {
             focusPost(posts[index + 1]._id)
           }
@@ -131,7 +134,7 @@ const CheckinMap = ({ posts, channel, classes }) => {
       }}
       onPrevious={() => {
         if (focusedPost !== null) {
-          const index = posts.findIndex(marker => marker._id === focusedPost)
+          const index = posts.findIndex((marker) => marker._id === focusedPost)
           if (index > 0 && posts[index - 1]) {
             focusPost(posts[index - 1]._id)
           }

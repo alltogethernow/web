@@ -1,8 +1,8 @@
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { MICROPUB_UPDATE } from '../queries'
 
-export default function() {
-  const update = useMutation(MICROPUB_UPDATE)
+export default function () {
+  const [update] = useMutation(MICROPUB_UPDATE)
 
   return async (url, updateData) => {
     console.log(url, updateData)

@@ -1,7 +1,7 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { IconButton, Tooltip } from '@material-ui/core'
-import { useMutation } from 'react-apollo-hooks'
+import withStyles from '@mui/styles/withStyles'
+import { IconButton, Tooltip } from '@mui/material'
+import { useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import layouts from '../../modules/layouts'
@@ -18,7 +18,7 @@ export const UPDATE_LAYOUT = gql`
 
 const LayoutSwitcher = ({ classes, className }) => {
   const channel = useCurrentChannel()
-  const updateChannel = useMutation(UPDATE_LAYOUT)
+  const [updateChannel] = useMutation(UPDATE_LAYOUT)
 
   if (!channel.uid) {
     return null
@@ -26,7 +26,7 @@ const LayoutSwitcher = ({ classes, className }) => {
 
   return (
     <div className={[classes.menu, className].join(' ')}>
-      {layouts.map(layout => {
+      {layouts.map((layout) => {
         const Icon = layout.icon
         let iconClassName = classes.icon
         // Add class if layout selected
@@ -47,6 +47,7 @@ const LayoutSwitcher = ({ classes, className }) => {
                   variables: { uid: channel.uid, _t_layout: layout.id },
                 })
               }
+              size="large"
             >
               <Icon />
             </IconButton>

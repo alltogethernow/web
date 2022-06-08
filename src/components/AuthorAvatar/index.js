@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Avatar from '@material-ui/core/Avatar'
+import Avatar from '@mui/material/Avatar'
 import authorToAvatarData from '../../modules/author-to-avatar-data'
 
 const AuthorAvatar = ({ author, size }) => {

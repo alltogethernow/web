@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import Map from '../../Map'
 import MapMarker from '../../Map/Marker'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 
 const TogetherCardLocation = ({ location, author }) => {
   let lat = false

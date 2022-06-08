@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import RestoreIcon from '@material-ui/icons/RestoreFromTrash'
+import RestoreIcon from '@mui/icons-material/RestoreFromTrash'
 import BaseAction from './Base'
 import { useSnackbar } from 'notistack'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { MICROPUB_UNDELETE } from '../../../queries'
 
 const ActionUndelete = ({ url, menuItem }) => {
   const [loading, setLoading] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
-  const undelete = useMutation(MICROPUB_UNDELETE, {
+  const [undelete] = useMutation(MICROPUB_UNDELETE, {
     variables: { url },
   })
 
-  const handleRemove = async e => {
+  const handleRemove = async (e) => {
     try {
       setLoading(true)
       await undelete()

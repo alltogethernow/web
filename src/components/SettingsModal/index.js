@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   AppBar,
   Toolbar,
   Typography,
-} from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
+} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 import useReactRouter from 'use-react-router'
 import styles from './style'
 
@@ -56,7 +56,7 @@ const SettingsModal = ({
           <Typography variant="h6" color="inherit" className={classes.title}>
             {title}
           </Typography>
-          <IconButton className={classes.popupClose} onClick={handleClose}>
+          <IconButton className={classes.popupClose} onClick={handleClose} size="large">
             <CloseIcon />
           </IconButton>
         </Toolbar>
@@ -70,7 +70,7 @@ const SettingsModal = ({
         </DialogContent>
       </div>
     </Dialog>
-  )
+  );
 }
 
 SettingsModal.defaultProps = {

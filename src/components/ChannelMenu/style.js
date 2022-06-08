@@ -1,7 +1,7 @@
-import { darken } from '@material-ui/core/styles/colorManipulator'
+import { darken } from '@mui/material/styles';
 
 export default theme => {
-  const dark = theme.palette.type === 'dark'
+  const dark = theme.palette.mode === 'dark'
   const highlight = theme.palette.primary.main
   const background = darken(theme.palette.background.default, dark ? 0.5 : 0.1)
 

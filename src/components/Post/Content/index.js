@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import CardContent from '@material-ui/core/CardContent'
-import Collapse from '@material-ui/core/Collapse'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
-import ExpandIcon from '@material-ui/icons/ExpandMore'
-import CollapseIcon from '@material-ui/icons/ExpandLess'
+import withStyles from '@mui/styles/withStyles';
+import CardContent from '@mui/material/CardContent'
+import Collapse from '@mui/material/Collapse'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import ExpandIcon from '@mui/icons-material/ExpandMore'
+import CollapseIcon from '@mui/icons-material/ExpandLess'
 import parse from 'html-react-parser'
 import TruncatedContentLoader from './TruncatedContentLoader'
 import style from './style'
@@ -80,7 +80,7 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
       {!!content && (
         <Collapse
           in={!isExpandable() || expanded}
-          collapsedHeight={isExpandable() ? '5em' : null}
+          collapsedSize={isExpandable() ? '5em' : null}
         >
           <Typography className={classes.content} component={content.component}>
             {content.content}
@@ -104,6 +104,6 @@ const TogetherCardContent = ({ classes, post, expandable = false }) => {
         </Fragment>
       )}
     </CardContent>
-  )
+  );
 }
 export default withStyles(style)(TogetherCardContent)

@@ -1,6 +1,6 @@
 import React from 'react'
 import useReactRouter from 'use-react-router'
-import { CircularProgress } from '@material-ui/core'
+import { CircularProgress } from '@mui/material'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import SettingsModal from '../SettingsModal'
 import Timeline from '../Layout/Content'
@@ -29,7 +29,7 @@ const Source = ({
   }
 
   let title = `${loading ? 'Loading' : 'Loaded'} Source`
-  if (data.timeline && data.timeline.source && data.timeline.source.name) {
+  if (data?.timeline?.source?.name) {
     title = data.timeline.source.name
   }
 
@@ -49,7 +49,7 @@ const Source = ({
       ) : (
         <Timeline
           data={data}
-          fetchMore={data.after ? fetchMore : null}
+          fetchMore={data?.after ? fetchMore : null}
           networkStatus={networkStatus}
           channel={{ ...channel, _t_layout: 'timeline' }}
         />

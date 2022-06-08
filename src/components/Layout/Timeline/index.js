@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import useMarkRead from '../../../hooks/use-mark-read'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import 'intersection-observer'
 import { InView } from 'react-intersection-observer'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
 import Post from '../../Post'

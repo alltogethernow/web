@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from 'react'
-import { useQuery } from 'react-apollo-hooks'
-import { withStyles } from '@material-ui/core/styles'
+import { useQuery } from '@apollo/client'
+import withStyles from '@mui/styles/withStyles'
 import {
   Avatar,
   List,
   ListItem,
   ListItemText,
   ListItemAvatar,
-} from '@material-ui/core'
+} from '@mui/material'
 import Preview from '../Preview'
 import { SEARCH } from '../../../queries'
 import styles from '../style'
@@ -74,7 +74,7 @@ const Results = ({ classes, query, setActions, setLoading, handleClose }) => {
               url={result.url}
               setActions={setActions}
               setLoading={setLoading}
-              handleClose={e => {
+              handleClose={(e) => {
                 setPreview(null)
                 handleClose()
               }}

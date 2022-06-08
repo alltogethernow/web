@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles';
+import { ListItem, ListItemText, ListItemAvatar } from '@mui/material'
 import AuthorAvatar from '../../../AuthorAvatar'
 import moment from 'moment'
 import styles from './style'

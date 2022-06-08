@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useQuery, useMutation } from '@apollo/client'
 import { GET_BLOCKED, UNBLOCK } from '../../queries'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import {
   ListSubheader,
   ListItem,
   ListItemText,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 import ChannelSettingUrl from './ChannelSettingUrl'
 import styles from './style'
 
@@ -27,25 +27,30 @@ const ChannelBlocked = ({ classes, channel }) => {
     }
   }, [])
 
-  const unblockMutation = useMutation(UNBLOCK)
+  const [unblockMutation] = useMutation(UNBLOCK)
 
-  const unblock = url =>
+  const unblock = (url) =>
     unblockMutation({
       variables: { channel, url },
       optimisticResponse: {
         __typename: 'Mutation',
         mute: true,
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_BLOCKED,
           variables: { channel },
         })
+        let update = { ...data }
         // Find and remove posts with the given author url
-        data.blocked = data.blocked.filter(item => item.url !== url)
+        update.blocked = update.blocked.filter((item) => item.url !== url)
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_BLOCKED, variables: { channel }, data })
+        cache.writeQuery({
+          query: GET_BLOCKED,
+          variables: { channel },
+          data: update,
+        })
       },
     })
 
@@ -60,7 +65,7 @@ const ChannelBlocked = ({ classes, channel }) => {
       )}
 
       {!!blocked &&
-        blocked.map(item => (
+        blocked.map((item) => (
           <ChannelSettingUrl
             {...item}
             key={`list-blocked-${item.url}`}

@@ -1,9 +1,9 @@
-import { darken } from '@material-ui/core/styles/colorManipulator'
+import { darken } from '@mui/material/styles';
 
 export default theme => ({
   replyContext: {
     background:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? darken(theme.palette.background.paper, 0.2)
         : darken(theme.palette.background.paper, 0.07),
   },

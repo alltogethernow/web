@@ -1,7 +1,7 @@
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import { MICROPUB_QUERY } from '../queries'
 
-export default function(query, options = {}) {
+export default function (query, options = {}) {
   const { data: rawData, ...res } = useQuery(MICROPUB_QUERY, {
     variables: { query },
     ...options,

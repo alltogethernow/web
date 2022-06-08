@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import useMarkRead from '../../../hooks/use-mark-read'
 import useLocalState from '../../../hooks/use-local-state'
 import 'intersection-observer'
 import { InView } from 'react-intersection-observer'
-import { List, Button, Toolbar, AppBar } from '@material-ui/core'
+import { List, Button, Toolbar, AppBar } from '@mui/material'
 import ReactList from 'react-list'
 import Shortcuts from '../Shortcuts'
 import Preview from './Preview'

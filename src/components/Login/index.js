@@ -10,10 +10,10 @@ import {
   LinearProgress,
   InputAdornment,
   IconButton,
-} from '@material-ui/core'
-import LoginIcon from '@material-ui/icons/Send'
+} from '@mui/material'
+import LoginIcon from '@mui/icons-material/Send'
 import gql from 'graphql-tag'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import useLocalState from '../../hooks/use-local-state'
 
 const GET_AUTH_URL = gql`
@@ -27,12 +27,12 @@ const Login = ({ onClose }) => {
   const [me, setMe] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const getAuthUrl = useMutation(GET_AUTH_URL, {
+  const [getAuthUrl] = useMutation(GET_AUTH_URL, {
     variables: { url: me },
   })
 
   // Gets the auth url and redirects on submit
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
 
@@ -73,14 +73,19 @@ const Login = ({ onClose }) => {
             name="me"
             style={{ margin: '1em 0' }}
             value={me}
-            onChange={e => setMe(e.target.value)}
+            onChange={(e) => setMe(e.target.value)}
             variant="outlined"
             disabled={loading}
             fullWidth
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton type="submit" edge="end" aria-label="Login">
+                  <IconButton
+                    type="submit"
+                    edge="end"
+                    aria-label="Login"
+                    size="large"
+                  >
                     <LoginIcon />
                   </IconButton>
                 </InputAdornment>

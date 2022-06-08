@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import { Shortcuts } from 'react-shortcuts'
 import useLocalState from '../../hooks/use-local-state'
 import useMarkRead from '../../hooks/use-mark-read'
@@ -9,7 +9,7 @@ import useCurrentChannel from '../../hooks/use-current-channel'
 
 const styles = theme => {
   const color =
-    theme.palette.type === 'dark'
+    theme.palette.mode === 'dark'
       ? theme.palette.secondary.main
       : theme.palette.primary.main
   return {

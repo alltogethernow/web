@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import { useMutation } from 'react-apollo-hooks'
+import withStyles from '@mui/styles/withStyles'
+import LinearProgress from '@mui/material/LinearProgress'
+import { useMutation } from '@apollo/client'
 import useMicropubCreate from '../../hooks/use-micropub-create'
 import useMicropubUpdate from '../../hooks/use-micropub-update'
 import MicropubForm from '../MicropubForm'
@@ -18,11 +18,11 @@ const FullMicropubEditor = ({ classes, location: { state } }) => {
   )
   const create = useMicropubCreate()
   const micropubUpdate = useMicropubUpdate()
-  const micropubDelete = useMutation(MICROPUB_DELETE)
+  const [micropubDelete] = useMutation(MICROPUB_DELETE)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const update = state && !!state.update
 
-  const handleSubmit = async mf2 => {
+  const handleSubmit = async (mf2) => {
     try {
       setLoading(true)
 
@@ -30,10 +30,10 @@ const FullMicropubEditor = ({ classes, location: { state } }) => {
         const postUrl = await create(mf2)
         enqueueSnackbar('Successfully posted', {
           variant: 'success',
-          action: key => [
+          action: (key) => [
             <SnackbarLinkAction url={postUrl} />,
             <SnackbarUndo
-              onClick={async e => {
+              onClick={async (e) => {
                 const tmpProperties = properties
                 closeSnackbar(key)
                 await micropubDelete({ variables: { url: postUrl } })
@@ -77,7 +77,7 @@ const FullMicropubEditor = ({ classes, location: { state } }) => {
           })
           enqueueSnackbar('Post updated', {
             variant: 'success',
-            action: key => [<SnackbarLinkAction url={updateUrl} />],
+            action: (key) => [<SnackbarLinkAction url={updateUrl} />],
           })
         }
         setLoading(false)

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import useReactRouter from 'use-react-router'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import MicropubEditor from 'micropub-client-editor'
-import { Input, InputLabel, Button, Checkbox, Select } from '@material-ui/core'
-import SendIcon from '@material-ui/icons/Send'
+import { Input, InputLabel, Button, Checkbox, Select } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
 import useUser from '../../hooks/use-user'
 import styles from './style'
 

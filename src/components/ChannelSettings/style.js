@@ -18,11 +18,11 @@ export default theme => ({
   },
   delete: {
     color:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? theme.palette.error.light
         : theme.palette.error.dark,
     borderColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? theme.palette.error.light
         : theme.palette.error.dark,
   },

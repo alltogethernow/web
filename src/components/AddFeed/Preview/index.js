@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import withStyles from '@mui/styles/withStyles'
+import { useQuery, useMutation } from '@apollo/client'
 import useReactRouter from 'use-react-router'
-import { Button, ListItem, ListItemText } from '@material-ui/core'
+import { Button, ListItem, ListItemText } from '@mui/material'
 import Post from '../../Post'
 import { PREVIEW, FOLLOW } from '../../../queries'
 import styles from '../style'
@@ -23,7 +23,7 @@ const Preview = ({ classes, url, setActions, setLoading, handleClose }) => {
   } = useQuery(PREVIEW, { variables: { url } })
 
   const channel = channelSlug ? decodeURIComponent(channelSlug) : null
-  const follow = useMutation(FOLLOW, {
+  const [follow] = useMutation(FOLLOW, {
     variables: {
       channel,
       url,
@@ -47,7 +47,7 @@ const Preview = ({ classes, url, setActions, setLoading, handleClose }) => {
 
   if (!hasSetActions && setActions) {
     setHasSetActions(true)
-    setActions(actions => [
+    setActions((actions) => [
       <Button size="small" color="primary" onClick={handleFollow}>
         Follow
       </Button>,

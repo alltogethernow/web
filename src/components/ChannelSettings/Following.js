@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useQuery, useMutation } from '@apollo/client'
 import { GET_FOLLOWING, UNFOLLOW } from '../../queries'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import {
   ListSubheader,
   ListItem,
   ListItemText,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 import ChannelSettingUrl from './ChannelSettingUrl'
 import styles from './style'
 
@@ -27,25 +27,30 @@ const ChannelFollowing = ({ classes, channel }) => {
     }
   }, [])
 
-  const unfollowMutation = useMutation(UNFOLLOW)
+  const [unfollowMutation] = useMutation(UNFOLLOW)
 
-  const unfollow = url =>
+  const unfollow = (url) =>
     unfollowMutation({
       variables: { channel, url },
       optimisticResponse: {
         __typename: 'Mutation',
         mute: true,
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_FOLLOWING,
           variables: { channel },
         })
+        const update = { ...data }
         // Find and remove posts with the given author url
-        data.following = data.following.filter(item => item.url !== url)
+        update.following = update.following.filter((item) => item.url !== url)
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_FOLLOWING, variables: { channel }, data })
+        cache.writeQuery({
+          query: GET_FOLLOWING,
+          variables: { channel },
+          data: update,
+        })
       },
     })
 
@@ -60,7 +65,7 @@ const ChannelFollowing = ({ classes, channel }) => {
       )}
 
       {!!following &&
-        following.map(item => (
+        following.map((item) => (
           <ChannelSettingUrl
             {...item}
             key={`list-following-${item.url}`}

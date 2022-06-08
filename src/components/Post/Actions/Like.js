@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'notistack'
-import LikeIcon from '@material-ui/icons/ThumbUp'
+import LikeIcon from '@mui/icons-material/ThumbUp'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
 import SnackbarLinkAction from '../../SnackbarActions/Link'
@@ -21,14 +21,14 @@ const ActionLike = ({ url, menuItem }) => {
   if (user && user.settings.likeSyndication.length) {
     mf2.properties['mp-syndicate-to'] = user.settings.likeSyndication
   }
-  const createLike = useMutation(MICROPUB_CREATE, {
+  const [createLike] = useMutation(MICROPUB_CREATE, {
     variables: {
       json: JSON.stringify(mf2),
     },
   })
-  const micropubDelete = useMutation(MICROPUB_DELETE)
+  const [micropubDelete] = useMutation(MICROPUB_DELETE)
 
-  const onClick = async e => {
+  const onClick = async (e) => {
     try {
       setLoading(true)
       const {
@@ -36,10 +36,10 @@ const ActionLike = ({ url, menuItem }) => {
       } = await createLike()
       enqueueSnackbar('Posted Like', {
         variant: 'success',
-        action: key => [
+        action: (key) => [
           <SnackbarLinkAction url={postUrl} />,
           <SnackbarUndoAction
-            onClick={async e => {
+            onClick={async (e) => {
               closeSnackbar(key)
               await micropubDelete({ variables: { url: postUrl } })
               enqueueSnackbar('Like deleted', { variant: 'success' })

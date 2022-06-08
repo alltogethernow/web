@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'notistack'
-import RefetchIcon from '@material-ui/icons/Refresh'
+import RefetchIcon from '@mui/icons-material/Refresh'
 import BaseAction from './Base'
 import { REFETCH_POST } from '../../../queries'
 
 const ActionRefetch = ({ url, _id, menuItem, handleClose }) => {
   const [loading, setLoading] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
-  const refetchPost = useMutation(REFETCH_POST, {
+  const [refetchPost] = useMutation(REFETCH_POST, {
     variables: { post: _id, url },
   })
 
-  const onClick = async e => {
+  const onClick = async (e) => {
     setLoading(true)
     const {
       data: { refetchPost: update },

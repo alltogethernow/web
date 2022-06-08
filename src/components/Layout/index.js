@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useTimeline from '../../hooks/use-timeline'
 import AddFeed from '../AddFeed'
@@ -15,7 +15,7 @@ const ContentFetcher = ({ channel }) => {
   return (
     <Content
       data={data}
-      fetchMore={data.timeline && data.timeline.after ? fetchMore : null}
+      fetchMore={data?.timeline?.after ? fetchMore : null}
       networkStatus={networkStatus}
       channel={channel}
     />

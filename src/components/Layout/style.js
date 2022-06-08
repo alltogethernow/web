@@ -5,7 +5,7 @@ export default theme => ({
     outline: 'none',
     '&:focus, &.is-focused': {
       boxShadow: `0 0 4px inset ${
-        theme.palette.type === 'dark'
+        theme.palette.mode === 'dark'
           ? theme.palette.secondary.main
           : theme.palette.primary.main
       }`,
@@ -20,7 +20,7 @@ export default theme => ({
     //   left: 0,
     //   right: 0,
     //   border: `2px solid ${
-    //     theme.palette.type === 'dark'
+    //     theme.palette.mode === 'dark'
     //       ? theme.palette.secondary.main
     //       : theme.palette.primary.main
     //   }`,

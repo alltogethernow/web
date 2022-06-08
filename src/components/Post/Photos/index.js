@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
+import withStyles from '@mui/styles/withStyles';
+import ImageList from '@mui/material/ImageList'
+import ImageListItem from '@mui/material/ImageListItem'
 import GallerySlider from '../../GallerySlider'
 import resizeImage from '../../../modules/get-image-proxy-url'
 import style from './style'
@@ -33,9 +33,9 @@ const TogetherCardPhotos = ({ classes, photos }) => {
         cellHeight = Math.floor(cardWidth / 3)
       }
       return (
-        <GridList cellHeight={cellHeight} cols={cols} spacing={0}>
+        <ImageList cellHeight={cellHeight} cols={cols} spacing={0}>
           {photos.map((photo, i) => (
-            <GridListTile
+            <ImageListItem
               key={`card-photo-${i}`}
               cols={1}
               onClick={() => setSelectedPhoto(i)}
@@ -48,9 +48,9 @@ const TogetherCardPhotos = ({ classes, photos }) => {
                 })}
                 alt=""
               />
-            </GridListTile>
+            </ImageListItem>
           ))}
-        </GridList>
+        </ImageList>
       )
     }
     return null

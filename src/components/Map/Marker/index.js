@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Popover from '@material-ui/core/Popover'
+import withStyles from '@mui/styles/withStyles';
+import Popover from '@mui/material/Popover'
 import AuthorAvatar from '../../AuthorAvatar'
 import Post from '../../Post'
 import styles, { markerSize } from './style'

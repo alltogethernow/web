@@ -1,16 +1,15 @@
 import React, { useState, Fragment } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'notistack'
-import { withStyles } from '@material-ui/core/styles'
-import { Popover, IconButton, Tooltip, LinearProgress } from '@material-ui/core'
-import NoteIcon from '@material-ui/icons/Edit'
+import withStyles from '@mui/styles/withStyles'
+import { Popover, IconButton, Tooltip, LinearProgress } from '@mui/material'
+import NoteIcon from '@mui/icons-material/Edit'
 import useUser from '../../hooks/use-user'
 import MicropubForm from '../MicropubForm'
 import styles from './style'
 import SnackbarLinkAction from '../SnackbarActions/Link'
 import SnackbarUndoAction from '../SnackbarActions/Undo'
 import { MICROPUB_CREATE, MICROPUB_DELETE } from '../../queries'
-import { defaultMakeCacheKey } from 'optimism'
 
 const QuickNote = ({ classes }) => {
   const { user } = useUser()
@@ -18,15 +17,15 @@ const QuickNote = ({ classes }) => {
   const [loading, setLoading] = useState(false)
   const [defaultProperties, setDefaultProperties] = useState({})
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const createNote = useMutation(MICROPUB_CREATE)
-  const deleteMicropub = useMutation(MICROPUB_DELETE)
+  const [createNote] = useMutation(MICROPUB_CREATE)
+  const [deleteMicropub] = useMutation(MICROPUB_DELETE)
 
   const supportsMicropub = user && user.hasMicropub
   if (!supportsMicropub) {
     return null
   }
 
-  const handleSubmit = async mf2 => {
+  const handleSubmit = async (mf2) => {
     const originalAnchor = popoverAnchor
     const properties = mf2.properties
     setLoading(true)
@@ -41,10 +40,10 @@ const QuickNote = ({ classes }) => {
       setLoading(false)
       enqueueSnackbar('Posted note', {
         variant: 'success',
-        action: key => [
+        action: (key) => [
           <SnackbarLinkAction url={postUrl} />,
           <SnackbarUndoAction
-            onClick={async e => {
+            onClick={async (e) => {
               closeSnackbar(key)
               await deleteMicropub({ variables: { url: postUrl } })
               enqueueSnackbar('Deleted post', { variant: 'success' })
@@ -78,8 +77,9 @@ const QuickNote = ({ classes }) => {
       <Tooltip title="New post" placement="bottom">
         <IconButton
           aria-label="New post"
-          onClick={e => setPopoverAnchor(e.target)}
+          onClick={(e) => setPopoverAnchor(e.target)}
           className={classes.menuAction}
+          size="large"
         >
           <NoteIcon />
         </IconButton>

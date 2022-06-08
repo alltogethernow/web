@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Dialog, Drawer, IconButton, Slide } from '@material-ui/core'
-import InfoIcon from '@material-ui/icons/Info'
-import CloseIcon from '@material-ui/icons/Close'
-import NextIcon from '@material-ui/icons/NavigateNext'
-import PrevIcon from '@material-ui/icons/NavigateBefore'
+import withStyles from '@mui/styles/withStyles';
+import { Dialog, Drawer, IconButton, Slide } from '@mui/material'
+import InfoIcon from '@mui/icons-material/Info'
+import CloseIcon from '@mui/icons-material/Close'
+import NextIcon from '@mui/icons-material/NavigateNext'
+import PrevIcon from '@mui/icons-material/NavigateBefore'
 import Post from '../Post'
 import Carousel from 'nuka-carousel'
 import styles from './style'
@@ -96,10 +96,10 @@ const Gallery = ({
               className={classes.button}
               style={{ marginLeft: isPermanentDrawer ? 300 : 0 }}
               onClick={previousSlide}
-            >
+              size="large">
               <PrevIcon />
             </IconButton>
-          )
+          );
         }}
         renderCenterRightControls={({
           nextSlide,
@@ -114,10 +114,10 @@ const Gallery = ({
               className={classes.button}
               onClick={nextSlide}
               aria-label="Next Slide"
-            >
+              size="large">
               <NextIcon />
             </IconButton>
-          )
+          );
         }}
         renderBottomLeftControls={({ currentSlide }) => {
           if (
@@ -134,17 +134,17 @@ const Gallery = ({
               className={classes.button}
               onClick={() => setDrawerOpen(true)}
               aria-label="Show Post"
-            >
+              size="large">
               <InfoIcon />
             </IconButton>
-          )
+          );
         }}
         renderTopRightControls={() => (
           <IconButton
             aria-label="Close Slides"
             className={classes.button}
             onClick={handleClose}
-          >
+            size="large">
             <CloseIcon />
           </IconButton>
         )}
@@ -201,7 +201,7 @@ const Gallery = ({
         ))}
       </Carousel>
     </Dialog>
-  )
+  );
 }
 
 Gallery.defaultProps = {

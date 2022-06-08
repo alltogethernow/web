@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import useReactRouter from 'use-react-router'
 import { Link } from 'react-router-dom'
 import useMicropubQuery from '../../hooks/use-micropub-query'
-import { LinearProgress, AppBar, Tabs, Tab } from '@material-ui/core'
+import { LinearProgress, AppBar, Tabs, Tab } from '@mui/material'
 
 const TabLink = ({ label, postType = '' }) => {
   return <Tab label={label} to={'/me/' + postType} component={Link} />

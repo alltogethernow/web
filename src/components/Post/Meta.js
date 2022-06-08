@@ -1,9 +1,9 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { CardContent, Chip, Tooltip } from '@material-ui/core'
-import CategoryIcon from '@material-ui/icons/Label'
-import StatusIcon from '@material-ui/icons/Public'
-import VisibilityIcon from '@material-ui/icons/Visibility'
+import withStyles from '@mui/styles/withStyles';
+import { CardContent, Chip, Tooltip } from '@mui/material'
+import CategoryIcon from '@mui/icons-material/Label'
+import StatusIcon from '@mui/icons-material/Public'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const metaProperties = ['postStatus', 'visibility', 'category']
 

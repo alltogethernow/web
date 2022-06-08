@@ -1,7 +1,7 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, IconButton, Tooltip } from '@material-ui/core'
-import ChannelsIcon from '@material-ui/icons/Menu'
+import withStyles from '@mui/styles/withStyles';
+import { AppBar, Toolbar, IconButton, Tooltip } from '@mui/material'
+import ChannelsIcon from '@mui/icons-material/Menu'
 import useLocalState from '../../hooks/use-local-state'
 import MicrosubNotifications from '../MicrosubNotifications'
 import QuickNote from './QuickNote'
@@ -30,7 +30,7 @@ const TogetherAppBar = ({ classes }) => {
             onClick={toggleChannelsMenu}
             color="inherit"
             aria-label="Menu"
-          >
+            size="large">
             <ChannelsIcon />
           </IconButton>
         </Tooltip>
@@ -45,7 +45,7 @@ const TogetherAppBar = ({ classes }) => {
         <SettingsMenu classes={classes} />
       </Toolbar>
     </AppBar>
-  )
+  );
 }
 
 export default withStyles(styles)(TogetherAppBar)

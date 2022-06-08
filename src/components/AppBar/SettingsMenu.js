@@ -1,14 +1,15 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useApolloClient } from 'react-apollo-hooks'
-import { IconButton, Menu, MenuItem, Tooltip, Avatar } from '@material-ui/core'
-import SettingsIcon from '@material-ui/icons/Settings'
+import { useApolloClient } from '@apollo/client'
+import { IconButton, Menu, MenuItem, Tooltip, Avatar } from '@mui/material'
+import SettingsIcon from '@mui/icons-material/Settings'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useLocalState from '../../hooks/use-local-state'
 import useUser from '../../hooks/use-user'
 import LayoutSwitcher from '../LayoutSwitcher'
 import getImageProxyUrl from '../../modules/get-image-proxy-url'
-import { version } from '../../../package.json'
+
+const version = process.env.REACT_APP_VERSION
 
 const SettingsMenu = ({ classes }) => {
   const client = useApolloClient()
@@ -17,7 +18,7 @@ const SettingsMenu = ({ classes }) => {
   const { user } = useUser()
   const channel = useCurrentChannel()
 
-  const logout = e => {
+  const logout = (e) => {
     window.localStorage.clear()
     client.resetStore()
     window.location.href = '/'
@@ -30,13 +31,14 @@ const SettingsMenu = ({ classes }) => {
           <Avatar
             alt="Settings"
             src={user && user.photo ? getImageProxyUrl(user.photo) : null}
-            onClick={e => setAnchorEl(e.currentTarget)}
+            onClick={(e) => setAnchorEl(e.currentTarget)}
             className={classes.menuAvatar}
           />
         ) : (
           <IconButton
-            onClick={e => setAnchorEl(e.currentTarget)}
+            onClick={(e) => setAnchorEl(e.currentTarget)}
             className={classes.menuAction}
+            size="large"
           >
             <SettingsIcon />
           </IconButton>
@@ -54,7 +56,7 @@ const SettingsMenu = ({ classes }) => {
           horizontal: 'right',
         }}
         open={!!anchorEl}
-        onClose={e => setAnchorEl(null)}
+        onClose={(e) => setAnchorEl(null)}
       >
         {!!channel._t_slug && (
           <MenuItem component={Link} to={`/channel/${channel._t_slug}/edit`}>
@@ -82,7 +84,7 @@ const SettingsMenu = ({ classes }) => {
           Donate
         </MenuItem>
         <MenuItem onClick={logout}>Logout</MenuItem>
-        <MenuItem>Version {version}</MenuItem>
+        {!!version && <MenuItem>Version {version}</MenuItem>}
         <LayoutSwitcher className={classes.layoutSwitcher} />
       </Menu>
     </Fragment>

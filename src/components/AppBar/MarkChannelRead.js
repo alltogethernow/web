@@ -1,6 +1,6 @@
 import React from 'react'
-import { IconButton, Tooltip } from '@material-ui/core'
-import ReadIcon from '@material-ui/icons/DoneAll'
+import { IconButton, Tooltip } from '@mui/material'
+import ReadIcon from '@mui/icons-material/DoneAll'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import useMarkChannelRead from '../../hooks/use-mark-channel-read'
 
@@ -18,11 +18,11 @@ const MarkChannelRead = ({ classes }) => {
         aria-label="Mark all as read"
         onClick={() => markChannelRead(channel.uid)}
         className={classes.menuAction}
-      >
+        size="large">
         <ReadIcon />
       </IconButton>
     </Tooltip>
-  )
+  );
 }
 
 export default MarkChannelRead

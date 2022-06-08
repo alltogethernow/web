@@ -1,7 +1,7 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import { Link } from 'react-router-dom'
-import { ListItem, ListItemText, Badge } from '@material-ui/core'
+import { ListItem, ListItemText, Badge } from '@mui/material'
 import { SortableElement } from 'react-sortable-hoc'
 import useLocalState from '../../hooks/use-local-state'
 import styles from './style'

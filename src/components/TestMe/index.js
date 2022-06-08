@@ -1,9 +1,9 @@
 import React from 'react'
 import useReactRouter from 'use-react-router'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { FRAGMENT_POST } from '../../queries'
-import { CircularProgress, Typography } from '@material-ui/core'
+import { CircularProgress, Typography } from '@mui/material'
 import Tabs from './Tabs'
 import Timeline from '../Layout/Timeline'
 
@@ -23,7 +23,7 @@ const GET_POSTS = gql`
   ${FRAGMENT_POST}
 `
 
-const MicropubPosts = props => {
+const MicropubPosts = (props) => {
   const {
     match: {
       params: { postType },

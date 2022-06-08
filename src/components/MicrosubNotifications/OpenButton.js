@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Tooltip, IconButton, CircularProgress } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles';
+import { Tooltip, IconButton, CircularProgress } from '@mui/material'
 import {
   Notifications as NotificationsIcon,
   NotificationsActive as HasNotificationsIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import styles from './style'
 
 const NotificationsOpenButton = ({
@@ -26,7 +26,7 @@ const NotificationsOpenButton = ({
           }
           aria-label={`Notifications (${unread})`}
           onClick={handleOpen}
-        >
+          size="large">
           {unread > 0 ? <HasNotificationsIcon /> : <NotificationsIcon />}
         </IconButton>
         {loading && !open && (
@@ -34,7 +34,7 @@ const NotificationsOpenButton = ({
         )}
       </span>
     </Tooltip>
-  )
+  );
 }
 
 NotificationsOpenButton.propTypes = {

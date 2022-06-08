@@ -33,7 +33,7 @@ export default theme => ({
     maxHeight: '70vh',
   },
   drawer: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: 240,
       position: 'absolute',
       top: 0,

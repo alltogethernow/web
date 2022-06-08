@@ -1,4 +1,4 @@
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/client'
 import useReactRouter from 'use-react-router'
 import { GET_CHANNELS } from '../queries'
 
@@ -7,7 +7,7 @@ const useChannels = () => {
   const {
     location: { pathname },
   } = useReactRouter()
-  const channels = res.data.channels ? res.data.channels : []
+  const channels = res?.data?.channels ?? []
   let channel = {}
   let channelSlug = null
   if (pathname.startsWith('/channel/')) {
@@ -15,7 +15,7 @@ const useChannels = () => {
     channelSlug = parts[2]
   }
   if (channels.length && channelSlug) {
-    channel = channels.find(c => c._t_slug === channelSlug) || {}
+    channel = channels.find((c) => c._t_slug === channelSlug) || {}
   }
   return channel
 }

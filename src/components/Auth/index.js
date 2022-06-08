@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import gql from 'graphql-tag'
-import { useMutation, useApolloClient } from 'react-apollo-hooks'
+import { useMutation, useApolloClient } from '@apollo/client'
 import { useSnackbar } from 'notistack'
 import { Redirect } from 'react-router-dom'
 import {
@@ -9,7 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 
 const LOGIN = gql`
   mutation login($code: String!, $state: String!) {
@@ -19,10 +19,10 @@ const LOGIN = gql`
   }
 `
 
-const Auth = props => {
+const Auth = (props) => {
   const [status, setStatus] = useState(null)
   const [loading, setLoading] = useState(false)
-  const login = useMutation(LOGIN)
+  const [login] = useMutation(LOGIN)
   const { enqueueSnackbar } = useSnackbar()
   const client = useApolloClient()
 

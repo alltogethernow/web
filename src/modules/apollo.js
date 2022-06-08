@@ -1,15 +1,19 @@
-import ApolloClient from 'apollo-client'
-import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
-import { split } from 'apollo-link'
-import { WebSocketLink } from 'apollo-link-ws'
-import { onError } from 'apollo-link-error'
-import { getMainDefinition } from 'apollo-utilities'
+import {
+  ApolloClient,
+  split,
+  HttpLink,
+  InMemoryCache,
+  defaultDataIdFromObject,
+} from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
 
 import gql from 'graphql-tag'
-import { getTheme } from './windows-functions'
-import { version } from '../../package.json'
 import { GET_CHANNELS } from '../queries'
+
+const version = process.env.REACT_APP_VERSION ?? 'unknown'
 
 // Create an http link:
 const httpLink = new HttpLink({
@@ -22,18 +26,17 @@ const httpLink = new HttpLink({
   },
 })
 
-// Create a WebSocket link:
-const wsLink = new WebSocketLink({
-  uri:
-    process.env.REACT_APP_SUBSCRIPTION_SERVER || 'ws://localhost:4000/graphql',
-  options: {
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url:
+      process.env.REACT_APP_SUBSCRIPTION_SERVER ||
+      'ws://localhost:4000/graphql',
     reconnect: true,
-    timeout: 30000,
     connectionParams: {
       authToken: localStorage.getItem('token'),
     },
-  },
-})
+  })
+)
 
 // using the ability to split links, you can send data to each link
 // depending on what kind of operation is being sent
@@ -63,7 +66,7 @@ const logoutLink = onError(({ networkError, graphQLErrors, operation }) => {
   }
   if (graphQLErrors) {
     for (const err of graphQLErrors) {
-      if (err.extensions.code === 'UNAUTHENTICATED') {
+      if (err?.operation?.extensions?.code === 'UNAUTHENTICATED') {
         return handleAuthError()
       } else {
         console.error('GraphQL Error')
@@ -126,7 +129,7 @@ const cache = new InMemoryCache({
         getCacheKey({ __typename: 'Channel', uid: args.uid }),
     },
   },
-  dataIdFromObject: object => {
+  dataIdFromObject: (object) => {
     switch (object.__typename) {
       case 'Channel':
         // Channel always have a unique uid identifier
@@ -173,19 +176,8 @@ const client = new ApolloClient({
   resolvers: {},
 })
 
-const initialAppState = () => ({
-  channelsMenuOpen: false,
-  focusedComponent: 'channels',
-  shortcutHelpOpen: false,
-  token: localStorage.getItem('token'),
-  theme: localStorage.getItem('together-theme') || getTheme() || 'light',
-})
-
-cache.writeData({ data: initialAppState() })
-
 client.onResetStore(() => {
   console.log('resetting store', cache)
-  cache.writeData({ data: initialAppState() })
   cache.writeQuery({ query: GET_CHANNELS, data: { channels: [] } })
 })
 

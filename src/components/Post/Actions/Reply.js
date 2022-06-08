@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'notistack'
-import ReplyIcon from '@material-ui/icons/Reply'
-import { Popover, LinearProgress } from '@material-ui/core'
+import ReplyIcon from '@mui/icons-material/Reply'
+import { Popover, LinearProgress } from '@mui/material'
 import useUser from '../../../hooks/use-user'
 import BaseAction from './Base'
 import SnackbarLink from '../../SnackbarActions/Link'
@@ -19,10 +19,10 @@ const ActionReply = ({ url, menuItem }) => {
     'in-reply-to': url,
   })
 
-  const createRepost = useMutation(MICROPUB_CREATE)
-  const micropubDelete = useMutation(MICROPUB_DELETE)
+  const [createRepost] = useMutation(MICROPUB_CREATE)
+  const [micropubDelete] = useMutation(MICROPUB_DELETE)
 
-  const handleSubmit = async mf2 => {
+  const handleSubmit = async (mf2) => {
     setLoading(true)
     const properties = mf2.properties
     const oldPopoverAnchor = popoverAnchor
@@ -37,10 +37,10 @@ const ActionReply = ({ url, menuItem }) => {
       setLoading(false)
       enqueueSnackbar('Posted reply', {
         variant: 'success',
-        action: key => [
+        action: (key) => [
           <SnackbarLink url={postUrl} />,
           <SnackbarUndo
-            onClick={async e => {
+            onClick={async (e) => {
               closeSnackbar(key)
               await micropubDelete({ variables: { url: postUrl } })
               enqueueSnackbar('Deleted reply', { variant: 'success' })
@@ -74,7 +74,7 @@ const ActionReply = ({ url, menuItem }) => {
       <BaseAction
         title="Reply"
         icon={<ReplyIcon />}
-        onClick={e => setPopoverAnchor(e.target)}
+        onClick={(e) => setPopoverAnchor(e.target)}
         menuItem={menuItem}
         loading={loading}
       />

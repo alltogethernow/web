@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import Meta from '../Meta'
 

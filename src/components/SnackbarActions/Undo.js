@@ -1,13 +1,13 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
-import UndoIcon from '@material-ui/icons/Replay'
+import { IconButton } from '@mui/material'
+import UndoIcon from '@mui/icons-material/Replay'
 
 const SnackbarLinkAction = ({ onClick }) => {
   return (
-    <IconButton style={{ color: 'inherit' }} onClick={onClick}>
+    <IconButton style={{ color: 'inherit' }} onClick={onClick} size="large">
       <UndoIcon />
     </IconButton>
-  )
+  );
 }
 
 export default SnackbarLinkAction

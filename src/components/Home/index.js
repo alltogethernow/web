@@ -10,13 +10,13 @@ import {
   ButtonGroup,
   Button,
   useMediaQuery,
-} from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
+} from '@mui/material'
+import { withStyles } from '@mui/styles'
 import {
   Settings as SettingsIcon,
   Edit as NoteIcon,
   FolderShared as PostsIcon,
-} from '@material-ui/icons'
+} from '@mui/icons-material'
 import ChannelMenuItem from '../ChannelMenu/ChannelMenuItem'
 import useChannels from '../../hooks/use-channels'
 import useUser from '../../hooks/use-user'

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useQuery, useMutation } from 'react-apollo-hooks'
+import { useQuery, useMutation } from '@apollo/client'
 import { GET_MUTED, UNMUTE } from '../../queries'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import {
   ListSubheader,
   ListItem,
   ListItemText,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 import ChannelSettingUrl from './ChannelSettingUrl'
 import styles from './style'
 
@@ -27,25 +27,30 @@ const ChannelMuted = ({ classes, channel }) => {
     }
   }, [])
 
-  const unmuteMutation = useMutation(UNMUTE)
+  const [unmuteMutation] = useMutation(UNMUTE)
 
-  const unmute = url =>
+  const unmute = (url) =>
     unmuteMutation({
       variables: { channel, url },
       optimisticResponse: {
         __typename: 'Mutation',
         mute: true,
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_MUTED,
           variables: { channel },
         })
+        const update = { ...data }
         // Find and remove posts with the given author url
-        data.muted = data.muted.filter(item => item.url !== url)
+        update.muted = update.muted.filter((item) => item.url !== url)
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_MUTED, variables: { channel }, data })
+        cache.writeQuery({
+          query: GET_MUTED,
+          variables: { channel },
+          data: update,
+        })
       },
     })
 
@@ -60,7 +65,7 @@ const ChannelMuted = ({ classes, channel }) => {
       )}
 
       {!!muted &&
-        muted.map(item => (
+        muted.map((item) => (
           <ChannelSettingUrl
             {...item}
             key={`list-muted-${item.url}`}

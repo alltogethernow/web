@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useMutation } from 'react-apollo-hooks'
-import Button from '@material-ui/core/Button'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { useMutation } from '@apollo/client'
+import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import { useSnackbar } from 'notistack'
 import { REFETCH_POST } from '../../../queries'
 
-const hasTruncatedContent = post => {
+const hasTruncatedContent = (post) => {
   const html =
     post && post.content ? post.content.html || post.content.text : null
   const url = post && post.url ? post.url : null
@@ -47,7 +47,7 @@ const TruncatedContentLoader = ({ post }) => {
   const [loading, setLoading] = useState(false)
   const [isTruncated, setIsTruncated] = useState(hasTruncatedContent(post))
   const { enqueueSnackbar } = useSnackbar()
-  const refetchPost = useMutation(REFETCH_POST, {
+  const [refetchPost] = useMutation(REFETCH_POST, {
     variables: { post: post._id, url: post.url },
   })
 
@@ -55,7 +55,7 @@ const TruncatedContentLoader = ({ post }) => {
     setIsTruncated(hasTruncatedContent(post))
   }, [post])
 
-  const handleLoad = async e => {
+  const handleLoad = async (e) => {
     e.preventDefault()
     setLoading(true)
     const {

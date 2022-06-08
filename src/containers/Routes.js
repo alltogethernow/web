@@ -5,9 +5,9 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import Meta from '../components/Meta'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import { SnackbarProvider } from 'notistack'
 import useLocalState from '../hooks/use-local-state'
 import AppBar from '../components/AppBar'
@@ -28,6 +28,7 @@ import TestMe from '../components/TestMe'
 import Share from '../components/Share'
 import Donate from '../components/Donate'
 import ServiceWorker from '../components/ServiceWorker'
+import { Provider as LocalStateProvider } from '../hooks/use-local-state'
 import style from './style'
 import PropTypes from 'prop-types'
 
@@ -80,6 +81,7 @@ const App = ({ classes }) => {
       <SnackbarProvider
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
+        {/* <LocalStateProvider> */}
         <Router>
           <ShortcutProvider>
             {authed ? (
@@ -149,6 +151,7 @@ const App = ({ classes }) => {
             )}
           </ShortcutProvider>
         </Router>
+        {/* </LocalStateProvider> */}
         <ServiceWorker />
       </SnackbarProvider>
     </ErrorBoundary>

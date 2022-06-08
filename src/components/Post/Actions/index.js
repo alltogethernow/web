@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { CardActions, IconButton, Menu } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import withStyles from '@mui/styles/withStyles';
+import { CardActions, IconButton, Menu } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import useUser from '../../../hooks/use-user'
 import useCurrentChannel from '../../../hooks/use-current-channel'
 import ActionLike from './Like'
@@ -67,7 +67,7 @@ const TogetherCardActions = ({
           aria-label="More Actions"
           aria-haspopup="true"
           onClick={e => setAnchorEl(e.currentTarget)}
-        >
+          size="large">
           <MoreVertIcon />
         </IconButton>
 
@@ -111,7 +111,7 @@ const TogetherCardActions = ({
         </Menu>
       </CardActions>
     </Fragment>
-  )
+  );
 }
 
 export default withStyles(style)(TogetherCardActions)

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Map from 'pigeon-maps'
+import { Map } from 'pigeon-maps'
 import useLocalState from '../../hooks/use-local-state'
 
 const TogetherMap = ({ children, ...props }) => {

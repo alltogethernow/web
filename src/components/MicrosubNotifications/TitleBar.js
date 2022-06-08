@@ -1,13 +1,13 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import {
   Tooltip,
   IconButton,
   AppBar,
   Toolbar,
   Typography,
-} from '@material-ui/core'
-import { ClearAll as MarkAllReadIcon } from '@material-ui/icons'
+} from '@mui/material'
+import { ClearAll as MarkAllReadIcon } from '@mui/icons-material'
 import useMarkChannelRead from '../../hooks/use-mark-channel-read'
 import styles from './style'
 
@@ -25,14 +25,14 @@ const NotificationsTitleBar = ({ classes, unread, title }) => {
             <IconButton
               aria-label={`Mark all notifications as read`}
               onClick={() => markChannelRead('notifications')}
-            >
+              size="large">
               <MarkAllReadIcon />
             </IconButton>
           </Tooltip>
         )}
       </Toolbar>
     </AppBar>
-  )
+  );
 }
 
 export default withStyles(styles)(NotificationsTitleBar)

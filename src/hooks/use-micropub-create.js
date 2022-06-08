@@ -1,10 +1,10 @@
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { MICROPUB_CREATE } from '../queries'
 
-export default function() {
-  const create = useMutation(MICROPUB_CREATE)
+export default function () {
+  const [create] = useMutation(MICROPUB_CREATE)
 
-  return async mf2 => {
+  return async (mf2) => {
     const {
       data: { micropubCreate: postUrl },
     } = await create({

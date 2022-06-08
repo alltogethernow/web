@@ -1,5 +1,5 @@
 import React from 'react'
-import { MenuItem, Tooltip, IconButton, ListItemIcon } from '@material-ui/core'
+import { MenuItem, Tooltip, IconButton, ListItemIcon } from '@mui/material'
 
 const TogetherCardBaseAction = ({
   title,
@@ -18,11 +18,11 @@ const TogetherCardBaseAction = ({
   } else {
     return (
       <Tooltip title={title} placement="top">
-        <IconButton onClick={onClick} disabled={loading}>
+        <IconButton onClick={onClick} disabled={loading} size="large">
           {icon}
         </IconButton>
       </Tooltip>
-    )
+    );
   }
 }
 

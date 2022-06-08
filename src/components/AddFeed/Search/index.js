@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types'
-import { TextField, IconButton, InputAdornment } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
+import { TextField, IconButton, InputAdornment } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 import styles from '../style'
 
 const Search = ({ handleSearch, classes }) => {

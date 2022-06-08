@@ -1,6 +1,6 @@
 import React from 'react'
 import useReactRouter from 'use-react-router'
-import EditIcon from '@material-ui/icons/Edit'
+import EditIcon from '@mui/icons-material/Edit'
 import BaseAction from './Base'
 import { kebabCase } from 'lodash'
 

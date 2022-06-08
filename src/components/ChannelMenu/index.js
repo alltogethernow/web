@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import { Shortcuts } from 'react-shortcuts'
 import {
   List,
@@ -7,14 +7,14 @@ import {
   ListItemText,
   SwipeableDrawer,
   useMediaQuery,
-} from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { SortableContainer } from 'react-sortable-hoc'
 import useReactRouter from 'use-react-router'
 import { Sortable as ChannelMenuItem } from './ChannelMenuItem'
 import NewChannelForm from './NewChannelForm'
 import styles from './style'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import useLocalState from '../../hooks/use-local-state'
 import useChannels from '../../hooks/use-channels'
 import useCurrentChannel from '../../hooks/use-current-channel'
@@ -39,11 +39,11 @@ const ChannelMenu = ({ classes }) => {
   const selectedChannel = useCurrentChannel()
   const [focusedChannel, setFocusedChannel] = useState(selectedChannel._t_slug)
   const { channels, loading, error } = useChannels()
-  const reorderChannels = useMutation(REORDER_CHANNELS)
+  const [reorderChannels] = useMutation(REORDER_CHANNELS)
   const [localState, setLocalState] = useLocalState()
   const ref = React.createRef()
   const theme = useTheme()
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'))
 
   // Set focused channel on url change
   useEffect(() => {
@@ -114,15 +114,16 @@ const ChannelMenu = ({ classes }) => {
         __typename: 'Mutation',
         reorderChannels: true,
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_CHANNELS,
         })
         // Reorder the channels
-        data.channels = moveArray(data.channels, oldIndex, newIndex)
+        let update = { ...data }
+        update.channels = moveArray(update.channels, oldIndex, newIndex)
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_CHANNELS, data })
+        cache.writeQuery({ query: GET_CHANNELS, data: update })
       },
     })
   }

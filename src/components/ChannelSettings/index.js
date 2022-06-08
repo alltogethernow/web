@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import useReactRouter from 'use-react-router'
 import { useSnackbar } from 'notistack'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { GET_CHANNELS, UPDATE_CHANNEL, REMOVE_CHANNEL } from '../../queries'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles'
 import {
   Switch,
   TextField,
@@ -17,7 +17,7 @@ import {
   ListItemSecondaryAction,
   Select,
   MenuItem,
-} from '@material-ui/core'
+} from '@mui/material'
 import useCurrentChannel from '../../hooks/use-current-channel'
 import SettingsModal from '../SettingsModal'
 import Following from './Following'
@@ -31,17 +31,18 @@ const ChannelSettings = ({ classes }) => {
   const { history } = useReactRouter()
   const channel = useCurrentChannel()
 
-  const updateChannel = useMutation(UPDATE_CHANNEL)
-  const removeChannel = useMutation(REMOVE_CHANNEL, {
+  const [updateChannel] = useMutation(UPDATE_CHANNEL)
+  const [removeChannel] = useMutation(REMOVE_CHANNEL, {
     variables: { channel: channel.uid },
-    update: (proxy, _) => {
-      const data = proxy.readQuery({
+    update: (cache, _) => {
+      const data = cache.readQuery({
         query: GET_CHANNELS,
       })
+      const update = { ...data }
       // Update our channel in the channels array
-      data.channels = data.channels.filter(c => c.uid !== channel.uid)
+      update.channels = update.channels.filter((c) => c.uid !== channel.uid)
       // Write our data back to the cache.
-      proxy.writeQuery({ query: GET_CHANNELS, data })
+      cache.writeQuery({ query: GET_CHANNELS, data: update })
     },
   })
 
@@ -77,17 +78,18 @@ const ChannelSettings = ({ classes }) => {
           __typename: 'Channel',
         },
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_CHANNELS,
         })
+        const update = { ...data }
         // Update our channel in the channels array
-        data.channels = data.channels.map(c =>
+        update.channels = update.channels.map((c) =>
           c.uid === channel.uid ? optimisticChannel : c
         )
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_CHANNELS, data })
+        cache.writeQuery({ query: GET_CHANNELS, data: update })
       },
     })
   }
@@ -110,7 +112,7 @@ const ChannelSettings = ({ classes }) => {
               <ListItemText>Name</ListItemText>
               <TextField
                 value={channel.name}
-                onChange={e => handleUpdate('name', e.target.value)}
+                onChange={(e) => handleUpdate('name', e.target.value)}
                 margin="none"
                 type="text"
               />
@@ -120,10 +122,10 @@ const ChannelSettings = ({ classes }) => {
               <ListItemText>Layout</ListItemText>
               <Select
                 value={channel._t_layout}
-                onChange={e => handleUpdate('_t_layout', e.target.value)}
+                onChange={(e) => handleUpdate('_t_layout', e.target.value)}
                 margin="none"
               >
-                {layouts.map(layout => (
+                {layouts.map((layout) => (
                   <MenuItem
                     key={`setting-layout-${layout.id}`}
                     value={layout.id}
@@ -136,7 +138,7 @@ const ChannelSettings = ({ classes }) => {
 
             <ListItem
               button
-              onClick={e =>
+              onClick={(e) =>
                 handleUpdate('_t_infiniteScroll', !channel._t_infiniteScroll)
               }
             >
@@ -145,7 +147,7 @@ const ChannelSettings = ({ classes }) => {
                 <Switch
                   checked={!!channel._t_infiniteScroll}
                   value="infiniteScrollChecked"
-                  onChange={e =>
+                  onChange={(e) =>
                     handleUpdate(
                       '_t_infiniteScroll',
                       !channel._t_infiniteScroll
@@ -157,14 +159,16 @@ const ChannelSettings = ({ classes }) => {
 
             <ListItem
               button
-              onClick={e => handleUpdate('_t_autoRead', !!!channel._t_autoRead)}
+              onClick={(e) =>
+                handleUpdate('_t_autoRead', !!!channel._t_autoRead)
+              }
             >
               <ListItemText>Auto Mark as Read</ListItemText>
               <ListItemSecondaryAction>
                 <Switch
                   checked={!!channel._t_autoRead}
                   value="autoReadChecked"
-                  onChange={e =>
+                  onChange={(e) =>
                     handleUpdate('_t_autoRead', !!!channel._t_autoRead)
                   }
                 />
@@ -173,7 +177,7 @@ const ChannelSettings = ({ classes }) => {
 
             <ListItem
               button
-              onClick={e =>
+              onClick={(e) =>
                 handleUpdate('_t_unreadOnly', !!!channel._t_unreadOnly)
               }
             >
@@ -182,7 +186,7 @@ const ChannelSettings = ({ classes }) => {
                 <Switch
                   checked={!!channel._t_unreadOnly}
                   value="unreadOnlyChecked"
-                  onChange={e =>
+                  onChange={(e) =>
                     handleUpdate('_t_unreadOnly', !!!channel._t_unreadOnly)
                   }
                 />

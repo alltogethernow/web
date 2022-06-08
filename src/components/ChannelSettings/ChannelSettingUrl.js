@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import {
   Link,
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-} from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close'
+} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import styles from './style'
 
 const ChannelSettingsUrl = ({
@@ -37,13 +37,13 @@ const ChannelSettingsUrl = ({
 
       {!!onRemove && (
         <ListItemSecondaryAction>
-          <IconButton aria-label={onRemoveLabel} onClick={onRemove}>
+          <IconButton aria-label={onRemoveLabel} onClick={onRemove} size="large">
             <CloseIcon />
           </IconButton>
         </ListItemSecondaryAction>
       )}
     </ListItem>
-  )
+  );
 }
 
 ChannelSettingsUrl.propTypes = {

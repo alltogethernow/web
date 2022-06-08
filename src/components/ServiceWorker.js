@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSnackbar } from 'notistack'
-import { IconButton } from '@material-ui/core'
-import ReloadIcon from '@material-ui/icons/Refresh'
+import { IconButton } from '@mui/material'
+import ReloadIcon from '@mui/icons-material/Refresh'
 import * as serviceWorker from '../service-worker'
 
 const ReloadButton = ({ reg }) => {
@@ -20,10 +20,10 @@ const ReloadButton = ({ reg }) => {
           enqueueSnackbar('Error loading new version', { variant: 'error' })
         }
       }}
-    >
+      size="large">
       <ReloadIcon />
     </IconButton>
-  )
+  );
 }
 
 const ServiceWorker = () => {

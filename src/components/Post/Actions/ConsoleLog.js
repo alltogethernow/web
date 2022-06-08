@@ -1,6 +1,6 @@
 import React from 'react'
 import BaseAction from './Base'
-import LogIcon from '@material-ui/icons/DeveloperMode'
+import LogIcon from '@mui/icons-material/DeveloperMode'
 
 const ActionConsoleLog = ({ post, menuItem }) => (
   <BaseAction

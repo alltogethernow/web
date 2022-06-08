@@ -1,6 +1,6 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { LinearProgress } from '@material-ui/core'
+import withStyles from '@mui/styles/withStyles'
+import { LinearProgress } from '@mui/material'
 import AddFeed from '../AddFeed'
 import Gallery from './Gallery'
 import Map from './Map'
@@ -30,12 +30,9 @@ const Content = ({ classes, channel, data, fetchMore, networkStatus }) => {
       break
   }
 
-  const isEmpty = !(
-    data &&
-    data.timeline &&
-    data.timeline.items &&
-    data.timeline.items.length
-  )
+  const timelineItems = data?.timeline?.items ?? []
+
+  const isEmpty = !timelineItems.length
 
   return (
     <>
@@ -45,7 +42,7 @@ const Content = ({ classes, channel, data, fetchMore, networkStatus }) => {
 
       {!isEmpty && (
         <View
-          posts={data.timeline.items.filter(viewFilter)}
+          posts={timelineItems.filter(viewFilter)}
           channel={channel}
           loadMore={fetchMore}
           loading={networkStatus < 7}

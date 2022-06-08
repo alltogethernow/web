@@ -8,7 +8,7 @@ export default theme => ({
     maxWidth: 800,
     '& .ql-editor': {
       color:
-        theme.palette.type === 'dark'
+        theme.palette.mode === 'dark'
           ? theme.palette.primary.contrastText
           : 'inherit',
     },

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useSubscription } from 'react-apollo-hooks'
+import { useQuery, useSubscription } from '@apollo/client'
 import { GET_TIMELINE, TIMELINE_SUBSCRIPTION } from '../queries'
 
-export default function({ channel, source = null, unreadOnly = false }) {
+export default function ({ channel, source = null, unreadOnly = false }) {
   const variables = { channel }
   if (source !== null) {
     variables.source = source
@@ -18,16 +18,17 @@ export default function({ channel, source = null, unreadOnly = false }) {
   })
 
   // Save the before value in state using the initial timeline
-  const [before, setBefore] = useState(
-    query.data.timeline ? query.data.timeline.before : null
-  )
+  const [before, setBefore] = useState(query?.data?.timeline ?? null)
 
   // Reset the before value timeline result changes
   useEffect(() => {
-    if (query.data.timeline && query.data.timeline.before !== before) {
+    if (
+      query?.data?.timeline?.before &&
+      query?.data?.timeline?.before !== before
+    ) {
       setBefore(query.data.timeline.before)
     }
-  }, [query.data.timeline])
+  }, [query?.data?.timeline])
 
   // Refetch the timeline if going back to a cached channel timeline
   useEffect(() => {
@@ -77,11 +78,7 @@ export default function({ channel, source = null, unreadOnly = false }) {
   })
 
   const fetchMore = () => {
-    if (
-      query.networkStatus === 7 &&
-      query.data.timeline &&
-      query.data.timeline.after
-    ) {
+    if (query.networkStatus === 7 && query?.data?.timeline?.after) {
       query.fetchMore({
         query: GET_TIMELINE,
         variables: {

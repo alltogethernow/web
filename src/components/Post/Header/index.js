@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CardHeader } from '@material-ui/core'
+import { CardHeader } from '@mui/material'
 import moment from 'moment'
 import useReactRouter from 'use-react-router'
 import AuthorAvatar from '../../AuthorAvatar'

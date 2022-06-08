@@ -1,8 +1,8 @@
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/client'
 import { MARK_POST_UNREAD, GET_CHANNELS } from '../queries'
 
-export default function() {
-  const markRead = useMutation(MARK_POST_UNREAD)
+export default function () {
+  const [markRead] = useMutation(MARK_POST_UNREAD)
   return (channel, post) =>
     markRead({
       variables: { channel, post },
@@ -14,20 +14,21 @@ export default function() {
           __typename: 'Post',
         },
       },
-      update: (proxy, _) => {
+      update: (cache, _) => {
         // Read the data from our cache for this query.
-        const data = proxy.readQuery({
+        const data = cache.readQuery({
           query: GET_CHANNELS,
         })
+        const update = { ...data }
         // Increment channel unread count
-        data.channels = data.channels.map(c => {
+        update.channels = update.channels.map((c) => {
           if (c.uid === channel && Number.isInteger(c.unread)) {
             c.unread++
           }
           return c
         })
         // Write our data back to the cache.
-        proxy.writeQuery({ query: GET_CHANNELS, data })
+        cache.writeQuery({ query: GET_CHANNELS, data: update })
       },
     })
 }

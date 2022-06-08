@@ -18,7 +18,7 @@ export default theme => ({
     opacity: 1,
     color: theme.palette.primary.contrastText,
     backgroundColor:
-      theme.palette.type === 'dark'
+      theme.palette.mode === 'dark'
         ? theme.palette.secondary.main
         : theme.palette.primary.main,
   },

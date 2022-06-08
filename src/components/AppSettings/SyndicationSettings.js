@@ -1,6 +1,6 @@
 import React from 'react'
 import useMicropubQuery from '../../hooks/use-micropub-query'
-import { withStyles } from '@material-ui/core/styles'
+import withStyles from '@mui/styles/withStyles';
 import {
   List,
   ListItem,
@@ -10,7 +10,7 @@ import {
   Button,
   Switch,
   LinearProgress,
-} from '@material-ui/core'
+} from '@mui/material'
 import useUser from '../../hooks/use-user'
 import styles from './style'
 
