@@ -6,7 +6,7 @@
     "node": "18"
   },
   "devDependencies": {
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^5.0.1"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
