@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSnackbar } from 'notistack'
 import { IconButton } from '@material-ui/core'
 import ReloadIcon from '@material-ui/icons/Refresh'
-import * as serviceWorker from '../service-worker'
+import * as serviceWorker from '../serviceWorkerRegistration'
 
 const ReloadButton = ({ reg }) => {
   const { enqueueSnackbar } = useSnackbar()
@@ -31,7 +31,7 @@ const ServiceWorker = () => {
 
   useEffect(() => {
     serviceWorker.register({
-      onUpdate: reg => {
+      onUpdate: (reg) => {
         enqueueSnackbar('New version available. Click to reload.', {
           action: [<ReloadButton reg={reg} />],
         })
